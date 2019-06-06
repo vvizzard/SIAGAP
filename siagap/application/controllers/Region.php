@@ -1,11 +1,11 @@
 <?php
 
-class Category extends CI_Controller
+class Region extends CI_Controller
 {
 	public function __construct() {
 		parent::__construct();
 		
-		$this->load->model('category_model', 'cat');
+		$this->load->model('region_model', 'cat');
 	}
 	
 	public function index() {

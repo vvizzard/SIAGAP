@@ -1,11 +1,11 @@
 <?php
 
-class Category extends CI_Controller
+class Gestionnaire extends CI_Controller
 {
 	public function __construct() {
 		parent::__construct();
 		
-		$this->load->model('category_model', 'cat');
+		$this->load->model('gestionnaire_model', 'cat');
 	}
 	
 	public function index() {

@@ -1,8 +1,8 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Category_model extends CI_Model
+class Region_model extends CI_Model
 {
-	protected $table = 'category';
+	protected $table = 'region';
 
 	public function add($label, $comment)
 	{
@@ -68,5 +68,5 @@ class Category_model extends CI_Model
 }
 
 
-/* End of file category_model.php */
-/* Location: ./application/models/category_model.php */
+/* End of file Region_model.php */
+/* Location: ./application/models/Region_model.php */
