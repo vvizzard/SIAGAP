@@ -1,0 +1,42 @@
+.navbar {
+	background-color: black!important;
+}
+
+.page-content {
+	background-color: white;
+	min-height:unset; 
+	height:94vh;
+}
+
+.page-header {
+	background-color: #495057;
+}
+
+#map-placement {
+	height: 88vh;
+	margin-left: -30px;
+    margin-right: -30px;
+}
+
+.ap-detail {
+	height: 88vh;
+	background-color: white;
+}
+
+.tooltip.in {
+  opacity: 1;
+}
+
+.nav-link:hover {
+	border-color: #dee2e6!important;
+}
+
+.nav-link.active {
+  color: #2d3035!important;
+  background-color: #dee2e6!important;
+  border-color: #dee2e6!important;
+}
+
+.nav-link {
+	color:#8a8d93!important;
+}

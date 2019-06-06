@@ -1,10 +1,25 @@
+/* CATEGORY */
+CREATE TABLE IF NOT EXISTS category(
+    id INT AUTO_INCREMENT,
+	label VARCHAR(50),
+	comment VARCHAR(255),
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+/* REGION */
+CREATE TABLE IF NOT EXISTS region(
+    id INT AUTO_INCREMENT,
+	label VARCHAR(50),
+	comment VARCHAR(255),
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
 /* AP */
 CREATE TABLE IF NOT EXISTS ap(
     id INT AUTO_INCREMENT,
 	link_photo VARCHAR(255),
 	name VARCHAR(50),
 	category_id INT,
-	layer_id INT,
 	creation_date DATE,
 	region_id INT,
 	district VARCHAR(100),
@@ -16,9 +31,7 @@ CREATE TABLE IF NOT EXISTS ap(
 	CONSTRAINT FK_category_id_ap FOREIGN KEY (category_id)
     REFERENCES category(id),
 	CONSTRAINT FK_region_id_ap FOREIGN KEY (region_id)
-    REFERENCES region(id),
-	CONSTRAINT FK_layer_id_ap FOREIGN KEY (layer_id)
-    REFERENCES layer(id)
+    REFERENCES region(id)
 ) ENGINE=InnoDB;
 
 /* LAYER */
@@ -30,14 +43,6 @@ CREATE TABLE IF NOT EXISTS layer(
 	PRIMARY KEY (id),
 	CONSTRAINT FK_ap_id_layer FOREIGN KEY (ap_id)
     REFERENCES ap(id)
-) ENGINE=InnoDB;
-
-/* CATEGORY */
-CREATE TABLE IF NOT EXISTS category(
-    id INT AUTO_INCREMENT,
-	label VARCHAR(50),
-	comment VARCHAR(255),
-	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
 /* GESTIONNAIRE */
@@ -58,14 +63,6 @@ CREATE TABLE IF NOT EXISTS association_ap_gestionnaire(
     REFERENCES ap(id),
 	CONSTRAINT FK_gestionnaire_id_association_ap_gestionnaire FOREIGN KEY (gestionnaire_id)
     REFERENCES gestionnaire(id)
-) ENGINE=InnoDB;
-
-/* REGION */
-CREATE TABLE IF NOT EXISTS region(
-    id INT AUTO_INCREMENT,
-	label VARCHAR(50),
-	comment VARCHAR(255),
-	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
 /* SUBSISTANCE */

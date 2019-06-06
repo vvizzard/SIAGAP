@@ -18,6 +18,11 @@
     margin-right: -30px;
 }
 
+.ap-detail {
+	height: 88vh;
+	background-color: white;
+}
+
 .tooltip.in {
   opacity: 1;
 }
