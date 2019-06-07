@@ -52,10 +52,10 @@
         <div class="container-fluid d-flex align-items-center justify-content-between">
           <div class="navbar-header">
             <!-- Navbar Header--><a href="index.html" class="navbar-brand">
-              <div class="brand-text brand-big visible text-uppercase"><strong class="text-primary">SIA</strong><strong>GAP</strong></div>
+              <div class="brand-text brand-big visible text-uppercase"><strong class="text-primary">SIA</strong><strong>GAP</strong><span style="font-size:10px;">|Système d'Information et d'Aide à la Gestion des Aires Protégées Madagascar</span></div>
               <div class="brand-text brand-sm"><strong class="text-primary">D</strong><strong>A</strong></div></a>
             <!-- Sidebar Toggle Btn-->
-            <button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>
+            <!--<button class="sidebar-toggle"><i class="fa fa-long-arrow-left"></i></button>-->
           </div>
           <div class="right-menu list-inline no-margin-bottom">    
             <div class="list-inline-item"><a href="#" class="search-open nav-link"><i class="icon-magnifying-glass-browser"></i></a></div>
@@ -85,11 +85,16 @@
           <li><a href="tables.html"> <i class="icon-grid"></i>Catégories </a></li>
           <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Gestionnaires </a></li>
           <li><a href="forms.html"> <i class="icon-padnote"></i>Forms </a></li>-->
-          <li class=""><a href="#ap-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Aires protégées </a>
+          <li class=""><a href="#ap-dropdown" aria-expanded="false" data-toggle="collapse" style="color:white;"> <i class="icon-windows"></i>Aires protégées </a>
             <ul id="ap-dropdown" class="collapse list-unstyled ">
-              <li><a href="#">Page</a></li>
-              <li><a href="#">Page</a></li>
-              <li><a href="#">Page</a></li>
+			  <!--<li><a href="#">
+				<div class="custom-control custom-checkbox mr-sm-2">
+				<input type="checkbox" class="custom-control-input" id="customControlAutosizing">
+				<label class="custom-control-label" for="customControlAutosizing">Population/superficie</label></a>
+			  </div>
+			  </li>-->
+              <li><a href="#">Ambodivahibe</a></li>
+              <li><a href="#">Ampasindava</a></li>
             </ul>
           </li>
 		  <li class=""><a href="#categorie-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Catégories </a>
@@ -159,7 +164,8 @@
               </div>
 			  <div class="col-lg-6">
                 <div class="bar-chart block no-margin-bottom ap-detail">
-					<ul class="nav nav-tabs">
+				
+					<ul class="nav nav-tabs" style="width: 108%;">
 					  <li class="nav-item">
 						<a class="nav-link active" data-toggle="tab" href="#profile">Profile</a>
 					  </li>
@@ -170,47 +176,120 @@
 						<a class="nav-link" data-toggle="tab" href="#">Aide à la décision</a>
 					  </li>
 					</ul>
+					<img src="http://www.siagapmada.com/content/uploads/2018/07/Paysage-2-300x114.jpg" class="resized" style="width:103%;">
 					<div class="tab-content">
-					  <div class="tab-pane container active" id="profile">
-					  <nav id="sidebar-right">
+					  <div class="tab-pane container-fluid active righ_side_tabpane" id="profile" style="">
+					  <nav id="r_sidebar">
 						<ul class="list-unstyled">
-						  <li class=""><a href="#ap-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Aires protégées </a>
-							<ul id="ap-dropdown" class="collapse list-unstyled ">
+						  <li class="righ_side_dropdown"><a href="#profil-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows righ_side_list"></i>Profil </a>
+							<ul id="profil-dropdown" class="collapse list-unstyled ">
+							  <table class="table r_table" style="">
+								<tr>
+									<td>Nom<td>
+									<td>Ambodivahibe protected area<td>
+								</tr>
+								<tr>
+									<td>Catégorie<td>
+									<td>V (IUCN)<td>
+								</tr>
+								<tr>
+									<td>Administrateur<td>
+									<td>CI<td>
+								</tr>
+								<tr>
+									<td>Création<td>
+									<td>2015<td>
+								</tr>
+								<tr>
+									<td>Superficie<td>
+									<td>23.794Ha<td>
+								</tr>
+								<tr>
+									<td>Contact<td>
+									<td>
+										<ul class="list-unstyled">
+											<li>RAZAFIMANDIMBY Yacinthe </li>
+											<li>yrazafimandimby@conservation.org </li>
+											<li>034 02 330 06</li>
+										</ul>
+									<td>
+								</tr>
+								<tr>
+									<td>Vision<td>
+									<td>23.794Ha<td>
+								</tr>
+								<tr>
+									<td>Mission<td>
+									<td>Conserving and protecting unique biodiversity and natural resources in and around the new protected area<td>
+								</tr>
+								<tr>
+									<td>But<td>
+									<td>
+										<ol style="padding-left: 16px;">
+											<li>Manage marine resources using legal tools </li>
+											<li>Ensure effective management of the new protected area through formal structures composed of fishing communities </li>
+											<li>Develop tourism that will contribute to the sustainable financing of the NAP </li>
+											<li>Improve the incomes of the local population while decreasing the pressures in the new protected area (promotion of AGRs)</li>
+										</ol>
+									<td>
+								</tr>
+								
+							</table>
+							</ul>
+						  </li>
+						  <li class="righ_side_dropdown"><a href="#contexte-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows righ_side_list"></i>Contexte </a>
+							<ul id="contexte-dropdown" class="collapse list-unstyled ">
+							  <table class="table r_table">
+								<tbody>
+								<tr>
+								<td><strong><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Region</span></span></strong></td>
+								<td><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">: DIANA</span></span></td>
+								</tr>
+								<tr>
+								<td><strong><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">District</span></span></strong></td>
+								<td><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">: Diego II</span></span></td>
+								</tr>
+								<tr>
+								<td><strong><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Town&nbsp;</span></span></strong></td>
+								<td><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">: Ramena, Mahavanona</span></span></td>
+								</tr>
+								<tr>
+								<td><strong><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Fokontany&nbsp;</span></span></strong></td>
+								<td><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">: 4 Fokontany (Ambodivahibe, Ivovona, Ambavarano, Ampondrahazo)</span></span></td>
+								</tr>
+								<tr>
+								<td><strong><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">Demography</span></span></strong></td>
+								<td><span style="vertical-align: inherit;"><span style="vertical-align: inherit;">: 1,850 Inhabitants</span></span></td>
+								</tr>
+								</tbody>
+								</table>
+							</ul>
+						  </li>
+						  <li class="righ_side_dropdown"><a href="#cible-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows righ_side_list"></i>Cible </a>
+							<ul id="cible-dropdown" class="collapse list-unstyled ">
+							  <div class="row">
+								  <div class="col-md-4"><img src="http://www.siagapmada.com/content/uploads/2018/07/aquarium-1.jpg" class="resized"><h4>Récifs coralliens</h4></div>
+								  <div class="col-md-4"><img src="http://www.siagapmada.com/content/uploads/2018/07/images-3.jpg" class="resized"><h4>Forêt litoralle</h4></div>
+								  <div class="col-md-4"><img src="http://www.siagapmada.com/content/uploads/2018/07/ito2_edited_2018.jpg" class="resized"><h4>Mangroves</h4></div>
+								  <div class="col-md-4"><img src="http://www.siagapmada.com/content/uploads/2018/07/oiseaux-marins.jpg" class="resized"><h4>Oiseaux marins</h4></div>
+								  <div class="col-md-4"><img src="http://www.siagapmada.com/content/uploads/2018/07/chauve-souris.jpg" class="resized"><h4>chauves souris</h4></div>
+							  </div>
+							  <style>
+								.resized {
+									width:100%;
+								}
+							  </style>
+							</ul>
+						  </li>
+						  <li class="righ_side_dropdown"><a href="#intrants-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows righ_side_list"></i>Intrants </a>
+							<ul id="intrants-dropdown" class="collapse list-unstyled ">
 							  <li><a href="#">Page</a></li>
 							  <li><a href="#">Page</a></li>
 							  <li><a href="#">Page</a></li>
 							</ul>
 						  </li>
-						  <li class=""><a href="#categorie-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Catégories </a>
-							<ul id="categorie-dropdown" class="collapse list-unstyled ">
-							  <li><a href="#">Page</a></li>
-							  <li><a href="#">Page</a></li>
-							  <li><a href="#">Page</a></li>
-							</ul>
-						  </li>
-						  <li class=""><a href="#gestionnaires-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Gestionnaires </a>
-							<ul id="gestionnaires-dropdown" class="collapse list-unstyled ">
-							  <li><a href="#">Page</a></li>
-							  <li><a href="#">Page</a></li>
-							  <li><a href="#">Page</a></li>
-							</ul>
-						  </li>
-						  <li class=""><a href="#subsistances-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Subsistances </a>
-							<ul id="subsistances-dropdown" class="collapse list-unstyled ">
-							  <li><a href="#">Page</a></li>
-							  <li><a href="#">Page</a></li>
-							  <li><a href="#">Page</a></li>
-							</ul>
-						  </li>
-						  <li class=""><a href="#pressions-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Pressions </a>
-							<ul id="pressions-dropdown" class="collapse list-unstyled ">
-							  <li><a href="#">Page</a></li>
-							  <li><a href="#">Page</a></li>
-							  <li><a href="#">Page</a></li>
-							</ul>
-						  </li>
-						  <li class=""><a href="#cibles-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Cibles </a>
-							<ul id="cibles-dropdown" class="collapse list-unstyled ">
+						  <li class="righ_side_dropdown"><a href="#resultat-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows righ_side_list"></i>Résultats </a>
+							<ul id="resultat-dropdown" class="collapse list-unstyled ">
 							  <li><a href="#">Page</a></li>
 							  <li><a href="#">Page</a></li>
 							  <li><a href="#">Page</a></li>

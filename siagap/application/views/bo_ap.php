@@ -156,30 +156,35 @@
     </div>
     <section class="no-padding-bottom">
       <div class="container-fluid">
+	    <div class="row">
+		  <div class="col-sm-12">
+		  <h4>Profil</h4>
+		  </div>
+		</div>
         <div class="row">
           <div class="col-lg-8 col-md-8">
             <div class="bar-chart block no-margin-bottom">
               <label for="name_ap">Nom : </label>
-              <input id="name_ap" type="text" class="form-control">
+              <input id="name_ap" type="text" class="form-control" title="Nom de l'AP" placeholder="Taper ici le nom de l'AP">
               <label for="categorie_ap">Catégorie : </label>
-              <select id="categorie_ap" class="form-control">
+              <select id="categorie_ap" class="form-control" title="Choisir le catégorie de l'AP">
                <option class="form-control">Catégorie I</option>
                <option class="form-control">Catégorie II</option>
              </select>
              <!--<input id="categorie_ap" type="text" class="form-control">-->
              <label for="gestionnaire_ap">Gestionnaire : </label>
-             <select id="gestionnaire_ap" class="form-control">
+             <select id="gestionnaire_ap" class="form-control" title="Gestionnaire de l'ap" placeholder="Taper ici le nom du gestionnaire de l'AP">
                <option class="form-control">Catégorie I</option>
                <option class="form-control">Catégorie II</option>
                <option class="form-control" onclick="alert(click);"><a href="#">Nouvelle catégorie</a></option>
              </select>
              <!--<input id="gestionnaire_ap" type="text" class="form-control">-->
              <label for="creation_ap">Création : </label>
-             <input id="creation_ap" type="number" class="form-control">
+             <input id="creation_ap" type="number" class="form-control" title="Année de création de l'AP" placeholder="Taper ici l'année de création de l'AP">
              <label for="superficie_ap">Superficie : </label>
-             <input id="superficie_ap" type="number" class="form-control">
+             <input id="superficie_ap" type="number" class="form-control" title="Superifice de l'AP" placeholder="Taper ici la superficie de l'AP">
              <label for="contact_ap">Contact : </label>
-             <input id="contact_ap" type="text" class="form-control">
+             <input id="contact_ap" type="text" class="form-control" title="Comment contacter l'AP" placeholder="Taper ici l'email, le numéro de téléphone, ou autre information permettant de contacter l'AP">
              <label for="vision_ap">Vision : </label>
              <input id="vision_ap" type="text" class="form-control">
              <label for="mission_ap">Mission : </label>
@@ -207,6 +212,11 @@
 
   <section class="no-padding-bottom">
     <div class="container-fluid">
+	  <div class="row">
+	    <div class="col-sm-12">
+	    <h4>Contexte</h4>
+	    </div>
+	  </div>
       <div class="row">
         <div class="col-lg-12 col-md-12">
           <div class="bar-chart block no-margin-bottom">
@@ -356,6 +366,11 @@
 
 <section class="no-padding-bottom">
   <div class="container-fluid">
+    <div class="row">
+	  <div class="col-sm-12">
+	  <h4>Cibles</h4>
+	  </div>
+	</div>
     <div class="row">
       <div class="col-lg-3 col-md-3">
         <div class="bar-chart block no-margin-bottom">
@@ -622,6 +637,11 @@
 
 <section class="no-padding-bottom">
   <div class="container-fluid">
+    <div class="row">
+	  <div class="col-sm-12">
+	  <h4>Résultats</h4>
+	  </div>
+	</div>
     <div class="row">
       <div class="col-lg-6 col-md-6">
         <div class="bar-chart block no-margin-bottom">
