@@ -156,142 +156,157 @@
     </div>
     <section class="no-padding-bottom">
       <div class="container-fluid">
-	    <div class="row">
-		  <div class="col-sm-12">
-		  <h4>Profil</h4>
-		  </div>
-		</div>
-        <div class="row">
-          <div class="col-lg-8 col-md-8">
-            <div class="bar-chart block no-margin-bottom">
-              <label for="name_ap">Nom : </label>
-              <input id="name_ap" type="text" class="form-control" title="Nom de l'AP" placeholder="Taper ici le nom de l'AP">
-              <label for="categorie_ap">Catégorie : </label>
-              <select id="categorie_ap" class="form-control" title="Choisir le catégorie de l'AP">
-               <option class="form-control">Catégorie I</option>
-               <option class="form-control">Catégorie II</option>
-             </select>
-             <!--<input id="categorie_ap" type="text" class="form-control">-->
-             <label for="gestionnaire_ap">Gestionnaire : </label>
-             <select id="gestionnaire_ap" class="form-control" title="Gestionnaire de l'ap" placeholder="Taper ici le nom du gestionnaire de l'AP">
-               <option class="form-control">Catégorie I</option>
-               <option class="form-control">Catégorie II</option>
-               <option class="form-control" onclick="alert(click);"><a href="#">Nouvelle catégorie</a></option>
-             </select>
-             <!--<input id="gestionnaire_ap" type="text" class="form-control">-->
-             <label for="creation_ap">Création : </label>
-             <input id="creation_ap" type="number" class="form-control" title="Année de création de l'AP" placeholder="Taper ici l'année de création de l'AP">
-             <label for="superficie_ap">Superficie : </label>
-             <input id="superficie_ap" type="number" class="form-control" title="Superifice de l'AP" placeholder="Taper ici la superficie de l'AP">
-             <label for="contact_ap">Contact : </label>
-             <input id="contact_ap" type="text" class="form-control" title="Comment contacter l'AP" placeholder="Taper ici l'email, le numéro de téléphone, ou autre information permettant de contacter l'AP">
-             <label for="vision_ap">Vision : </label>
-             <input id="vision_ap" type="text" class="form-control">
-             <label for="mission_ap">Mission : </label>
-             <input id="mission_ap" type="text" class="form-control">
-             <label for="objectif_ap">Objectif : </label>
-             <input id="objectif_ap" type="text" class="form-control">
-             <label for="pic_ap">Photo : </label>
-             <input id="pic_ap" type="file" class="form-control">
-           </div>
-         </div>
-         <div class="col-lg-4 col-md-4">
-          <div class="line-cahrt block">
-            <div class="">
-              <label for="layer_ap">GeoJson de la limite de l'aire protégée</label>
-              <textarea id="layer_ap" class="form-control"></textarea>
-            </div><br>
-            <div style="height: 40vh;margin-left: unset;margin-right: unset;" id="map-placement" class="bar-chart block no-margin-bottom"></div>
-          </div>
+       <div class="row">
+        <div class="col-sm-12">
+          <h4>Profil</h4>
         </div>
       </div>
-    </div>
-  </section>
-
-  <br>
-
-  <section class="no-padding-bottom">
-    <div class="container-fluid">
-	  <div class="row">
-	    <div class="col-sm-12">
-	    <h4>Contexte</h4>
-	    </div>
-	  </div>
       <div class="row">
-        <div class="col-lg-12 col-md-12">
+        <div class="col-lg-8 col-md-8">
           <div class="bar-chart block no-margin-bottom">
-            <label for="region_ap">Region : </label>
-            <input id="region_ap" autocomplete="off" type="text" class="form-control to_complete" 
-                data-url="http://localhost:8029/siagap/region/autocomplete">
-            <label for="district_ap">District : </label>
-            <input id="district_ap" type="number" class="form-control">
-            <label for="commune_ap">Commune : </label>
-            <input id="commune_ap" type="number" class="form-control">
-            <label for="fokontany_ap">Fokontany : </label>
-            <input id="fokontany_ap" type="text" class="form-control">
-            <label for="demographie_ap">Démographie : </label>
-            <input id="demographie_ap" type="text" class="form-control">
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <br>
-
-  <section class="no-padding-bottom">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-4 col-md-4">
-          <div class="bar-chart block no-margin-bottom">
-            <ul>
-             <li>Pêche</li>
-             <li>Agriculture</li>
-             <li>Elevage</li>
-           </ul>
-           <br>
-           <label for="subsistance_ap">Subsistance : </label>
-           <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="Subsistance" aria-label="Subsistance" aria-describedby="Subsistance de la population">
-            <div class="input-group-append">
-             <button class="btn btn-outline-secondary" type="button">Ajouter</button>
-           </div>
+            <label for="name_ap">Nom : </label>
+            <input id="name_ap" type="text" class="form-control" title="Nom de l'AP" placeholder="Taper ici le nom de l'AP">
+            <label for="categorie_ap">Catégorie : </label>
+            <select id="categorie_ap" class="form-control" title="Choisir le catégorie de l'AP">
+             <option class="form-control">Catégorie I</option>
+             <option class="form-control">Catégorie II</option>
+           </select>
+           <!--<input id="categorie_ap" type="text" class="form-control">-->
+           <label for="gestionnaire_ap">Gestionnaire : </label>
+           <select id="gestionnaire_ap" class="form-control" title="Gestionnaire de l'ap" placeholder="Taper ici le nom du gestionnaire de l'AP">
+             <option class="form-control">Catégorie I</option>
+             <option class="form-control">Catégorie II</option>
+             <option class="form-control" onclick="alert(click);"><a href="#">Nouvelle catégorie</a></option>
+           </select>
+           <!--<input id="gestionnaire_ap" type="text" class="form-control">-->
+           <label for="creation_ap">Création : </label>
+           <input id="creation_ap" type="number" class="form-control" title="Année de création de l'AP" placeholder="Taper ici l'année de création de l'AP">
+           <label for="superficie_ap">Superficie : </label>
+           <input id="superficie_ap" type="number" class="form-control" title="Superifice de l'AP" placeholder="Taper ici la superficie de l'AP">
+           <label for="contact_ap">Contact : </label>
+           <input id="contact_ap" type="text" class="form-control" title="Comment contacter l'AP" placeholder="Taper ici l'email, le numéro de téléphone, ou autre information permettant de contacter l'AP">
+           <label for="vision_ap">Vision : </label>
+           <textarea id="vision_ap" class="form-control"></textarea>
+           <label for="mission_ap">Mission : </label>
+           <textarea id="mission_ap" class="form-control"></textarea>
+           <label for="objectif_ap">Objectif : </label>
+           <input id="objectif_ap" type="text" class="form-control">
+           <label for="pic_ap">Photo : </label>
+           <input id="pic_ap" type="file" class="form-control">
          </div>
        </div>
+       <div class="col-lg-4 col-md-4">
+        <div class="line-cahrt block">
+          <div class="">
+            <label for="layer_ap">GeoJson de la limite de l'aire protégée</label>
+            <textarea id="layer_ap" class="form-control"></textarea>
+          </div><br>
+          <div style="height: 40vh;margin-left: unset;margin-right: unset;" id="map-placement" 
+              class="bar-chart block no-margin-bottom"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<br>
+
+<section class="no-padding-bottom">
+  <div class="container-fluid">
+   <div class="row">
+     <div class="col-sm-12">
+       <h4>Contexte</h4>
      </div>
-     <div class="col-lg-4 col-md-4">
+   </div>
+   <div class="row">
+    <div class="col-lg-12 col-md-12">
       <div class="bar-chart block no-margin-bottom">
-        <ul>
-         <li>Isolement</li>
-         <li>Isolement</li>
-         <li>Isolement</li>
-       </ul>
-       <br>
-       <label for="pbm_ap">Problème : </label>
-       <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Problème" aria-label="problème" aria-describedby="Problème de la population">
-        <div class="input-group-append">
-         <button class="btn btn-outline-secondary" type="button">Ajouter</button>
+        <label for="region_ap">Region : </label>
+        <div class="input-group mb-3">
+          <select id="region_ap" class=" form-control to_complete selectpicker" 
+              data-live-search="true" aria-label="Region" 
+              aria-describedby="Region de l'AP"></select>
+          <div class="input-group-append">
+           <button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
+              data-target="#modal-add-basic" onclick="openNewModal('region')">Nouveau</button>
+         </div>
+       </div>
+       <!-- <input id="region_ap" autocomplete="off" type="text" class="form-control to_complete selectpicker"> -->
+            <!-- <select id="region_ap" class="form-control to_complete" name="region_ap" 
+                placeholder="Taper ici le nom de la région"
+                data-url="http://localhost:8029/siagap/region/autocomplete" 
+                autocomplete="off">
+              </select> -->
+              
+              <label for="district_ap">District : </label>
+              <input id="district_ap" type="text" class="form-control">
+              <label for="commune_ap">Commune : </label>
+              <input id="commune_ap" type="text" class="form-control">
+              <label for="fokontany_ap">Fokontany : </label>
+              <input id="fokontany_ap" type="text" class="form-control">
+              <label for="demographie_ap">Démographie : </label>
+              <input id="demographie_ap" type="text" class="form-control">
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <br>
+
+    <section class="no-padding-bottom">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-4 col-md-4">
+            <div class="bar-chart block no-margin-bottom">
+              <ul>
+               <li>Pêche</li>
+               <li>Agriculture</li>
+               <li>Elevage</li>
+             </ul>
+             <br>
+             <label for="subsistance_ap">Subsistance : </label>
+             <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Subsistance" aria-label="Subsistance" aria-describedby="Subsistance de la population">
+              <div class="input-group-append">
+               <button class="btn btn-outline-secondary" type="button">Ajouter</button>
+             </div>
+           </div>
+         </div>
+       </div>
+       <div class="col-lg-4 col-md-4">
+        <div class="bar-chart block no-margin-bottom">
+          <ul>
+           <li>Isolement</li>
+           <li>Isolement</li>
+           <li>Isolement</li>
+         </ul>
+         <br>
+         <label for="pbm_ap">Problème : </label>
+         <div class="input-group mb-3">
+          <input type="text" class="form-control" placeholder="Problème" aria-label="problème" aria-describedby="Problème de la population">
+          <div class="input-group-append">
+           <button class="btn btn-outline-secondary" type="button">Ajouter</button>
+         </div>
        </div>
      </div>
    </div>
- </div>
- <div class="col-lg-4 col-md-4">
-  <div class="bar-chart block no-margin-bottom">
-    <ul>
-     <li>Surpêche</li>
-     <li>Chasse</li>
-     <li>Chasse</li>
-   </ul>
-   <br>
-   <label for="pression_ap">Pression : </label>
-   <div class="input-group mb-3">
-    <input type="text" class="form-control" placeholder="Pression" aria-label="Pression" aria-describedby="Pression sur l'AP">
-    <div class="input-group-append">
-     <button class="btn btn-outline-secondary" type="button">Ajouter</button>
+   <div class="col-lg-4 col-md-4">
+    <div class="bar-chart block no-margin-bottom">
+      <ul>
+       <li>Surpêche</li>
+       <li>Chasse</li>
+       <li>Chasse</li>
+     </ul>
+     <br>
+     <label for="pression_ap">Pression : </label>
+     <div class="input-group mb-3">
+      <input type="text" class="form-control" placeholder="Pression" aria-label="Pression" aria-describedby="Pression sur l'AP">
+      <div class="input-group-append">
+       <button class="btn btn-outline-secondary" type="button">Ajouter</button>
+     </div>
    </div>
  </div>
-</div>
 </div>
 </div>
 </div>
@@ -367,59 +382,59 @@
 <section class="no-padding-bottom">
   <div class="container-fluid">
     <div class="row">
-	  <div class="col-sm-12">
-	  <h4>Cibles</h4>
-	  </div>
-	</div>
-    <div class="row">
-      <div class="col-lg-3 col-md-3">
-        <div class="bar-chart block no-margin-bottom">
-          <ul>
-           <li>Récifs</li>
-           <li>Mangroves</li>
-           <li>Tortues</li>
-         </ul>
+     <div class="col-sm-12">
+       <h4>Cibles</h4>
+     </div>
+   </div>
+   <div class="row">
+    <div class="col-lg-3 col-md-3">
+      <div class="bar-chart block no-margin-bottom">
+        <ul>
+         <li>Récifs</li>
+         <li>Mangroves</li>
+         <li>Tortues</li>
+       </ul>
 
-         <hr>
+       <hr>
 
-         <label for="cible">Cible</label>
-         <div id="cible" class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="cible" aria-label="Cible" aria-describedby="Cible de conservation">
-          <div class="input-group-append">
-           <button class="btn btn-outline-secondary" type="button">Ajouter</button>
-         </div>
+       <label for="cible">Cible</label>
+       <div id="cible" class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="cible" aria-label="Cible" aria-describedby="Cible de conservation">
+        <div class="input-group-append">
+         <button class="btn btn-outline-secondary" type="button">Ajouter</button>
        </div>
      </div>
    </div>
-   <div class="col-lg-6 col-md-6">
-    <div class="bar-chart block no-margin-bottom">
-      <table class="table">
-       <tr>
-        <td>Subsistance</td>
-        <td>Problème</td>
-        <td>Pression</td>
-      </tr>
-      <tr>
-        <td>Subsistance</td>
-        <td>Problème</td>
-        <td>Pression</td>
-      </tr>
-    </table>
+ </div>
+ <div class="col-lg-6 col-md-6">
+  <div class="bar-chart block no-margin-bottom">
+    <table class="table">
+     <tr>
+      <td>Subsistance</td>
+      <td>Problème</td>
+      <td>Pression</td>
+    </tr>
+    <tr>
+      <td>Subsistance</td>
+      <td>Problème</td>
+      <td>Pression</td>
+    </tr>
+  </table>
 
-    <hr>
+  <hr>
 
-    <div class="row">
-     <div class="col-md-3">
-      <select class="form-control">
-       <option>Peche</option>
-     </select>
-   </div>
+  <div class="row">
    <div class="col-md-3">
     <select class="form-control">
-     <option>Manque d'opportunités</option>
+     <option>Peche</option>
    </select>
  </div>
  <div class="col-md-3">
+  <select class="form-control">
+   <option>Manque d'opportunités</option>
+ </select>
+</div>
+<div class="col-md-3">
   <select class="form-control">
    <option>Surpêche</option>
  </select>
@@ -638,64 +653,64 @@
 <section class="no-padding-bottom">
   <div class="container-fluid">
     <div class="row">
-	  <div class="col-sm-12">
-	  <h4>Résultats</h4>
-	  </div>
-	</div>
-    <div class="row">
-      <div class="col-lg-6 col-md-6">
-        <div class="bar-chart block no-margin-bottom">
-          <table class="table">
-           <tr>
-            <th class="text-right">Date</th>
-            <th class="text-right">Niveau globale</th>
-            <th class="text-right">Commentaire</th>
-          </tr>
-          <tr>
-            <td class="text-right">21-10-2018</td>
-            <td class="text-right">56</td>
-            <td class="text-right">Mi-parcours</td>
-          </tr>
-        </table>
+     <div class="col-sm-12">
+       <h4>Résultats</h4>
+     </div>
+   </div>
+   <div class="row">
+    <div class="col-lg-6 col-md-6">
+      <div class="bar-chart block no-margin-bottom">
+        <table class="table">
+         <tr>
+          <th class="text-right">Date</th>
+          <th class="text-right">Niveau globale</th>
+          <th class="text-right">Commentaire</th>
+        </tr>
+        <tr>
+          <td class="text-right">21-10-2018</td>
+          <td class="text-right">56</td>
+          <td class="text-right">Mi-parcours</td>
+        </tr>
+      </table>
 
-        <hr>
+      <hr>
 
-        <div class="row">
-         <div class="col-md-3">
-          <label for="date_realisation">Date</label>
-          <input id="date_realisation" type="date" class="form-control">
-        </div>
-        <div class="col-md-3">
-          <label for="note_realisation">Niveau globale</label>
-          <input id="note_realisation" type="number" class="form-control">
-        </div>
-        <div class="col-md-3">
-          <label for="comm_realisation">Commentaire</label>
-          <input id="comm_realisation" type="text" class="form-control">
-        </div>
-        <div class="col-md-3">
-          <br>
-          <button class="btn btn-primary">Ajouter</button>
-        </div>
+      <div class="row">
+       <div class="col-md-3">
+        <label for="date_realisation">Date</label>
+        <input id="date_realisation" type="date" class="form-control">
+      </div>
+      <div class="col-md-3">
+        <label for="note_realisation">Niveau globale</label>
+        <input id="note_realisation" type="number" class="form-control">
+      </div>
+      <div class="col-md-3">
+        <label for="comm_realisation">Commentaire</label>
+        <input id="comm_realisation" type="text" class="form-control">
+      </div>
+      <div class="col-md-3">
+        <br>
+        <button class="btn btn-primary">Ajouter</button>
       </div>
     </div>
   </div>
-  <div class="col-lg-6 col-md-6">
-    <div class="bar-chart block no-margin-bottom">
-      <ul>
-       <li>Isolement</li>
-       <li>Isolement</li>
-       <li>Isolement</li>
-     </ul>
-     <br>
-     <label for="pbm_ap">Problème : </label>
-     <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Problème" aria-label="problème" aria-describedby="Problème de la population">
-      <div class="input-group-append">
-       <button class="btn btn-outline-secondary" type="button">Ajouter</button>
-     </div>
+</div>
+<div class="col-lg-6 col-md-6">
+  <div class="bar-chart block no-margin-bottom">
+    <ul>
+     <li>Isolement</li>
+     <li>Isolement</li>
+     <li>Isolement</li>
+   </ul>
+   <br>
+   <label for="pbm_ap">Problème : </label>
+   <div class="input-group mb-3">
+    <input type="text" class="form-control" placeholder="Problème" aria-label="problème" aria-describedby="Problème de la population">
+    <div class="input-group-append">
+     <button class="btn btn-outline-secondary" type="button">Ajouter</button>
    </div>
  </div>
+</div>
 </div>
 </div>
 </div>
@@ -713,47 +728,145 @@
 </footer>
 </div>
 </div>
+
+<!-- Modal add -->
+<div class="modal fade" id="modal-add-basic" tabindex="-1" role="dialog" 
+    aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="title-modal-add-basic">Nouveau</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="new-label" class="col-form-label">Nom:</label>
+            <input type="text" class="form-control" id="new-label">
+          </div>
+          <div class="form-group">
+            <label for="comment-text" class="col-form-label">Commentaire:</label>
+            <textarea class="form-control" id="comment-text"></textarea>
+          </div>
+          <input type="hidden" id="model-to-add">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" onclick="addNew()">Enregistrer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
 <!-- JavaScript files-->
 <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
-<script src="<?php echo base_url(); ?>assets/vendor/popper.js/umd/popper.min.js"> </script>
-<script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+<!-- autocomplete -->
+<!-- <script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.2.1/dist/latest/bootstrap-autocomplete.min.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js"></script>
+
+<!-- map -->
+<script src="<?php echo base_url(); ?>assets/js/map-controller.js"></script>
+
+<!-- bootstrap-slider -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
+
 <script src="<?php echo base_url(); ?>assets/vendor/jquery.cookie/jquery.cookie.js"> </script>
 <script src="<?php echo base_url(); ?>assets/vendor/chart.js/Chart.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/jquery-validation/jquery.validate.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/front.js"></script>
-<!-- map -->
-<script src="<?php echo base_url(); ?>assets/js/map-controller.js"></script>
-<!-- bootstrap-slider -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.6.1/bootstrap-slider.min.js"></script>
-<!-- autocomplete -->
-<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.2.1/dist/latest/bootstrap-autocomplete.min.js"></script>
 
-<script type="text/javascript">
-  $.ajax({
-    method: "GET",
-    url: "http://localhost:8029/siagap/category/autocomplete",
-    data: { q: "I" },
-    dataType: "json"
-  }).done(function( cat ) {
-    var options = "";
-    for (var i = cat.length - 1; i >= 0; i--) {
-      options += "<option>"+ cat[i] + "</option>";
-    }
-    $('#categorie_ap').html(options);
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
+
+<link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
+<script src="<?php echo base_url(); ?>assets/js/ajax-bootstrap-select.min.js"></script>
+
+<!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
+
+  <script type="text/javascript">
     $.ajax({
       method: "GET",
-      url: "http://localhost:8029/siagap/gestionnaire/autocomplete",
-      data: { q: "" },
+      url: "http://localhost:8029/siagap/category/autocomplete",
+      data: { q: "I" },
+      dataType: "json"
+    }).done(function( cat ) {
+      var options = "";
+      for (var i = cat.length - 1; i >= 0; i--) {
+        options += "<option>"+ cat[i] + "</option>";
+      }
+      $('#categorie_ap').html(options);
+      $.ajax({
+        method: "GET",
+        url: "http://localhost:8029/siagap/gestionnaire/autocomplete",
+        data: { q: "" },
+        dataType: "json"
+      }).done(function( gest ) {
+        var options = "";
+        for (var i = gest.length - 1; i >= 0; i--) {
+          options += "<option>"+ gest[i] + "</option>";
+        }
+        $('#gestionnaire_ap').html(options);
+      });
+    });
+
+    /*$('.to_complete').autoComplete();*/
+  /*$.get("http://localhost:8029/siagap/region/autocomplete", function(data) {
+    $("#region_ap").typeahead({ source:data });
+  },'json');*/
+
+  $('#region_ap').selectpicker().ajaxSelectPicker({
+    ajax: {
+      url: 'http://localhost:8029/siagap/region/autocomplete',
+      type: 'GET',
+      dataType: 'json',
+      data: {
+        q: '{{{q}}}'
+      }
+    },
+    preprocessData: function (data) {
+      var i, l = data.length, array = [];
+      if (l) {
+        for (i = 0; i < l; i++) {
+          array.push($.extend(true, data[i], {
+            text : data[i].label,
+            value: data[i].id,
+            data : {
+              subtext: data[i].text
+            }
+          }));
+        }
+      }
+      return array;
+    }
+  });
+
+  function addNew() {
+    $.ajax({
+      method: "POST",
+      url: "http://localhost:8029/siagap/"+ $('#model-to-add').val() +"/new",
+      data: { label: $('#new-label').val(), comment: $('#comment-text').val() },
       dataType: "json"
     }).done(function( gest ) {
-      var options = "";
-      for (var i = gest.length - 1; i >= 0; i--) {
-        options += "<option>"+ gest[i] + "</option>";
+      if (gest.indexOf('true')) {
+        $('#new-label').val('');
+        $('#comment-text').val('');
       }
-      $('#gestionnaire_ap').html(options);
     });
-  });
-  $('.to_complete').autoComplete();
+  }
+
+  function openNewModal(model) {
+    $('#model-to-add').val(model);
+  }
   
 </script>
 

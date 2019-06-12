@@ -54,14 +54,25 @@ class Region_model extends CI_Model
 				->get()
 				->result();
 	}
-	
-	public function findByName($label = "", $nb = 10, $debut = 0)
+
+	public function findNameByName($label = "", $nb = 10, $debut = 0)
 	{
 		return $this->db->select('label')
 				->from($this->table)
 				->limit($nb, $debut)
 				->order_by('id', 'desc')
 				->where('LOWER(label) LIKE LOWER("%'.$label.'%")')
+				->get()
+				->result();
+	}
+	
+	public function findByName($label = "", $nb = 10, $debut = 0)
+	{
+		return $this->db->select('*')
+				->from($this->table)
+				->limit($nb, $debut)
+				->order_by('id', 'desc')
+				->where('LOWER(label) like LOWER("%'.$label.'%")')
 				->get()
 				->result();
 	}
