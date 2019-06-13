@@ -25,4 +25,8 @@ class Category extends CI_Controller
 		}
 		echo json_encode( $json );
 	}
+
+	public function all() {	
+		echo json_encode($this->cat->find());
+	}
 }

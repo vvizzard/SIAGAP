@@ -161,39 +161,55 @@
           <h4>Profil</h4>
         </div>
       </div>
-      <div class="row">
+      <div class="row align-items-start">
         <div class="col-lg-8 col-md-8">
           <div class="bar-chart block no-margin-bottom">
             <label for="name_ap">Nom : </label>
-            <input id="name_ap" type="text" class="form-control" title="Nom de l'AP" placeholder="Taper ici le nom de l'AP">
+            <input id="name_ap" type="text" class="form-control" title="Nom de l'AP" 
+                placeholder="Taper ici le nom de l'AP">
             <label for="categorie_ap">Catégorie : </label>
             <select id="categorie_ap" class="form-control" title="Choisir le catégorie de l'AP">
-             <option class="form-control">Catégorie I</option>
-             <option class="form-control">Catégorie II</option>
-           </select>
-           <!--<input id="categorie_ap" type="text" class="form-control">-->
-           <label for="gestionnaire_ap">Gestionnaire : </label>
-           <select id="gestionnaire_ap" class="form-control" title="Gestionnaire de l'ap" placeholder="Taper ici le nom du gestionnaire de l'AP">
-             <option class="form-control">Catégorie I</option>
-             <option class="form-control">Catégorie II</option>
-             <option class="form-control" onclick="alert(click);"><a href="#">Nouvelle catégorie</a></option>
-           </select>
-           <!--<input id="gestionnaire_ap" type="text" class="form-control">-->
-           <label for="creation_ap">Création : </label>
-           <input id="creation_ap" type="number" class="form-control" title="Année de création de l'AP" placeholder="Taper ici l'année de création de l'AP">
-           <label for="superficie_ap">Superficie : </label>
-           <input id="superficie_ap" type="number" class="form-control" title="Superifice de l'AP" placeholder="Taper ici la superficie de l'AP">
-           <label for="contact_ap">Contact : </label>
-           <input id="contact_ap" type="text" class="form-control" title="Comment contacter l'AP" placeholder="Taper ici l'email, le numéro de téléphone, ou autre information permettant de contacter l'AP">
-           <label for="vision_ap">Vision : </label>
-           <textarea id="vision_ap" class="form-control"></textarea>
-           <label for="mission_ap">Mission : </label>
-           <textarea id="mission_ap" class="form-control"></textarea>
-           <label for="objectif_ap">Objectif : </label>
-           <input id="objectif_ap" type="text" class="form-control">
-           <label for="pic_ap">Photo : </label>
-           <input id="pic_ap" type="file" class="form-control">
-         </div>
+               <option class="form-control">Catégorie I</option>
+               <option class="form-control">Catégorie II</option>
+            </select>
+            <!--<input id="categorie_ap" type="text" class="form-control">-->
+            <label for="gestionnaire_ap">Gestionnaire : </label>
+            <select id="gestionnaire_ap" class="form-control" title="Gestionnaire de l'ap" 
+                placeholder="Taper ici le nom du gestionnaire de l'AP">
+              <option class="form-control">Catégorie I</option>
+              <option class="form-control">Catégorie II</option>
+              <option class="form-control" onclick="alert(click);"><a href="#">Nouvelle catégorie</a></option>
+            </select>
+            <!--<input id="gestionnaire_ap" type="text" class="form-control">-->
+            <label for="creation_ap">Création : </label>
+            <input id="creation_ap" type="number" class="form-control" title="Année de création de l'AP" 
+                placeholder="Taper ici l'année de création de l'AP">
+            <label for="superficie_ap">Superficie (Ha) : </label>
+            <input id="superficie_ap" type="number" class="form-control" title="Superifice de l'AP" 
+                placeholder="Taper ici la superficie de l'AP">
+            <label for="contact_ap">Contact : </label>
+            <textarea id="contact_ap" class="form-control" title="Comment contacter l'AP" 
+                placeholder="Taper ici l'email, le numéro de téléphone, ou autre information permettant de contacter l'AP"></textarea>
+            <!-- <input id="contact_ap" type="text" class="form-control" title="Comment contacter l'AP" 
+                placeholder="Taper ici l'email, le numéro de téléphone, ou autre information permettant de contacter l'AP"> -->
+            <label for="vision_ap">Vision : </label>
+            <textarea id="vision_ap" class="form-control" title="Liste des visions de l'ap" 
+                placeholder="Taper ici les visions de l'ap"></textarea>
+            <label for="mission_ap">Mission : </label>
+            <textarea id="mission_ap" class="form-control" title="Liste des missions de l'ap" 
+                placeholder="Taper ici les missions de l'ap"></textarea>
+            <label for="objectif_ap">Objectif : </label>
+            <textarea id="objectif_ap" class="form-control" title="L'objectif de l'ap" 
+                placeholder="Taper ici l'objectif de l'ap"></textarea>
+            <!-- <input id="objectif_ap" type="text" class="form-control" title="L'objectif de l'ap" 
+                placeholder="Taper ici l'objectif de l'ap"> -->
+            <label for="pic_ap">Photo : </label>
+            <input id="pic_ap" type="file" class="form-control" title="Importer ici la photo de l'ap"><br>
+            <button class="btn btn-success" title="Enregistrer les informations sur le profil de l'ap" 
+                style="float: right;" onclick="$('#toast-success').toast('show');">
+              Enregistrer
+            </button><br>
+          </div>
        </div>
        <div class="col-lg-4 col-md-4">
         <div class="line-cahrt block">
@@ -201,8 +217,8 @@
             <label for="layer_ap">GeoJson de la limite de l'aire protégée</label>
             <textarea id="layer_ap" class="form-control"></textarea>
           </div><br>
-          <div style="height: 40vh;margin-left: unset;margin-right: unset;" id="map-placement" 
-              class="bar-chart block no-margin-bottom"></div>
+          <div style="/*height: 40vh*/;margin-left: unset;margin-right: unset;" id="map-placement" 
+          class="bar-chart block no-margin-bottom"></div>
         </div>
       </div>
     </div>
@@ -224,92 +240,85 @@
         <label for="region_ap">Region : </label>
         <div class="input-group mb-3">
           <select id="region_ap" class=" form-control to_complete selectpicker" 
-              data-live-search="true" aria-label="Region" 
-              aria-describedby="Region de l'AP"></select>
+          data-live-search="true" aria-label="Region" 
+          aria-describedby="Region de l'AP"></select>
           <div class="input-group-append">
            <button class="btn btn-outline-secondary" type="button" data-toggle="modal" 
-              data-target="#modal-add-basic" onclick="openNewModal('region')">Nouveau</button>
+           data-target="#modal-add-basic" onclick="openNewModal('region')">Nouveau</button>
          </div>
        </div>
-       <!-- <input id="region_ap" autocomplete="off" type="text" class="form-control to_complete selectpicker"> -->
-            <!-- <select id="region_ap" class="form-control to_complete" name="region_ap" 
-                placeholder="Taper ici le nom de la région"
-                data-url="http://localhost:8029/siagap/region/autocomplete" 
-                autocomplete="off">
-              </select> -->
-              
-              <label for="district_ap">District : </label>
-              <input id="district_ap" type="text" class="form-control">
-              <label for="commune_ap">Commune : </label>
-              <input id="commune_ap" type="text" class="form-control">
-              <label for="fokontany_ap">Fokontany : </label>
-              <input id="fokontany_ap" type="text" class="form-control">
-              <label for="demographie_ap">Démographie : </label>
-              <input id="demographie_ap" type="text" class="form-control">
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <br>
-
-    <section class="no-padding-bottom">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-4 col-md-4">
-            <div class="bar-chart block no-margin-bottom">
-              <ul>
-               <li>Pêche</li>
-               <li>Agriculture</li>
-               <li>Elevage</li>
-             </ul>
-             <br>
-             <label for="subsistance_ap">Subsistance : </label>
-             <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Subsistance" aria-label="Subsistance" aria-describedby="Subsistance de la population">
-              <div class="input-group-append">
-               <button class="btn btn-outline-secondary" type="button">Ajouter</button>
-             </div>
-           </div>
-         </div>
-       </div>
-       <div class="col-lg-4 col-md-4">
-        <div class="bar-chart block no-margin-bottom">
-          <ul>
-           <li>Isolement</li>
-           <li>Isolement</li>
-           <li>Isolement</li>
-         </ul>
-         <br>
-         <label for="pbm_ap">Problème : </label>
-         <div class="input-group mb-3">
-          <input type="text" class="form-control" placeholder="Problème" aria-label="problème" aria-describedby="Problème de la population">
-          <div class="input-group-append">
-           <button class="btn btn-outline-secondary" type="button">Ajouter</button>
-         </div>
-       </div>
-     </div>
-   </div>
-   <div class="col-lg-4 col-md-4">
-    <div class="bar-chart block no-margin-bottom">
-      <ul>
-       <li>Surpêche</li>
-       <li>Chasse</li>
-       <li>Chasse</li>
-     </ul>
-     <br>
-     <label for="pression_ap">Pression : </label>
-     <div class="input-group mb-3">
-      <input type="text" class="form-control" placeholder="Pression" aria-label="Pression" aria-describedby="Pression sur l'AP">
-      <div class="input-group-append">
-       <button class="btn btn-outline-secondary" type="button">Ajouter</button>
+       <label for="district_ap">District : </label>
+       <input id="district_ap" type="text" class="form-control">
+       <label for="commune_ap">Commune : </label>
+       <input id="commune_ap" type="text" class="form-control">
+       <label for="fokontany_ap">Fokontany : </label>
+       <input id="fokontany_ap" type="text" class="form-control">
+       <label for="demographie_ap">Démographie : </label>
+       <input id="demographie_ap" type="text" class="form-control">
      </div>
    </div>
  </div>
 </div>
-</div>
-</div>
+</section>
+
+<br>
+
+<section class="no-padding-bottom">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-lg-4 col-md-4">
+        <div class="bar-chart block no-margin-bottom">
+          <label>Subsistance : </label>
+          <ul>
+            <li>Pêche</li>
+            <li>Agriculture</li>
+            <li>Elevage</li>
+          </ul>
+          <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
+              data-target="#modal-modify-basic" onclick="getAll('subsistance')">Modifier</button>
+          <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
+              data-target="#modal-add-basic" onclick="openNewModal('subsistance')">
+            Nouveau
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="bar-chart block no-margin-bottom">
+          <ul>
+            <li>Isolement</li>
+            <li>Isolement</li>
+            <li>Isolement</li>
+          </ul>
+          <br>
+          <label for="pbm_ap">Problème : </label>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Problème" 
+                aria-label="problème" aria-describedby="Problème de la population">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button">Ajouter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-4 col-md-4">
+        <div class="bar-chart block no-margin-bottom">
+          <ul>
+            <li>Surpêche</li>
+            <li>Chasse</li>
+            <li>Chasse</li>
+          </ul>
+          <br>
+          <label for="pression_ap">Pression : </label>
+          <div class="input-group mb-3">
+            <input type="text" class="form-control" placeholder="Pression" aria-label="Pression" aria-describedby="Pression sur l'AP">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="button">Ajouter</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </section>
 
 <br>
@@ -731,33 +740,94 @@
 
 <!-- Modal add -->
 <div class="modal fade" id="modal-add-basic" tabindex="-1" role="dialog" 
-    aria-labelledby="" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="title-modal-add-basic">Nouveau</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <form>
-          <div class="form-group">
-            <label for="new-label" class="col-form-label">Nom:</label>
-            <input type="text" class="form-control" id="new-label">
-          </div>
-          <div class="form-group">
-            <label for="comment-text" class="col-form-label">Commentaire:</label>
-            <textarea class="form-control" id="comment-text"></textarea>
-          </div>
-          <input type="hidden" id="model-to-add">
-        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary" onclick="addNew()">Enregistrer</button>
-      </div>
+aria-labelledby="" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="title-modal-add-basic">Nouveau</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label for="new-label" class="col-form-label">Nom:</label>
+        <input type="text" class="form-control add-basic-field" id="new-label" autofocus="true">
+      </div>
+      <div class="form-group">
+        <label for="comment-text" class="col-form-label">Commentaire:</label>
+        <textarea class="form-control add-basic-field" id="comment-text"></textarea>
+      </div>
+      <input type="hidden" id="model-to-add">
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+      <button type="button" class="btn btn-primary" onclick="addNew()">Enregistrer</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- Modal modifcation -->
+<div class="modal fade" id="modal-modify-basic" tabindex="-1" role="dialog" 
+aria-labelledby="" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="title-modal-add-basic">Modification de la liste</h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <ul class="list-unstyled" id="ck-target">
+        <!-- <li>
+          <div class="col-auto my-1">
+           <div class="custom-control custom-checkbox mr-sm-2">
+            <input type="checkbox" class="custom-control-input" id="peche-ck">
+            <label class="custom-control-label" for="peche-ck">Population/superficie</label>
+          </div>
+        </div>
+      </li> -->
+    </ul>
+    <input type="hidden" id="model-to-add">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+    <button type="button" class="btn btn-primary" onclick="addNew()">Enregistrer</button>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- <div class="alert alert-success" role="alert" style="display: none;">
+  <strong>Succes!</strong> <p id="alert-success-message"></p>
+</div> -->
+<div class="alert alert-danger" role="alert" style="display: none;">
+  <strong>Échec!</strong> <p id="alert-eroor-message"></p>
+</div>
+
+<!-- <div class="toast toast-success">
+  <div class="toast-header">
+    <strong class="mr-auto text-primary">Succes!</strong>
+  </div>
+  <div class="toast-body">
+    <p id="alert-success-message"></p>
+  </div>
+</div> -->
+
+<div class="toast fade hide" id="toast-success" role="alert" aria-live="assertive" 
+    aria-atomic="true" style="position: absolute; top: 0; right: 0;">
+  <div class="toast-header">
+    <!-- <img src="..." class="rounded mr-2" alt="..."> -->
+    <strong class="mr-auto">Succes!</strong>
+    <!-- <small class="text-muted">11 mins ago</small> -->
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="toast-body">
+    <p id="alert-success-message"></p>
   </div>
 </div>
 
@@ -790,43 +860,36 @@
 <link rel="stylesheet" href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
 <script src="<?php echo base_url(); ?>assets/js/ajax-bootstrap-select.min.js"></script>
 
-<!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script> -->
-
-  <script type="text/javascript">
+<script type="text/javascript">
+  // Prepare Select
+  $.ajax({
+    method: "GET",
+    url: "http://localhost:8029/Developpement/SIAGAP/siagap/category/all",
+    dataType: "json"
+  }).done(function( cat ) {
+    var options = "";
+    for (var i = cat.length - 1; i >= 0; i--) {
+      options += "<option value=\"" + cat[i].id + "\">"+ cat[i].label + "</option>";
+    }
+    $('#categorie_ap').html(options);
     $.ajax({
       method: "GET",
-      url: "http://localhost:8029/siagap/category/autocomplete",
-      data: { q: "I" },
+      url: "http://localhost:8029/Developpement/SIAGAP/siagap/gestionnaire/autocomplete",
+      data: { q: "" },
       dataType: "json"
-    }).done(function( cat ) {
+    }).done(function( gest ) {
       var options = "";
-      for (var i = cat.length - 1; i >= 0; i--) {
-        options += "<option>"+ cat[i] + "</option>";
+      for (var i = gest.length - 1; i >= 0; i--) {
+        options += "<option>"+ gest[i] + "</option>";
       }
-      $('#categorie_ap').html(options);
-      $.ajax({
-        method: "GET",
-        url: "http://localhost:8029/siagap/gestionnaire/autocomplete",
-        data: { q: "" },
-        dataType: "json"
-      }).done(function( gest ) {
-        var options = "";
-        for (var i = gest.length - 1; i >= 0; i--) {
-          options += "<option>"+ gest[i] + "</option>";
-        }
-        $('#gestionnaire_ap').html(options);
-      });
+      $('#gestionnaire_ap').html(options);
     });
+  });
 
-    /*$('.to_complete').autoComplete();*/
-  /*$.get("http://localhost:8029/siagap/region/autocomplete", function(data) {
-    $("#region_ap").typeahead({ source:data });
-  },'json');*/
-
+  // Select with autocomplete
   $('#region_ap').selectpicker().ajaxSelectPicker({
     ajax: {
-      url: 'http://localhost:8029/siagap/region/autocomplete',
+      url: 'http://localhost:8029/Developpement/SIAGAP/siagap/region/autocomplete',
       type: 'GET',
       dataType: 'json',
       data: {
@@ -850,25 +913,129 @@
     }
   });
 
+  // Add new item : modal, ajax, ...
   function addNew() {
     $.ajax({
       method: "POST",
-      url: "http://localhost:8029/siagap/"+ $('#model-to-add').val() +"/new",
+      url: "http://localhost:8029/Developpement/SIAGAP/siagap/"+ $('#model-to-add').val() +"/set",
       data: { label: $('#new-label').val(), comment: $('#comment-text').val() },
-      dataType: "json"
-    }).done(function( gest ) {
-      if (gest.indexOf('true')) {
-        $('#new-label').val('');
-        $('#comment-text').val('');
+      dataType: "json",
+      success: function( response ) {
+        if (response) {
+          $('#new-label').val('');
+          $('#comment-text').val('');
+          $('#modal-add-basic').modal('toggle');
+        } else {
+          console.log('response: ' + response);
+        }
+      },
+      error: function( response, status ) {
+        console.log("Status de l'erreur: " + status);
       }
+    }).done(function( gest ) {
+
     });
   }
 
   function openNewModal(model) {
     $('#model-to-add').val(model);
   }
-  
+
+  // Autofocus on modal
+  $('.modal').on('shown.bs.modal', function() {
+    $(this).find('[autofocus]').focus();
+  });
+
+  // Action on enter pressed
+  $('.add-basic-field').keypress(function(event) {
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+      addNew();
+    }
+  });
+
+  // get items and show on popup 
+  function getAll(model) {
+    $.ajax({
+      method: "GET",
+      url: "http://localhost:8029/Developpement/SIAGAP/siagap/" + model + "/all",
+      dataType: "json",
+      success: function( response ) {
+        $('.removable').remove();
+        var ulOption = '';
+        var options = [];
+        for (var i = 0; i < response.length; i++) {
+          var temp = '';
+          temp += '<li class="removable">';
+          temp += '<div class="col-auto my-1">';
+          temp += '<div class="custom-control custom-checkbox mr-sm-2">';
+          temp += '<input type="checkbox" class="custom-control-input sb-ck" id="' + 
+              response[i].id + '_' + response[i].label + '">';
+          temp += '<label class="custom-control-label" for="' + response[i].id + '_' 
+              + response[i].label + '">' + response[i].label + '</label>';
+          temp += '</div>';
+          temp += '</div>';
+          temp += '</li>';
+          options.push(temp);
+        }
+        for (var i = 0; i < options.length; i++) {
+          ulOption += options[i];
+        }
+        $('#ck-target').append(ulOption);
+      },
+      error: function( response, status ) {
+        console.log("Status de l'erreur: " + status);
+      }
+    }).done(function( gest ) {
+
+    });
+  }
 </script>
+
+<!-- AP -->
+<script type="text/javascript">
+  function saveAP() {
+    $.ajax({
+      method: "POST",
+      url: "http://localhost:8029/Developpement/SIAGAP/siagap/ap/set",
+      data: { 
+        nom: $('#name_ap').val(), 
+        categorie_id: $('#categorie_ap').val(),
+        date_creation: $('#creation_ap').val(),
+        superficie: $('#superficie_ap').val(),
+        contact: $('#contact_ap').val(),
+        vision: $('#vision_ap').val(),
+        missiom: $('#mission_ap').val(),
+        objectif: $('#objectif_ap').val(),
+      },
+      dataType: "json",
+      success: function( response ) {
+        if (response) {
+          $('#alert-success-message').val('Les modifications sur l\'AP ont été enregistrer');
+          // $('.alert-success').alert();
+          $('.toast-success').toast('show');
+          console.log(response);
+        } else {
+          $('#alert-error-message').val('L\'enregistrement des modifications sur l\'ap a été un échec');
+          $('.alert-error').alert();
+          console.log(response);
+        }
+      },
+      error: function( response, status ) {
+        console.log("Status de l'erreur: " + status);
+      }
+    }).done(function( gest ) {
+
+    });
+  }  
+</script>
+
+<!-- Alert -->
+<!-- <script type="text/javascript">
+  $(".alert").delay(4000).slideUp(200, function() {
+    $(this).alert('close');
+  });
+</script> -->
 
 </body>
 </html>
