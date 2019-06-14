@@ -34,7 +34,9 @@ class Ap extends CI_Controller
 		if ($this->am->add($nom, $categoryId, $creationDate, 
 				$superficie, $contact, $vision, $mission, $objectif)==false) {
 			echo json_encode(false);
-		} else echo json_encode(true);
+		} else {
+			echo json_encode($this->am->find(1, 0)[0]->id);
+		}
 	}
 
 	public function all() {	

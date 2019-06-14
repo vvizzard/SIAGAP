@@ -152,6 +152,7 @@
     <div class="page-header">
       <div class="container-fluid">
         <h2 class="h5 no-margin-bottom">Aire protégée</h2>
+        <input type="hidden" id="id_ap" value="-1">
       </div>
     </div>
     <section class="no-padding-bottom">
@@ -206,7 +207,7 @@
             <label for="pic_ap">Photo : </label>
             <input id="pic_ap" type="file" class="form-control" title="Importer ici la photo de l'ap"><br>
             <button class="btn btn-success" title="Enregistrer les informations sur le profil de l'ap" 
-                style="float: right;" onclick="$('#toast-success').toast('show');">
+                style="float: right;" onclick="saveAP()">
               Enregistrer
             </button><br>
           </div>
@@ -768,60 +769,69 @@ aria-labelledby="" aria-hidden="true">
 </div>
 </div>
 
-<!-- Modal modifcation -->
+<!-- Modal modification -->
 <div class="modal fade" id="modal-modify-basic" tabindex="-1" role="dialog" 
 aria-labelledby="" aria-hidden="true">
-<div class="modal-dialog" role="document">
-  <div class="modal-content">
-    <div class="modal-header">
-      <h5 class="modal-title" id="title-modal-add-basic">Modification de la liste</h5>
-      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-      </button>
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="title-modal-add-basic">Modification de la liste</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <ul class="list-unstyled" id="ck-target">
+        </ul>
+        <input type="hidden" id="model-to-add">
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+        <button type="button" class="btn btn-primary" onclick="updateAssoc('sb-ck', 'test')">Enregistrer</button>
+      </div>
     </div>
-    <div class="modal-body">
-      <ul class="list-unstyled" id="ck-target">
-        <!-- <li>
-          <div class="col-auto my-1">
-           <div class="custom-control custom-checkbox mr-sm-2">
-            <input type="checkbox" class="custom-control-input" id="peche-ck">
-            <label class="custom-control-label" for="peche-ck">Population/superficie</label>
-          </div>
-        </div>
-      </li> -->
-    </ul>
-    <input type="hidden" id="model-to-add">
-  </div>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-    <button type="button" class="btn btn-primary" onclick="addNew()">Enregistrer</button>
   </div>
 </div>
-</div>
+
+<!-- Modal error -->
+<div class="modal fade" id="modal-error" tabindex="-1" role="dialog" 
+aria-labelledby="" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content" style="background-color: #2d3035;">
+      <div class="modal-header" style="border-bottom-color: #3d4148;">
+        <h5 class="modal-title" id="title-modal-add-basic">Erreur!!!</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <span id="modal-error-message"></span>
+      </div>
+      <div class="modal-footer" style="border-top-color: #3d4148;">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
 </div>
 
-<!-- <div class="alert alert-success" role="alert" style="display: none;">
-  <strong>Succes!</strong> <p id="alert-success-message"></p>
-</div> -->
-<div class="alert alert-danger" role="alert" style="display: none;">
-  <strong>Échec!</strong> <p id="alert-eroor-message"></p>
-</div>
-
-<!-- <div class="toast toast-success">
+<!-- Toast error and success -->
+<div class="toast" id="toast-error" role="alert" aria-live="assertive" 
+    aria-atomic="true" style="background-color: #bb414d; color: white;">
   <div class="toast-header">
-    <strong class="mr-auto text-primary">Succes!</strong>
+    <strong class="mr-auto">Erreur!</strong>
+    <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
   </div>
   <div class="toast-body">
-    <p id="alert-success-message"></p>
+    <p id="alert-error-message"></p>
   </div>
-</div> -->
+</div>
 
-<div class="toast fade hide" id="toast-success" role="alert" aria-live="assertive" 
-    aria-atomic="true" style="position: absolute; top: 0; right: 0;">
+<div class="toast" id="toast-success" role="alert" aria-live="assertive" 
+    aria-atomic="true" style="background-color: #115220e0; color: white;">
   <div class="toast-header">
-    <!-- <img src="..." class="rounded mr-2" alt="..."> -->
     <strong class="mr-auto">Succes!</strong>
-    <!-- <small class="text-muted">11 mins ago</small> -->
     <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
       <span aria-hidden="true">&times;</span>
     </button>
@@ -925,7 +935,11 @@ aria-labelledby="" aria-hidden="true">
           $('#new-label').val('');
           $('#comment-text').val('');
           $('#modal-add-basic').modal('toggle');
+          $('#alert-success-message').text('L\'Ajout de l\'élément a été un succes');
+          $('#toast-success').toast('show');
         } else {
+          $('#alert-error-message').text('Échec de l\'ajout de l\'élément');
+          $('#toast-error').toast('show');
           console.log('response: ' + response);
         }
       },
@@ -953,7 +967,10 @@ aria-labelledby="" aria-hidden="true">
       addNew();
     }
   });
+</script>
 
+<!-- Modification modal -->
+<script type="text/javascript">
   // get items and show on popup 
   function getAll(model) {
     $.ajax({
@@ -969,8 +986,9 @@ aria-labelledby="" aria-hidden="true">
           temp += '<li class="removable">';
           temp += '<div class="col-auto my-1">';
           temp += '<div class="custom-control custom-checkbox mr-sm-2">';
-          temp += '<input type="checkbox" class="custom-control-input sb-ck" id="' + 
-              response[i].id + '_' + response[i].label + '">';
+          temp += '<input type="checkbox" class="custom-control-input" name="sb-ck" id="' 
+              + response[i].id + '_' + response[i].label + '" value="' 
+              + response[i].id + '">';
           temp += '<label class="custom-control-label" for="' + response[i].id + '_' 
               + response[i].label + '">' + response[i].label + '</label>';
           temp += '</div>';
@@ -990,6 +1008,57 @@ aria-labelledby="" aria-hidden="true">
 
     });
   }
+
+  function getAllChecked(name) {
+    var favorite = [];
+    $.each($("input[name='" + name + "']:checked"), function() {            
+        favorite.push($(this).val());
+    });
+    // for (var i = 0; i < favorite.length; i++) {
+    //   console.log('value checked to get : ' + favorite[i]);
+    // }
+    return favorite;
+  }
+
+  function updateAssoc(model1, model2) {
+    if ($('#id_ap').val() < 0) {
+      $('#modal-error-message').text('Veuiller enregistrer d\'abord le profil de l\'ap');
+      $('#modal-modify-basic').modal('toggle');
+      $('#modal-error').modal('toggle');
+    } else {
+      var checked = getAllChecked('sb-ck');
+      var checkedInline = '';
+      for (var i = 0; i < checked.length; i++) {
+        checkedInline += checked[i] + '-';
+      }
+      $.ajax({
+        method: "POST",
+        url: "http://localhost:8029/Developpement/SIAGAP/siagap/association" + model1 + model2 + "/set",
+        data: { 
+          id_ap: $('#id_ap').val(), 
+          ids_item: checkedInline
+        },
+        dataType: "json",
+        success: function( response ) {
+          // if (!response) {
+          //   $('#alert-error-message').text('Échec de l\'enregistrement des modifications sur l\'ap');
+          //   $('#toast-error').toast('show');
+          // } else {
+          //   $('#alert-success-message').text('Les modifications sur l\'AP ont été enregistrer');
+          //   $('#toast-success').toast('show');
+          //   $('#id_ap').val(response);
+            console.log(response);
+          // }
+        },
+        error: function( response, status ) {
+          console.log("Status de l'erreur: " + status);
+        }
+      }).done(function( gest ) {
+
+      });
+    }
+  }
+
 </script>
 
 <!-- AP -->
@@ -1010,14 +1079,13 @@ aria-labelledby="" aria-hidden="true">
       },
       dataType: "json",
       success: function( response ) {
-        if (response) {
-          $('#alert-success-message').val('Les modifications sur l\'AP ont été enregistrer');
-          // $('.alert-success').alert();
-          $('.toast-success').toast('show');
-          console.log(response);
+        if (!response) {
+          $('#alert-error-message').text('Échec de l\'enregistrement des modifications sur l\'ap');
+          $('#toast-error').toast('show');
         } else {
-          $('#alert-error-message').val('L\'enregistrement des modifications sur l\'ap a été un échec');
-          $('.alert-error').alert();
+          $('#alert-success-message').text('Les modifications sur l\'AP ont été enregistrer');
+          $('#toast-success').toast('show');
+          $('#id_ap').val(response);
           console.log(response);
         }
       },
