@@ -25,8 +25,10 @@ class AssociationApSubsistance extends CI_Controller
 	public function set() {
 		$idAp = $this->input->post('id_ap');
 		$idsItem = $this->input->post('ids_item');
+		$idsItem = substr($idsItem, 0, strlen($idsItem)-1);
+		$allItem = explode("-", $idsItem);
 
-		
+		echo json_encode(array('idAp' => $idAp, 'items' => $allItem));
 
 		// if ($this->rm->add($label, $comment)==false) {
 		// 	echo json_encode(false);

@@ -787,7 +787,7 @@ aria-labelledby="" aria-hidden="true">
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
-        <button type="button" class="btn btn-primary" onclick="updateAssoc('sb-ck', 'test')">Enregistrer</button>
+        <button type="button" class="btn btn-primary" onclick="updateAssoc('Ap', 'Subsistance')">Enregistrer</button>
       </div>
     </div>
   </div>
