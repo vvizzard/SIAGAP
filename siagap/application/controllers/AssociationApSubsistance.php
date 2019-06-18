@@ -5,7 +5,7 @@ class AssociationApSubsistance extends CI_Controller
 	public function __construct() {
 		parent::__construct();
 		
-		// $this->load->model('associationApSubsistance_model', 'rm');
+		$this->load->model('associationApSubsistance_model', 'rm');
 	}
 	
 	public function index() {
@@ -28,11 +28,24 @@ class AssociationApSubsistance extends CI_Controller
 		$idsItem = substr($idsItem, 0, strlen($idsItem)-1);
 		$allItem = explode("-", $idsItem);
 
-		echo json_encode(array('idAp' => $idAp, 'items' => $allItem));
+		// Delete all item of this PA
+		$this->rm->deleteByAp($idAp);
 
-		// if ($this->rm->add($label, $comment)==false) {
-		// 	echo json_encode(false);
-		// } else echo json_encode(true);
+		// Add all items
+		$status = true;
+		foreach ($allItem as $item) {
+			if(!$this->rm->add($idAp, $item)) {
+				$status = false;
+			}
+		}
+
+		echo json_encode($status);
+	}
+
+	public function get() {
+		$idAp = null;
+		$idAp = $this->input->get('idAp');
+		echo json_encode($this->rm->findGeneric(array('ap_id' => (int)$idAp)));
 	}
 
 	// public function all() {	

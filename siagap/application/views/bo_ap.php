@@ -270,13 +270,13 @@
       <div class="col-lg-4 col-md-4">
         <div class="bar-chart block no-margin-bottom">
           <label>Subsistance : </label>
-          <ul>
-            <li>Pêche</li>
+          <ul id="li-subsistance">
+            <!-- <li>Pêche</li>
             <li>Agriculture</li>
-            <li>Elevage</li>
+            <li>Elevage</li> -->
           </ul>
           <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
-              data-target="#modal-modify-basic" onclick="getAll('subsistance')">Modifier</button>
+              data-target="#modal-modify-basic" onclick="getAllForModificationPopUp('ap','subsistance')">Modifier</button>
           <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
               data-target="#modal-add-basic" onclick="openNewModal('subsistance')">
             Nouveau
@@ -972,41 +972,72 @@ aria-labelledby="" aria-hidden="true">
 <!-- Modification modal -->
 <script type="text/javascript">
   // get items and show on popup 
-  function getAll(model) {
-    $.ajax({
-      method: "GET",
-      url: "http://localhost:8029/Developpement/SIAGAP/siagap/" + model + "/all",
-      dataType: "json",
-      success: function( response ) {
-        $('.removable').remove();
-        var ulOption = '';
-        var options = [];
-        for (var i = 0; i < response.length; i++) {
-          var temp = '';
-          temp += '<li class="removable">';
-          temp += '<div class="col-auto my-1">';
-          temp += '<div class="custom-control custom-checkbox mr-sm-2">';
-          temp += '<input type="checkbox" class="custom-control-input" name="sb-ck" id="' 
-              + response[i].id + '_' + response[i].label + '" value="' 
-              + response[i].id + '">';
-          temp += '<label class="custom-control-label" for="' + response[i].id + '_' 
-              + response[i].label + '">' + response[i].label + '</label>';
-          temp += '</div>';
-          temp += '</div>';
-          temp += '</li>';
-          options.push(temp);
-        }
-        for (var i = 0; i < options.length; i++) {
-          ulOption += options[i];
-        }
-        $('#ck-target').append(ulOption);
-      },
-      error: function( response, status ) {
-        console.log("Status de l'erreur: " + status);
-      }
-    }).done(function( gest ) {
+  function getAllForModificationPopUp(model1, model2) {
+    if ($('#id_ap').val() < 0) {
+      $('#modal-error-message').text('Veuiller enregistrer d\'abord le profil de l\'ap');
+      $('#modal-modify-basic').modal('toggle');
+      $('#modal-error').modal('toggle');
+    } else {
+      $.ajax({
+        method: "GET",
+        url: "http://localhost:8029/Developpement/SIAGAP/siagap/" + model2 + "/all",
+        dataType: "json",
+        success: function( response ) {
+          $.ajax({
+            method: "GET",
+            url: "http://localhost:8029/Developpement/SIAGAP/siagap/association" + model1 + model2 + "/get",
+            data : {
+              idAp: $('#id_ap').val()
+            },
+            dataType: "json",
+            success: function( rep ) {
+              $('.removable').remove();
+              var ulOption = '';
+              var options = [];
+              for (var i = 0; i < response.length; i++) {
+                // check if the item is already picked
+                var ck = '';
+                if (checkIfIncludes(rep, response[i])) {
+                  ck = 'checked';
+                }
 
-    });
+                var temp = '';
+                temp += '<li class="removable">';
+                temp += '<div class="col-auto my-1">';
+                temp += '<div class="custom-control custom-checkbox mr-sm-2">';
+                temp += '<input type="checkbox" class="custom-control-input" name="sb-ck" id="' 
+                    + response[i].id + '_' + response[i].label + '" value="' 
+                    + response[i].id + '" ' + ck + '>';
+                temp += '<label class="custom-control-label" for="' + response[i].id + '_' 
+                    + response[i].label + '">' + response[i].label + '</label>';
+                temp += '</div>';
+                temp += '</div>';
+                temp += '</li>';
+                options.push(temp);
+              }
+              for (var i = 0; i < options.length; i++) {
+                ulOption += options[i];
+              }
+              $('#ck-target').append(ulOption);
+            }
+          });
+        },
+        error: function( response, status ) {
+          console.log("Status de l'erreur: " + status);
+        }
+      }).done(function( gest ) {
+
+      });
+    }
+  }
+
+  function checkIfIncludes(json1, json2) {
+    for (var i = json1.length - 1; i >= 0; i--) {
+      if(json1[i].subsistance_id == json2.id) {
+        return true;
+      }
+    } 
+    return false;
   }
 
   function getAllChecked(name) {
@@ -1040,15 +1071,16 @@ aria-labelledby="" aria-hidden="true">
         },
         dataType: "json",
         success: function( response ) {
-          // if (!response) {
-          //   $('#alert-error-message').text('Échec de l\'enregistrement des modifications sur l\'ap');
-          //   $('#toast-error').toast('show');
-          // } else {
-          //   $('#alert-success-message').text('Les modifications sur l\'AP ont été enregistrer');
-          //   $('#toast-success').toast('show');
-          //   $('#id_ap').val(response);
+          if (!response) {
+            $('#alert-error-message').text('Échec des modifications des '+ model2 +'de l\'ap');
+            $('#toast-error').toast('show');
+          } else {
+            $('#alert-success-message').text('Les modifications sur l\'AP ont été enregistrer');
+            $('#toast-success').toast('show');
+            $('#modal-modify-basic').modal('toggle');
             console.log(response);
-          // }
+            // $('#li-' + model2)
+          }
         },
         error: function( response, status ) {
           console.log("Status de l'erreur: " + status);
