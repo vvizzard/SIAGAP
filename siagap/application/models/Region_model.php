@@ -58,6 +58,15 @@ class Region_model extends CI_Model
 				->result();
 	}
 
+	public function findAll()
+	{
+		return $this->db->select('*')
+				->from($this->table)
+				->order_by('id', 'desc')
+				->get()
+				->result();
+	}
+
 	public function findNameByName($label = "", $nb = 10, $debut = 0)
 	{
 		return $this->db->select('label')

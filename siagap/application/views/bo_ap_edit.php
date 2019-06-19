@@ -5,27 +5,33 @@
       <small>
         Attention : Toute modification faites sont directement pris en compte dans le site web
       </small>
-      <input type="hidden" id="id_ap" value="-1">
+      <input type="hidden" id="id_ap" value="<?php echo($id_ap) ?>">
     </div>
   </div>
   <section class="no-padding-bottom">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-12">
-          <h4>Profil</h4>
+        <div class="col-sm-8" data-toggle="collapse" href="#profil_collapse" 
+            role="button" aria-expanded="false" aria-controls="profil_collapse">
+          <h4 style="float: left;">Profil</h4>
+          <a style="float: right;" class="btn"><small>cliquer pour voir les détails</small></a>
         </div>
       </div>
-      <div class="row align-items-start">
+      <div class="row align-items-start collapse" id="profil_collapse">
         <div class="col-lg-8 col-md-8">
           <div class="bar-chart block no-margin-bottom">
             <label for="name_ap">Nom : </label>
             <input id="name_ap" type="text" class="form-control" title="Nom de l'AP" 
-                placeholder="Taper ici le nom de l'AP">
+                placeholder="Taper ici le nom de l'AP" value="<?php echo($profil_ap->name) ?>">
             <label for="categorie_ap">Catégorie : </label>
             <select id="categorie_ap" class="form-control" 
                 title="Choisir le catégorie de l'AP">
-              <option class="form-control">Catégorie I</option>
-              <option class="form-control">Catégorie II</option>
+              <?php for ($i=0; $i < sizeof($category); $i++) { ?>
+                <option class="form-control" value="<?php echo $category[$i]->id; ?>"
+                    <?php if ($category[$i]->id == $profil_ap->category_id) {echo 'selected';} ?>>
+                  <?php echo $category[$i]->label; ?>
+                </option>
+              <?php } ?>
             </select>
             <!--<input id="categorie_ap" type="text" class="form-control">-->
             <label for="gestionnaire_ap">Gestionnaire : </label>
@@ -41,28 +47,30 @@
             <label for="creation_ap">Création : </label>
             <input id="creation_ap" type="number" class="form-control" 
                 title="Année de création de l'AP" 
-                placeholder="Taper ici l'année de création de l'AP">
+                placeholder="Taper ici l'année de création de l'AP"
+                value="<?php echo($profil_ap->creation_date) ?>" >
             <label for="superficie_ap">Superficie (Ha) : </label>
             <input id="superficie_ap" type="number" class="form-control" 
                 title="Superifice de l'AP" 
-                placeholder="Taper ici la superficie de l'AP">
+                placeholder="Taper ici la superficie de l'AP"
+                value="<?php echo($profil_ap->area) ?>">
             <label for="contact_ap">Contact : </label>
             <textarea id="contact_ap" class="form-control" title="Comment contacter l'AP" 
-                placeholder="Taper ici l'email, le numéro de téléphone, ou autre information permettant de contacter l'AP">
+                placeholder="Taper ici l'email, le numéro de téléphone, 
+                ou autre information permettant de contacter l'AP"><?php echo($profil_ap->contact) ?>    
             </textarea>
-            <!-- <input id="contact_ap" type="text" class="form-control" title="Comment contacter l'AP" 
-            placeholder="Taper ici l'email, le numéro de téléphone, ou autre information permettant de contacter l'AP"> -->
             <label for="vision_ap">Vision : </label>
             <textarea id="vision_ap" class="form-control" title="Liste des visions de l'ap" 
-                placeholder="Taper ici les visions de l'ap"></textarea>
+                placeholder="Taper ici les visions de l'ap"><?php echo($profil_ap->vision) ?>
+            </textarea>
             <label for="mission_ap">Mission : </label>
             <textarea id="mission_ap" class="form-control" title="Liste des missions de l'ap" 
-                placeholder="Taper ici les missions de l'ap"></textarea>
+                placeholder="Taper ici les missions de l'ap"><?php echo($profil_ap->mission) ?>
+            </textarea>
             <label for="objectif_ap">Objectif : </label>
             <textarea id="objectif_ap" class="form-control" title="L'objectif de l'ap" 
-                placeholder="Taper ici l'objectif de l'ap"></textarea>
-            <!-- <input id="objectif_ap" type="text" class="form-control" title="L'objectif de l'ap" 
-              placeholder="Taper ici l'objectif de l'ap"> -->
+                placeholder="Taper ici l'objectif de l'ap"><?php echo($profil_ap->objectif) ?>
+            </textarea>
             <label for="pic_ap">Photo : </label>
             <input id="pic_ap" type="file" class="form-control" 
                 title="Importer ici la photo de l'ap"><br>

@@ -25,39 +25,39 @@ class Ap_model extends CI_Model
 			$vision = null, $mission = null, $objectif = null) {
 
 		//	Il n'y a rien à éditer
-		if($nom = null AND $categorieId = null AND $creationDate = null 
-				AND $superficie = null AND $contact = null AND $mission = null 
-				AND $vision = null AND $objectif = null) {
+		if($nom == null AND $categorieId == null AND $creationDate == null 
+				AND $superficie == null AND $contact == null AND $mission == null 
+				AND $vision == null AND $objectif == null) {
 			return false;
 		}
 
 		//	Ces données seront échappées
-		if($label != null) {
-			$this->db->set('nom', $nom);
+		if($nom != null) {
+			$this->db->set('name', $nom);
 		}
-		if($comment != null) {
+		if($categorieId != null) {
 			$this->db->set('category_id', $categorieId);
 		}
-		if($comment != null) {
+		if($creationDate != null) {
 			$this->db->set('creation_date', $creationDate);
 		}
-		if($comment != null) {
+		if($superficie != null) {
 			$this->db->set('area', $superficie);
 		}
-		if($comment != null) {
+		if($contact != null) {
 			$this->db->set('contact', $contact);
 		}
-		if($comment != null) {
+		if($mission != null) {
 			$this->db->set('mission', $mission);
 		}
-		if($comment != null) {
+		if($vision != null) {
 			$this->db->set('vision', $vision);
 		}
-		if($comment != null) {
+		if($objectif != null) {
 			$this->db->set('objectif', $objectif);
 		}
-		return $this->db->where('id', (int) $id)
-				->update($this->table);
+		$this->db->where('id', $id);
+		return $this->db->update($this->table);
 	}
 	
 	public function delete($id)
@@ -77,7 +77,16 @@ class Ap_model extends CI_Model
 		return $this->db->select('*')
 				->from($this->table)
 				->limit($nb, $debut)
-				->order_by('id', 'desc')
+				->order_by('name', 'asc')
+				->get()
+				->result();
+	}
+
+	public function findAll()
+	{
+		return $this->db->select('*')
+				->from($this->table)
+				->order_by('name', 'asc')
 				->get()
 				->result();
 	}

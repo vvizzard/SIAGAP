@@ -22,7 +22,7 @@ class Ap extends CI_Controller
 	// 	echo json_encode( $data );
 	// }
 
-	public function set() {
+	public function set($id = null) {
 		$nom = $this->input->post('nom');
 		$categoryId = $this->input->post('categorie_id');
 		$creationDate = $this->input->post('date_creation');
@@ -31,11 +31,20 @@ class Ap extends CI_Controller
 		$vision = $this->input->post('vision');
 		$mission = $this->input->post('missiom');
 		$objectif = $this->input->post('objectif');
-		if ($this->am->add($nom, $categoryId, $creationDate, 
+		if ($id == null) {
+			if ($this->am->add($nom, $categoryId, $creationDate, 
 				$superficie, $contact, $vision, $mission, $objectif)==false) {
-			echo json_encode(false);
+				echo json_encode(false);
+			} else {
+				echo json_encode($this->am->find(1, 0)[0]->id);
+			}
 		} else {
-			echo json_encode($this->am->find(1, 0)[0]->id);
+			if ($this->am->edit($id, $nom, $categoryId, $creationDate, 
+				$superficie, $contact, $vision, $mission, $objectif)==false) {
+				echo json_encode(false);
+			} else {
+				echo json_encode($id);
+			}
 		}
 	}
 
