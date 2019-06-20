@@ -1,11 +1,11 @@
 <?php
 
-class AssociationApSubsistance extends CI_Controller
+class AssociationApProblem extends CI_Controller
 {
 	public function __construct() {
 		parent::__construct();
 		
-		$this->load->model('associationApSubsistance_model', 'rm');
+		$this->load->model('associationApProblem_model', 'rm');
 	}
 	
 	public function index() {

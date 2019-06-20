@@ -59,6 +59,35 @@ class Ap_model extends CI_Model
 		$this->db->where('id', $id);
 		return $this->db->update($this->table);
 	}
+
+	public function editContext($id, $region=null, $district=null, 
+			$commune=null, $fokontany=null, $demographie=null) {
+
+		//	Il n'y a rien à éditer
+		if($region == null AND $district == null AND $commune == null 
+				AND $fokontany == null AND $demographie == null) {
+			return false;
+		}
+
+		//	Ces données seront échappées
+		if($region != null) {
+			$this->db->set('region_id', $region);
+		}
+		if($district != null) {
+			$this->db->set('district', $district);
+		}
+		if($commune != null) {
+			$this->db->set('commune', $commune);
+		}
+		if($fokontany != null) {
+			$this->db->set('fokontany', $fokontany);
+		}
+		if($demographie != null) {
+			$this->db->set('demography', $demographie);
+		}
+		$this->db->where('id', $id);
+		return $this->db->update($this->table);
+	}
 	
 	public function delete($id)
 	{

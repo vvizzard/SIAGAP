@@ -48,6 +48,26 @@ class Ap extends CI_Controller
 		}
 	}
 
+	public function setcontext($id = null) {
+		$region = $this->input->post('region');
+		$district = $this->input->post('district');
+		$commune = $this->input->post('commune');
+		$fokontany = $this->input->post('fokontany');
+		$demographie = $this->input->post('demographie');
+		
+		if ($id == null) {
+			echo json_encode(array('status' => false, 
+					'reason' => 'no id found'));
+		} else {
+			if ($this->am->editContext($id, $region, $district, $commune, 
+				$fokontany, $demographie)==false) {
+				echo json_encode(false);
+			} else {
+				echo json_encode($id);
+			}
+		}
+	}
+
 	public function all() {	
 		echo json_encode($this->am->find());
 	}

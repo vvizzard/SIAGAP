@@ -1,22 +1,22 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class AssociationApSubsistance_model extends CI_Model
+class AssociationApPression_model extends CI_Model
 {
-	protected $table = 'association_ap_subsistance';
+	protected $table = 'association_ap_pression';
 
-	public function add($apId, $subsistanceId, $comment = "") {
-		if (sizeof($this->findGeneric(array('ap_id' => $apId, 'subsistance_id' => $subsistanceId )))>0) {
+	public function add($apId, $pressionId, $comment = "") {
+		if (sizeof($this->findGeneric(array('ap_id' => $apId, 'pression_id' => $pressionId )))>0) {
 			return false;
 		}
 		return $this->db->set('ap_id', $apId)
-			        ->set('subsistance_id', $subsistanceId)
+			        ->set('pression_id', $pressionId)
 			        ->set('comment', $comment)
 				    ->insert($this->table);
 	}
 	
-	public function edit($id, $apId = null, $subsistanceId = null, $comment = null) {
+	public function edit($id, $apId = null, $pressionId = null, $comment = null) {
 		//	Il n'y a rien à éditer
-		if($apId == null AND $subsistanceId == null AND $comment == null) {
+		if($apId == null AND $pressionId == null AND $comment == null) {
 			return false;
 		}
 		
@@ -24,8 +24,8 @@ class AssociationApSubsistance_model extends CI_Model
 		if($apId != null) {
 			$this->db->set('ap_id', $apId);
 		}
-		if($subsistanceId != null) {
-			$this->db->set('subsistance_id', $subsistanceId);
+		if($pressionId != null) {
+			$this->db->set('pression_id', $pressionId);
 		}
 		if($comment != null) {
 			$this->db->set('comment', $comment);
@@ -71,5 +71,5 @@ class AssociationApSubsistance_model extends CI_Model
 	}
 }
 
-/* End of file AssociationApSubsistance_model.php */
-/* Location: ./application/models/AssociationApSubsistance_model.php */
+/* End of file AssociationApPression_model.php */
+/* Location: ./application/models/AssociationApPression_model.php */

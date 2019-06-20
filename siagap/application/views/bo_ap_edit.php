@@ -2,8 +2,17 @@
   <div class="page-header">
     <div class="container-fluid">
       <h2 class="h5 no-margin-bottom">Aire protégée</h2>
+      <!-- <small>
+        Attention : 
+      </small><br> -->
       <small>
-        Attention : Toute modification faites sont directement pris en compte dans le site web
+        -Toute modification faites sont directement pris en compte dans le site web
+      </small><br>
+      <small>
+        -S'il y a un bouton "Enregistrer", il faut cliquer dessus pour que les modifications soient pris en compte
+      </small><br>
+      <small>
+        -S'il n'y pas de bouton "Enregistrer", les modifications sont directement pris en compte
       </small>
       <input type="hidden" id="id_ap" value="<?php echo($id_ap) ?>">
     </div>
@@ -14,9 +23,9 @@
         <div class="col-sm-8" data-toggle="collapse" href="#profil_collapse" 
             role="button" aria-expanded="false" aria-controls="profil_collapse">
           <h4 style="float: left;">Profil</h4>
-          <a style="float: right;" class="btn"><small>cliquer pour voir les détails</small></a>
+          <a style="float: right;" class="btn"><small>afficher/masquer les détails</small></a>
         </div>
-      </div>
+      </div><hr>
       <div class="row align-items-start collapse" id="profil_collapse">
         <div class="col-lg-8 col-md-8">
           <div class="bar-chart block no-margin-bottom">
@@ -78,7 +87,7 @@
                 title="Enregistrer les informations sur le profil de l'ap" 
                 style="float: right;" onclick="saveAP()">
               Enregistrer
-            </button><br>
+            </button><br><br>
           </div>
         </div>
         <div class="col-lg-4 col-md-4">
@@ -102,18 +111,32 @@
   <section class="no-padding-bottom">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-sm-12">
-          <h4>Contexte</h4>
+        <!-- <div class="col-sm-8" data-toggle="collapse" href="#contexte_collapse" 
+            role="button" aria-expanded="false" aria-controls="contexte_collapse"> -->
+        <div data-toggle="collapse" data-target=".ctx_collapse" aria-expanded="false" 
+            aria-controls="contexte_collapse1 contexte_collapse2" class="col-sm-8">
+          <h4 style="float: left;">Contexte</h4>
+          <a style="float: right;" class="btn"><small>afficher/masquer les détails</small></a>
         </div>
-      </div>
-      <div class="row">
+      </div><hr>
+      <div class="row collapse ctx_collapse" id="contexte_collapse1">
         <div class="col-lg-12 col-md-12">
           <div class="bar-chart block no-margin-bottom">
             <label for="region_ap">Region : </label>
             <div class="input-group mb-3">
               <select id="region_ap" class=" form-control to_complete selectpicker" 
                   data-live-search="true" aria-label="Region" 
-                  aria-describedby="Region de l'AP"></select>
+                  aria-describedby="Region de l'AP">
+                <?php if ($profil_ap->region_id != null && $profil_ap->region_id > 0) { ?>
+                  <optgroup label="Currently Selected">
+                    <option value="<?php echo($region_ap[0]->id) ?>" 
+                        title="<?php echo($region_ap[0]->label) ?>" 
+                        selected="selected">
+                      <?php echo($region_ap[0]->label) ?>
+                    </option>
+                  </optgroup>    
+                <?php } ?>
+              </select>
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="button" 
                     data-toggle="modal" data-target="#modal-add-basic" 
@@ -123,158 +146,193 @@
               </div>
             </div>
             <label for="district_ap">District : </label>
-            <input id="district_ap" type="text" class="form-control">
+            <input id="district_ap" type="text" class="form-control"
+                value="<?php echo($profil_ap->district) ?>">
             <label for="commune_ap">Commune : </label>
-            <input id="commune_ap" type="text" class="form-control">
+            <input id="commune_ap" type="text" class="form-control"
+                value="<?php echo($profil_ap->commune) ?>">
             <label for="fokontany_ap">Fokontany : </label>
-            <input id="fokontany_ap" type="text" class="form-control">
-            <label for="demographie_ap">Démographie : </label>
-            <input id="demographie_ap" type="text" class="form-control">
+            <input id="fokontany_ap" type="text" class="form-control"
+                value="<?php echo($profil_ap->fokontany) ?>">
+            <label for="demographie_ap">Démographie (Habitants): </label>
+            <input id="demographie_ap" type="number" class="form-control"
+                value="<?php echo($profil_ap->demography) ?>"><br>
+            <button class="btn btn-success" 
+                title="Enregistrer les informations de ce section" 
+                style="float: right;" onclick="saveAPContext()">
+              Enregistrer
+            </button><br><br>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <br>
+  <div class="ctx_collapse collapse" id="contexte_collapse2">
+  
+    <br>
 
-  <section class="no-padding-bottom">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-4 col-md-4">
-          <div class="bar-chart block no-margin-bottom">
-            <label>Subsistance : </label>
-            <ul id="li-subsistance"></ul>
-            <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
-                data-target="#modal-modify-basic" 
-                onclick="getAllForModificationPopUp('ap','subsistance')">
-              Modifier
-            </button>
-            <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
-                data-target="#modal-add-basic" onclick="openNewModal('subsistance')">
-              Nouveau
-            </button>
+    <section class="no-padding-bottom">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-4 col-md-4">
+            <div class="bar-chart block no-margin-bottom">
+              <label>Subsistance : </label>
+              <ul id="li-subsistance">
+                <?php 
+                  if ($subsistances_ap != null && !empty($subsistances_ap)) {
+                    for ($i=0; $i < sizeof($subsistances_ap); $i++) { 
+                ?>
+                <li><?php echo $subsistances_ap[$i]->label; ?></li>
+                <?php    
+                    }
+                  }
+                ?>
+              </ul>
+              <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
+                  data-target="#modal-modify-basic" 
+                  onclick="getAllForModificationPopUp('ap','subsistance')">
+                Modifier
+              </button>
+              <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
+                  data-target="#modal-add-basic" onclick="openNewModal('subsistance')">
+                Nouveau
+              </button>
+            </div>
           </div>
-        </div>
-        <div class="col-lg-4 col-md-4">
-          <div class="bar-chart block no-margin-bottom">
-            <ul>
-              <li>Isolement</li>
-              <li>Isolement</li>
-              <li>Isolement</li>
-            </ul>
-            <br>
-            <label for="pbm_ap">Problème : </label>
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Problème" 
-                  aria-label="problème" 
-                  aria-describedby="Problème de la population">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">
-                  Ajouter
-                </button>
+          <div class="col-lg-4 col-md-4">
+            <div class="bar-chart block no-margin-bottom">
+              <label>Problème : </label>
+              <ul id="li-problem">
+                <?php 
+                  if ($problem_ap != null && !empty($problem_ap)) {
+                    for ($i=0; $i < sizeof($problem_ap); $i++) { 
+                ?>
+                <li><?php echo $problem_ap[$i]->label; ?></li>
+                <?php    
+                    }
+                  }
+                ?>
+              </ul>
+              <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
+                  data-target="#modal-modify-basic" 
+                  onclick="getAllForModificationPopUp('ap','problem')">
+                Modifier
+              </button>
+              <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
+                  data-target="#modal-add-basic" onclick="openNewModal('problem')">
+                Nouveau
+              </button>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4">
+            <div class="bar-chart block no-margin-bottom">
+              <label>Pression : </label>
+              <ul id="li-pression">
+                <?php 
+                  if ($pression_ap != null && !empty($pression_ap)) {
+                    for ($i=0; $i < sizeof($pression_ap); $i++) { 
+                ?>
+                <li><?php echo $pression_ap[$i]->label; ?></li>
+                <?php    
+                    }
+                  }
+                ?>
+              </ul>
+              <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
+                  data-target="#modal-modify-basic" 
+                  onclick="getAllForModificationPopUp('ap','pression')">
+                Modifier
+              </button>
+              <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
+                  data-target="#modal-add-basic" onclick="openNewModal('pression')">
+                Nouveau
+              </button>
+            </div>
+          </div>
+      </div>
+    </section>
+
+    <br>
+
+    <section class="no-padding-bottom">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6 col-md-6">
+            <div class="bar-chart block no-margin-bottom">
+              <table class="table">
+                <tr>
+                  <td>Subsistance</td>
+                  <td>Problème</td>
+                  <td>Pression</td>
+                </tr>
+                <tr>
+                  <td>Subsistance</td>
+                  <td>Problème</td>
+                  <td>Pression</td>
+                </tr>
+              </table>
+              <hr>
+              <div class="row">
+                <div class="col-md-3">
+                  <select class="form-control">
+                    <option>Peche</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <select class="form-control">
+                    <option>Manque d'opportunités</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <select class="form-control">
+                    <option>Surpêche</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <button class="btn btn-primary">Ajouter</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-4 col-md-4">
-          <div class="bar-chart block no-margin-bottom">
-            <ul>
-              <li>Surpêche</li>
-              <li>Chasse</li>
-              <li>Chasse</li>
-            </ul>
-            <br>
-            <label for="pression_ap">Pression : </label>
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Pression" 
-                  aria-label="Pression" aria-describedby="Pression sur l'AP">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Ajouter</button>
+          <div class="col-lg-6 col-md-6">
+            <div class="bar-chart block no-margin-bottom">
+              <ul>
+                <li>Isolement</li>
+                <li>Isolement</li>
+                <li>Isolement</li>
+              </ul>
+              <br>
+              <label for="pbm_ap">Problème : </label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Problème" 
+                    aria-label="problème" aria-describedby="Problème de la population">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button">
+                    Ajouter
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+  </div>
 
   <br>
 
   <section class="no-padding-bottom">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-6 col-md-6">
-          <div class="bar-chart block no-margin-bottom">
-            <table class="table">
-              <tr>
-                <td>Subsistance</td>
-                <td>Problème</td>
-                <td>Pression</td>
-              </tr>
-              <tr>
-                <td>Subsistance</td>
-                <td>Problème</td>
-                <td>Pression</td>
-              </tr>
-            </table>
-            <hr>
-            <div class="row">
-              <div class="col-md-3">
-                <select class="form-control">
-                  <option>Peche</option>
-                </select>
-              </div>
-              <div class="col-md-3">
-                <select class="form-control">
-                  <option>Manque d'opportunités</option>
-                </select>
-              </div>
-              <div class="col-md-3">
-                <select class="form-control">
-                  <option>Surpêche</option>
-                </select>
-              </div>
-              <div class="col-md-3">
-                <button class="btn btn-primary">Ajouter</button>
-              </div>
-            </div>
-          </div>
+        <div data-toggle="collapse" data-target=".cbl_collapse" aria-expanded="false" 
+            aria-controls="cible_collapse cible_collapse1" class="col-sm-8">
+          <h4 style="float: left;">Cibles</h4>
+          <a style="float: right;" class="btn"><small>afficher/masquer les détails</small></a>
         </div>
-        <div class="col-lg-6 col-md-6">
-          <div class="bar-chart block no-margin-bottom">
-            <ul>
-              <li>Isolement</li>
-              <li>Isolement</li>
-              <li>Isolement</li>
-            </ul>
-            <br>
-            <label for="pbm_ap">Problème : </label>
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Problème" 
-                  aria-label="problème" aria-describedby="Problème de la population">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">
-                  Ajouter
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <br>
-
-  <section class="no-padding-bottom">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-12">
-          <h4>Cibles</h4>
-        </div>
-      </div>
-      <div class="row">
+      </div><hr>
+      <div class="row collapse cbl_collapse" id="cible_collapse">
         <div class="col-lg-3 col-md-3">
           <div class="bar-chart block no-margin-bottom">
             <ul>
@@ -354,202 +412,208 @@
     </div>
   </section>
 
-  <br>
+  <div class="collapse cbl_collapse" id="cible_collapse1">
 
-  <section class="no-padding-bottom">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-6 col-md-6">
-          <div class="bar-chart block no-margin-bottom">
-            <table class="table">
-              <tr>
-                <th class="text-right">Nom</th>
-                <th class="text-right">Note</th>
-              </tr>
-              <tr>
-                <td class="text-right">Problème</td>
-                <td class="text-right">Pression</td>
-              </tr>
-            </table>
-            <hr>
-            <div class="row">
-              <div class="col-md-4">
-                <label for="nom_intrants">Nom</label>
-                <input id="nom_intrants" type="text" class="form-control">
-              </div>
-              <div class="col-md-4">
-                <label for="note_intrants">Note</label>
-                <input id="note_intrants" type="number" class="form-control">
-              </div>
-              <div class="col-md-4">
-                <br>
-                <button class="btn btn-primary">Ajouter</button>
+    <br>
+
+    <section class="no-padding-bottom">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6 col-md-6">
+            <div class="bar-chart block no-margin-bottom">
+              <table class="table">
+                <tr>
+                  <th class="text-right">Nom</th>
+                  <th class="text-right">Note</th>
+                </tr>
+                <tr>
+                  <td class="text-right">Problème</td>
+                  <td class="text-right">Pression</td>
+                </tr>
+              </table>
+              <hr>
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="nom_intrants">Nom</label>
+                  <input id="nom_intrants" type="text" class="form-control">
+                </div>
+                <div class="col-md-4">
+                  <label for="note_intrants">Note</label>
+                  <input id="note_intrants" type="number" class="form-control">
+                </div>
+                <div class="col-md-4">
+                  <br>
+                  <button class="btn btn-primary">Ajouter</button>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-          <div class="bar-chart block no-margin-bottom">
-            <ul>
-              <li>Isolement</li>
-              <li>Isolement</li>
-              <li>Isolement</li>
-            </ul>
-            <br>
-            <label for="pbm_ap">Problème : </label>
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" 
-                  placeholder="Problème" aria-label="problème" 
-                  aria-describedby="Problème de la population">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">
-                  Ajouter
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <br>
-
-  <section class="no-padding-bottom">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-6 col-md-6">
-          <div class="bar-chart block no-margin-bottom">
-            <table class="table">
-              <tr>
-                <th class="text-right">Post</th>
-                <th class="text-right">Nombre de femme</th>
-                <th class="text-right">Nombre d'homme</th>
-              </tr>
-              <tr>
-                <td class="text-right">Cadre </td>
-                <td class="text-right">1</td>
-                <td class="text-right">1</td>
-              </tr>
-            </table>
-            <hr>
-            <div class="row">
-              <div class="col-md-3">
-                <label for="poste_rh">Poste</label>
-                <select id="poste_rh" class="form-control">
-                  <option>Cadre</option>
-                  <option>Ouvrier</option>
-                </select>
-              </div>
-              <div class="col-md-3">
-                <label for="nbr_femme_rh">Nbr Femme</label>
-                <input id="nbr_femme_rh" type="number" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label for="nbr_homme_rh">Nbr Homme</label>
-                <input id="nbr_homme_rh" type="number" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <br>
-                <button class="btn btn-primary">Ajouter</button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-lg-6 col-md-6">
-          <div class="bar-chart block no-margin-bottom">
-            <ul>
-              <li>Isolement</li>
-              <li>Isolement</li>
-              <li>Isolement</li>
-            </ul>
-            <br>
-            <label for="pbm_ap">Problème : </label>
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Problème" 
-                  aria-label="problème" 
-                  aria-describedby="Problème de la population">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">
-                  Ajouter
-                </button>
+          <div class="col-lg-6 col-md-6">
+            <div class="bar-chart block no-margin-bottom">
+              <ul>
+                <li>Isolement</li>
+                <li>Isolement</li>
+                <li>Isolement</li>
+              </ul>
+              <br>
+              <label for="pbm_ap">Problème : </label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" 
+                    placeholder="Problème" aria-label="problème" 
+                    aria-describedby="Problème de la population">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button">
+                    Ajouter
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <br>
+
+    <section class="no-padding-bottom">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6 col-md-6">
+            <div class="bar-chart block no-margin-bottom">
+              <table class="table">
+                <tr>
+                  <th class="text-right">Post</th>
+                  <th class="text-right">Nombre de femme</th>
+                  <th class="text-right">Nombre d'homme</th>
+                </tr>
+                <tr>
+                  <td class="text-right">Cadre </td>
+                  <td class="text-right">1</td>
+                  <td class="text-right">1</td>
+                </tr>
+              </table>
+              <hr>
+              <div class="row">
+                <div class="col-md-3">
+                  <label for="poste_rh">Poste</label>
+                  <select id="poste_rh" class="form-control">
+                    <option>Cadre</option>
+                    <option>Ouvrier</option>
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <label for="nbr_femme_rh">Nbr Femme</label>
+                  <input id="nbr_femme_rh" type="number" class="form-control">
+                </div>
+                <div class="col-md-3">
+                  <label for="nbr_homme_rh">Nbr Homme</label>
+                  <input id="nbr_homme_rh" type="number" class="form-control">
+                </div>
+                <div class="col-md-3">
+                  <br>
+                  <button class="btn btn-primary">Ajouter</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <div class="bar-chart block no-margin-bottom">
+              <ul>
+                <li>Isolement</li>
+                <li>Isolement</li>
+                <li>Isolement</li>
+              </ul>
+              <br>
+              <label for="pbm_ap">Problème : </label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Problème" 
+                    aria-label="problème" 
+                    aria-describedby="Problème de la population">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button">
+                    Ajouter
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <br>
+
+    <section class="no-padding-bottom">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-6 col-md-6">
+            <div class="bar-chart block no-margin-bottom">
+              <table class="table">
+                <tr>
+                  <th class="text-right">Nom</th>
+                  <th class="text-right">Note</th>
+                </tr>
+                <tr>
+                  <td class="text-right">Résultats</td>
+                  <td class="text-right">56</td>
+                </tr>
+              </table>
+              <hr>
+              <div class="row">
+                <div class="col-md-4">
+                  <label for="nom_pag">Nom</label>
+                  <input id="nom_pag" type="text" class="form-control">
+                </div>
+                <div class="col-md-4">
+                  <label for="note_pag">Note</label>
+                  <input id="note_pag" type="number" class="form-control">
+                </div>
+                <div class="col-md-4">
+                  <br>
+                  <button class="btn btn-primary">Ajouter</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 col-md-6">
+            <div class="bar-chart block no-margin-bottom">
+              <ul>
+                <li>Isolement</li>
+                <li>Isolement</li>
+                <li>Isolement</li>
+              </ul>
+              <br>
+              <label for="pbm_ap">Problème : </label>
+              <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Problème" 
+                    aria-label="problème" 
+                    aria-describedby="Problème de la population">
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="button">
+                    Ajouter
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
 
   <br>
 
   <section class="no-padding-bottom">
     <div class="container-fluid">
       <div class="row">
-        <div class="col-lg-6 col-md-6">
-          <div class="bar-chart block no-margin-bottom">
-            <table class="table">
-              <tr>
-                <th class="text-right">Nom</th>
-                <th class="text-right">Note</th>
-              </tr>
-              <tr>
-                <td class="text-right">Résultats</td>
-                <td class="text-right">56</td>
-              </tr>
-            </table>
-            <hr>
-            <div class="row">
-              <div class="col-md-4">
-                <label for="nom_pag">Nom</label>
-                <input id="nom_pag" type="text" class="form-control">
-              </div>
-              <div class="col-md-4">
-                <label for="note_pag">Note</label>
-                <input id="note_pag" type="number" class="form-control">
-              </div>
-              <div class="col-md-4">
-                <br>
-                <button class="btn btn-primary">Ajouter</button>
-              </div>
-            </div>
-          </div>
+        <div class="col-sm-8" data-toggle="collapse" href="#resultats_collapse" 
+            role="button" aria-expanded="false" aria-controls="resultats_collapse">
+          <h4 style="float: left;">Résultats</h4>
+          <a style="float: right;" class="btn"><small>afficher/masquer les détails</small></a>
         </div>
-        <div class="col-lg-6 col-md-6">
-          <div class="bar-chart block no-margin-bottom">
-            <ul>
-              <li>Isolement</li>
-              <li>Isolement</li>
-              <li>Isolement</li>
-            </ul>
-            <br>
-            <label for="pbm_ap">Problème : </label>
-            <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Problème" 
-                  aria-label="problème" 
-                  aria-describedby="Problème de la population">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">
-                  Ajouter
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <br>
-
-  <section class="no-padding-bottom">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-12">
-          <h4>Résultats</h4>
-        </div>
-      </div>
-      <div class="row">
+      </div><hr>
+      <div class="row collapse" id="resultats_collapse">
         <div class="col-lg-6 col-md-6">
           <div class="bar-chart block no-margin-bottom">
             <table class="table">

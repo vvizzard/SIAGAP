@@ -9,6 +9,10 @@ class Bo extends CI_Controller
 		$this->load->helper('url');
 		$this->load->model('ap_model', 'am');
 		$this->load->model('category_model', 'cat');
+		$this->load->model('region_model', 'rm');
+		$this->load->model('associationApSubsistance_model', 'aasm');
+		$this->load->model('associationApPression_model', 'aapm');
+		$this->load->model('associationApProblem_model', 'aapbm');
 	}
 	
 	public function index() {
@@ -49,6 +53,20 @@ class Bo extends CI_Controller
 			if ($index >= 0) {
 				$data_body['profil_ap'] = $data_left['ap'][$index];
 				$data_body['category'] = $this->cat->findAll();
+
+				if ($data_body['profil_ap']->region_id != null 
+						&& $data_body['profil_ap']->region_id > 0) {
+					$data_body['region_ap'] = $this->rm->findGeneric(
+							array('id' => $data_body['profil_ap']->region_id));
+				}
+
+				$data_body['subsistances_ap'] = $this->aasm->findGeneric(
+						array('association_ap_subsistance.ap_id' => $id), true, "subsistance");
+				$data_body['pression_ap'] = $this->aapm->findGeneric(
+						array('association_ap_pression.ap_id' => $id), true, "pression");
+				$data_body['problem_ap'] = $this->aapbm->findGeneric(
+						array('association_ap_problem.ap_id' => $id), true, "problem");
+
 			} else {
 				echo "il n'y a pas de id correspondant á cet ap dans la base";
 			}

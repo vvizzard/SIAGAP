@@ -54,12 +54,14 @@
         </ul>
         <input type="hidden" id="model-to-add">
       </div>
+      <input type="hidden" id="modif_modal_model1" value="">
+      <input type="hidden" id="modif_modal_model2" value="">
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">
           Annuler
         </button>
         <button type="button" class="btn btn-primary" 
-            onclick="updateAssoc('Ap', 'Subsistance')">
+            onclick="updateAssoc()">
           Enregistrer
         </button>
       </div>
@@ -303,6 +305,8 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
                 ulOption += options[i];
               }
               $('#ck-target').append(ulOption);
+              $('#modif_modal_model1').val(model1);
+              $('#modif_modal_model2').val(model2);
             }
           });
         },
@@ -317,8 +321,14 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
 
   function checkIfIncludes(json1, json2) {
     for (var i = json1.length - 1; i >= 0; i--) {
-      if(json1[i].subsistance_id == json2.id) {
-        return true;
+      for(var key in json1[i]) {
+        if (key.includes('_id')&&key!='ap_id') {
+          if(json1[i][key] == json2.id) {
+            // console.log(key+'=>'+json1[i][key]);
+            // console.log('json2.id=>'+json2.id);
+            return true;
+          }
+        }
       }
     } 
     return false;
@@ -341,12 +351,14 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
     return favorite;
   }
 
-  function updateAssoc(model1, model2) {
+  function updateAssoc() {
     if ($('#id_ap').val() < 0) {
       $('#modal-error-message').text('Veuiller enregistrer d\'abord le profil de l\'ap');
       $('#modal-modify-basic').modal('toggle');
       $('#modal-error').modal('toggle');
     } else {
+      var model1 = $('#modif_modal_model1').val();
+      var model2 = $('#modif_modal_model2').val();
       var checked = getAllChecked('sb-ck');
       var checkedInline = '';
       for (var i = 0; i < checked.length; i++) {
@@ -392,6 +404,8 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
 
 <!-- AP -->
 <script type="text/javascript">
+
+  // For profil
   function saveAP() {
     var id = '';
     if ($('#id_ap').val() > 0) {
@@ -409,6 +423,42 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
         vision: $('#vision_ap').val(),
         missiom: $('#mission_ap').val(),
         objectif: $('#objectif_ap').val(),
+      },
+      dataType: "json",
+      success: function( response ) {
+        if (!response) {
+          $('#alert-error-message').text('Échec de l\'enregistrement des modifications sur l\'ap');
+          $('#toast-error').toast('show');
+        } else {
+          $('#alert-success-message').text('Les modifications sur l\'AP ont été enregistrer');
+          $('#toast-success').toast('show');
+          $('#id_ap').val(response);
+          console.log(response);
+        }
+      },
+      error: function( response, status ) {
+        console.log("Status de l'erreur: " + status);
+      }
+    }).done(function( gest ) {
+
+    });
+  } 
+
+  // For contexte
+  function saveAPContext() {
+    var id = '';
+    if ($('#id_ap').val() > 0) {
+      id = $('#id_ap').val();
+    }
+    $.ajax({
+      method: "POST",
+      url: "http://localhost:8029/Developpement/SIAGAP/siagap/ap/setcontext/" + id,
+      data: { 
+        region: $('#region_ap').val(), 
+        district: $('#district_ap').val(),
+        commune: $('#commune_ap').val(),
+        fokontany: $('#fokontany_ap').val(),
+        demographie: $('#demographie_ap').val(),
       },
       dataType: "json",
       success: function( response ) {

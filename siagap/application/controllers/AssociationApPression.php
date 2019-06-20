@@ -1,11 +1,11 @@
 <?php
 
-class AssociationApSubsistance extends CI_Controller
+class AssociationApPression extends CI_Controller
 {
 	public function __construct() {
 		parent::__construct();
 		
-		$this->load->model('associationApSubsistance_model', 'rm');
+		$this->load->model('associationApPression_model', 'rm');
 	}
 	
 	public function index() {
@@ -42,7 +42,7 @@ class AssociationApSubsistance extends CI_Controller
 				}
 			}
 		}
-
+		
 		echo json_encode($status);
 	}
 

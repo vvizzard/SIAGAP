@@ -79,6 +79,11 @@
   background-color: #444951;
 }
 
+#ap-dropdown {
+  max-height: 50vh!important;
+  overflow: auto;
+}
+
 /* Right sidebar */
 /*
 * ==========================================================

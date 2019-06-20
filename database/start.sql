@@ -104,6 +104,18 @@ CREATE TABLE IF NOT EXISTS problem(
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
+CREATE TABLE IF NOT EXISTS association_ap_problem(
+    id INT AUTO_INCREMENT,
+	ap_id INT,
+	problem_id INT,
+	comment VARCHAR(255),
+	PRIMARY KEY (id),
+	CONSTRAINT FK_ap_id_association_ap_problem FOREIGN KEY (ap_id)
+    REFERENCES ap(id),
+	CONSTRAINT FK_problem_id_association_ap_problem FOREIGN KEY (problem_id)
+    REFERENCES problem(id)
+) ENGINE=InnoDB;
+
 CREATE TABLE IF NOT EXISTS pression_cause(
     id INT AUTO_INCREMENT,
 	pression_id INT,
