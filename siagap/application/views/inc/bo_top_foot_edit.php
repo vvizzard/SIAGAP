@@ -166,6 +166,11 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
 <script src="<?php echo base_url(); ?>assets/js/ajax-bootstrap-select.min.js">
 </script>
 
+<!-- diagram mermaid -->
+<script src="https://unpkg.com/mermaid@8.1.0/dist/mermaid.min.js"></script>
+<!-- <script>mermaid.initialize({startOnLoad:true});</script> -->
+<!-- fin mermaid -->
+
 <script type="text/javascript">
   // Prepare Select
   $.ajax({
@@ -342,6 +347,14 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
     return favorite;
   }
 
+  function getAllCheckedForIntrant(name) {
+    var favorite = [];
+    $.each($("input[name='" + name + "']"), function() {            
+      favorite.push($(this).val());
+    });
+    return favorite;
+  }
+
   function getNameAllChecked(ids, model) {
     var favorite = [];
     for (var i = ids.length - 1; i >= 0; i--) {
@@ -377,18 +390,120 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
             $('#alert-error-message').text('Échec des modifications des '+ model2 +'de l\'ap');
             $('#toast-error').toast('show');
           } else {
-            $('#alert-success-message').text('Les modifications sur l\'AP ont été enregistrer');
+            $('#alert-success-message').text('Les modifications sur l\'AP ont été enregistré');
             $('#toast-success').toast('show');
             
             console.log(response);
             var listName = getNameAllChecked(checked, model2.toLowerCase());
             var temp = '';
+            var temp2 = '';
             for (var i = listName.length - 1; i >= 0; i--) {
               temp += '<li>' + listName[i] + '</li>'
+              temp2 += '<option value="' + checked[i] + '">' + listName[i] + '</option>'
             }
             $('#li-' + model2.toLowerCase()).empty();
             $('#li-' + model2.toLowerCase()).append(temp);
+            // try {
+            $('#opt-' + model2.toLowerCase()).empty();
+            $('#opt-' + model2.toLowerCase()).append(temp2);
+            // } catch (Exception e) {
+            //   console.log('Il n\'y a pas de select pour le sujet');
+            // }
             $('#modal-modify-basic').modal('toggle');
+          }
+        },
+        error: function( response, status ) {
+          console.log("Status de l'erreur: " + status);
+        }
+      }).done(function( gest ) {
+
+      });
+    }
+  }
+
+  function updateAssoc2(model1, model2, model3) {
+    if ($('#id_ap').val() < 0) {
+      $('#modal-error-message').text('Veuiller enregistrer d\'abord le profil de l\'ap');
+      $('#modal-modify-basic').modal('toggle');
+      $('#modal-error').modal('toggle');
+    } else {
+      // console.log($('.' + model1.toLowerCase() + model2.toLowerCase() + model3.toLowerCase() + '_1').val());
+      // console.log($('.' + model1.toLowerCase() + model2.toLowerCase() 
+      //     + model3.toLowerCase() + '_1 option:selected').text());
+      $.ajax({
+        method: "POST",
+        url: "http://localhost:8029/Developpement/SIAGAP/siagap/associationAp" + model1 
+            + model2 + model3 + "/set",
+        data: { 
+          id_ap: $('#id_ap').val(), 
+          id_1: $('.' + model1.toLowerCase() + model2.toLowerCase() 
+              + model3.toLowerCase() + '_1').val(), 
+          id_2: $('.' + model1.toLowerCase() + model2.toLowerCase() 
+              + model3.toLowerCase() + '_2').val(), 
+          id_3: $('.' + model1.toLowerCase() + model2.toLowerCase() 
+              + model3.toLowerCase() + '_3').val()
+        },
+        dataType: "json",
+        success: function( response ) {
+          if (!response) {
+            $('#alert-error-message').text('Échec de l\'ajout');
+            $('#toast-error').toast('show');
+          } else {
+            $('#alert-success-message').text('Les modifications sur l\'AP ont été enregistré');
+            $('#toast-success').toast('show');
+            console.log(response);
+            var temp = '<tr>';
+            temp += '<td>' + $('.' + model1.toLowerCase() + model2.toLowerCase() 
+                + model3.toLowerCase() + '_1 option:selected').text() + '</td>';
+            temp += '<td>' + $('.' + model1.toLowerCase() + model2.toLowerCase() 
+                + model3.toLowerCase() + '_2 option:selected').text() + '</td>';
+            temp += '<td>' + $('.' + model1.toLowerCase() + model2.toLowerCase() 
+                + model3.toLowerCase() + '_3 option:selected').text() + '</td>';
+            temp += '</tr>';
+            $('#subsistanceproblempression_table').append(temp);
+          }
+        },
+        error: function( response, status ) {
+          console.log("Status de l'erreur: " + status);
+        }
+      }).done(function( gest ) {
+
+      });
+    }
+  }
+
+  function updateAssoc3(model1, model2, nom1, nom2) {
+    if ($('#id_ap').val() < 0) {
+      $('#modal-error-message').text('Veuiller enregistrer d\'abord le profil de l\'ap');
+      $('#modal-modify-basic').modal('toggle');
+      $('#modal-error').modal('toggle');
+    } else {
+      var checked = getAllCheckedForIntrant(nom1);
+      var checkedInline = '';
+      for (var i = 0; i < checked.length; i++) {
+        checkedInline += checked[i] + '-';
+      }
+      var checked2 = getAllCheckedForIntrant(nom2);
+      var checkedInline2 = '';
+      for (var i = 0; i < checked2.length; i++) {
+        checkedInline2 += checked2[i] + '-';
+      }
+      $.ajax({
+        method: "POST",
+        url: "http://localhost:8029/Developpement/SIAGAP/siagap/association" + model1 + model2 + "/set",
+        data: { 
+          id_ap: $('#id_ap').val(), 
+          ids_item_m: checkedInline,
+          ids_item_w: checkedInline2
+        },
+        dataType: "json",
+        success: function( response ) {
+          if (!response) {
+            $('#alert-error-message').text('Échec des modifications des '+ model2 +'de l\'ap');
+            $('#toast-error').toast('show');
+          } else {
+            $('#alert-success-message').text('Les modifications sur l\'AP ont été enregistré');
+            $('#toast-success').toast('show');
           }
         },
         error: function( response, status ) {
@@ -481,12 +596,62 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
   }  
 </script>
 
-<!-- Alert -->
-<!-- <script type="text/javascript">
-  $(".alert").delay(4000).slideUp(200, function() {
-    $(this).alert('close');
+<!-- Realisation -->
+<script type="text/javascript">
+  function saveRealisation() {
+    if ($('#id_ap').val() < 0) {
+      $('#modal-error-message').text('Veuiller enregistrer d\'abord le profil de l\'ap');
+      $('#modal-modify-basic').modal('toggle');
+      $('#modal-error').modal('toggle');
+    } else {
+      $.ajax({
+        method: "POST",
+        url: "http://localhost:8029/Developpement/SIAGAP/siagap/realisation/set",
+        data: { 
+          id_ap: $('#id_ap').val(), 
+          date: $('#date_realisation').val(),
+          niveau: $('#note_realisation').val(),
+          comment: $('#comm_realisation').val(),
+        },
+        dataType: "json",
+        success: function( response ) {
+          if (!response) {
+            $('#alert-error-message').text('Échec de l\'enregistrement des modifications sur l\'ap');
+            $('#toast-error').toast('show');
+          } else {
+            $('#alert-success-message').text('Les modifications sur l\'AP ont été enregistrer');
+            $('#toast-success').toast('show');
+            $('#id_ap').val(response);
+            console.log(response);
+          }
+        },
+        error: function( response, status ) {
+          console.log("Status de l'erreur: " + status);
+        }
+      }).done(function( gest ) {
+
+      });
+    }
+  }
+</script>
+
+<!-- Launch diagram -->
+<script type="text/javascript">
+  mermaid.mermaidAPI.initialize({
+    startOnLoad:false
   });
-</script> -->
+  $(function(){
+      // Example of using the API
+      var element = document.querySelector("#diagram_rel_subs_pbm_pression");
+
+      var insertSvg = function(svgCode, bindFunctions){
+          element.innerHTML = svgCode;
+      };
+
+      var graphDefinition = 'graph TD\nA[Peche] --> B(Manque d\'opportunités)\nB --> C(Peche destructive)\nD[Agriculture] -->B(Manque d\'opportunités)\nB -->F(Coupe)\nD -->F(Coupe)\nB -->G(Braconnage)\nD -->G(Braconnage);\nclassDef manga fill:#1890ff;\nclass A manga;\nclass D manga;';
+      var graph = mermaid.mermaidAPI.render('diagram_rel_subs_pbm_pression', graphDefinition, insertSvg);
+  });
+</script>
 
 </body>
 </html>

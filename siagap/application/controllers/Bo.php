@@ -10,9 +10,15 @@ class Bo extends CI_Controller
 		$this->load->model('ap_model', 'am');
 		$this->load->model('category_model', 'cat');
 		$this->load->model('region_model', 'rm');
+		$this->load->model('intrant_model', 'im');
+		$this->load->model('level_model', 'lm');
+		$this->load->model('pag_model', 'pm');
 		$this->load->model('associationApSubsistance_model', 'aasm');
 		$this->load->model('associationApPression_model', 'aapm');
 		$this->load->model('associationApProblem_model', 'aapbm');
+		$this->load->model('associationApCible_model', 'aacm');
+		$this->load->model('associationApLevel_model', 'aalm');
+		$this->load->model('pressionCause_model', 'pcm');
 	}
 	
 	public function index() {
@@ -53,6 +59,9 @@ class Bo extends CI_Controller
 			if ($index >= 0) {
 				$data_body['profil_ap'] = $data_left['ap'][$index];
 				$data_body['category'] = $this->cat->findAll();
+				$data_body['intrant'] = $this->im->findAll();
+				$data_body['level'] = $this->lm->findAll();
+				$data_body['pag'] = $this->pm->findAll();
 
 				if ($data_body['profil_ap']->region_id != null 
 						&& $data_body['profil_ap']->region_id > 0) {
@@ -66,7 +75,14 @@ class Bo extends CI_Controller
 						array('association_ap_pression.ap_id' => $id), true, "pression");
 				$data_body['problem_ap'] = $this->aapbm->findGeneric(
 						array('association_ap_problem.ap_id' => $id), true, "problem");
-
+				$data_body['cible_ap'] = $this->aacm->findGeneric(
+						array('association_ap_cible.ap_id' => $id), true, "cible");
+				$array_rel_1 = array();
+				$array_rel_1[] = "subsistance";
+				$array_rel_1[] = "problem";
+				$array_rel_1[] = "pression";
+				$data_body['rel_subs_pbm_pression'] = $this->pcm->findGeneric(
+						array('pression_cause.ap_id' => $id), true, $array_rel_1);
 			} else {
 				echo "il n'y a pas de id correspondant á cet ap dans la base";
 			}

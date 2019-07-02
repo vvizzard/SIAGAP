@@ -260,58 +260,101 @@
         <div class="row">
           <div class="col-lg-6 col-md-6">
             <div class="bar-chart block no-margin-bottom">
-              <table class="table">
+              <table class="table" id="subsistanceproblempression_table">
                 <tr>
-                  <td>Subsistance</td>
-                  <td>Problème</td>
-                  <td>Pression</td>
+                  <th>Subsistance</th>
+                  <th>Problème</th>
+                  <th>Pression</th>
                 </tr>
+                <?php 
+                  if ($rel_subs_pbm_pression != null && !empty($rel_subs_pbm_pression)) {
+                    for ($i=0; $i < sizeof($rel_subs_pbm_pression); $i++) { 
+                ?>
                 <tr>
-                  <td>Subsistance</td>
-                  <td>Problème</td>
-                  <td>Pression</td>
+                  <td>
+                    <?php echo $rel_subs_pbm_pression[$i]->subsistance_label; ?>
+                  </td>
+                  <td>
+                    <?php echo $rel_subs_pbm_pression[$i]->problem_label; ?>
+                  </td>
+                  <td>
+                    <?php echo $rel_subs_pbm_pression[$i]->pression_label; ?>
+                  </td>
                 </tr>
+                <?php    
+                    }
+                  }
+                ?>
               </table>
               <hr>
               <div class="row">
                 <div class="col-md-3">
-                  <select class="form-control">
-                    <option>Peche</option>
+                  <select class="form-control subsistanceproblempression_1" 
+                      id="opt-subsistance">
+                  <?php 
+                      if ($subsistances_ap != null && !empty($subsistances_ap)) {
+                        for ($i=0; $i < sizeof($subsistances_ap); $i++) { 
+                    ?>
+                    <option value="<?php echo $subsistances_ap[$i]->id; ?>">
+                      <?php echo $subsistances_ap[$i]->label; ?>
+                    </option>
+                    <?php    
+                        }
+                      }
+                    ?>
                   </select>
                 </div>
                 <div class="col-md-3">
-                  <select class="form-control">
-                    <option>Manque d'opportunités</option>
+                  <select class="form-control subsistanceproblempression_2" 
+                      id="opt-problem">
+                    <?php 
+                      if ($problem_ap != null && !empty($problem_ap)) {
+                        for ($i=0; $i < sizeof($problem_ap); $i++) { 
+                    ?>
+                    <option value="<?php echo $problem_ap[$i]->id; ?>">
+                      <?php echo $problem_ap[$i]->label; ?>
+                    </option>
+                    <?php    
+                        }
+                      }
+                    ?>
                   </select>
                 </div>
                 <div class="col-md-3">
-                  <select class="form-control">
-                    <option>Surpêche</option>
+                  <select class="form-control subsistanceproblempression_3" 
+                      id="opt-pression">
+                    <?php 
+                      if ($pression_ap != null && !empty($pression_ap)) {
+                        for ($i=0; $i < sizeof($pression_ap); $i++) { 
+                    ?>
+                    <option value="<?php echo $pression_ap[$i]->id; ?>">
+                      <?php echo $pression_ap[$i]->label; ?>
+                    </option>
+                    <?php    
+                        }
+                      }
+                    ?>
                   </select>
                 </div>
                 <div class="col-md-3">
-                  <button class="btn btn-primary">Ajouter</button>
+                  <button class="btn btn-primary" 
+                      onclick="updateAssoc2('Subsistance', 'Problem', 'Pression')">
+                    Ajouter
+                  </button>
                 </div>
               </div>
             </div>
           </div>
           <div class="col-lg-6 col-md-6">
             <div class="bar-chart block no-margin-bottom">
-              <ul>
-                <li>Isolement</li>
-                <li>Isolement</li>
-                <li>Isolement</li>
-              </ul>
-              <br>
-              <label for="pbm_ap">Problème : </label>
-              <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Problème" 
-                    aria-label="problème" aria-describedby="Problème de la population">
-                <div class="input-group-append">
-                  <button class="btn btn-outline-secondary" type="button">
-                    Ajouter
-                  </button>
-                </div>
+              <style type="text/css">
+                #diagram_rel_subs_pbm_pression {
+                  max-width: unset!important;
+                  width: 100%!important;
+                  height: 25vh
+                }
+              </style>
+              <div class="" id="diagram_rel_subs_pbm_pression">
               </div>
             </div>
           </div>
@@ -335,20 +378,27 @@
       <div class="row collapse cbl_collapse" id="cible_collapse">
         <div class="col-lg-3 col-md-3">
           <div class="bar-chart block no-margin-bottom">
-            <ul>
-              <li>Récifs</li>
-              <li>Mangroves</li>
-              <li>Tortues</li>
+            <label>Cible : </label>
+            <ul id="li-cible">
+              <?php 
+                if ($cible_ap != null && !empty($cible_ap)) {
+                  for ($i=0; $i < sizeof($cible_ap); $i++) { 
+              ?>
+              <li><?php echo $cible_ap[$i]->label; ?></li>
+              <?php    
+                  }
+                }
+              ?>
             </ul>
-            <hr>
-            <label for="cible">Cible</label>
-            <div id="cible" class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="cible" aria-label="Cible" 
-                  aria-describedby="Cible de conservation">
-              <div class="input-group-append">
-                <button class="btn btn-outline-secondary" type="button">Ajouter</button>
-              </div>
-            </div>
+            <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
+                data-target="#modal-modify-basic" 
+                onclick="getAllForModificationPopUp('ap','cible')">
+              Modifier
+            </button>
+            <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
+                data-target="#modal-add-basic" onclick="openNewModal('cible')">
+              Nouveau
+            </button>
           </div>
         </div>
         <div class="col-lg-6 col-md-6">
@@ -426,25 +476,28 @@
                   <th class="text-right">Nom</th>
                   <th class="text-right">Note</th>
                 </tr>
-                <tr>
-                  <td class="text-right">Problème</td>
-                  <td class="text-right">Pression</td>
-                </tr>
+
+                <?php 
+                  if ($intrant != null && !empty($intrant)) {
+                    for ($i=0; $i < sizeof($intrant); $i++) { 
+                ?>
+                  <tr>
+                    <td class="text-right"><?php echo $intrant[$i]->label; ?></td>
+                    <td class="text-right">
+                      <input name="note_intrants" type="number" class="form-control">
+                    </td>
+                  </tr>
+                <?php    
+                    }
+                  }
+                ?>
               </table>
               <hr>
               <div class="row">
-                <div class="col-md-4">
-                  <label for="nom_intrants">Nom</label>
-                  <input id="nom_intrants" type="text" class="form-control">
-                </div>
-                <div class="col-md-4">
-                  <label for="note_intrants">Note</label>
-                  <input id="note_intrants" type="number" class="form-control">
-                </div>
-                <div class="col-md-4">
-                  <br>
-                  <button class="btn btn-primary">Ajouter</button>
-                </div>
+                <button class="btn btn-primary offset-md-8 offset-lg-8 col-md-3 col-lg-3"
+                    onclick="updateAssoc3('ap', 'intrant', 'note_intrants', 'note_intrants')">
+                  Enregistrer
+                </button>
               </div>
             </div>
           </div>
@@ -486,32 +539,31 @@
                   <th class="text-right">Nombre de femme</th>
                   <th class="text-right">Nombre d'homme</th>
                 </tr>
-                <tr>
-                  <td class="text-right">Cadre </td>
-                  <td class="text-right">1</td>
-                  <td class="text-right">1</td>
-                </tr>
+                <?php 
+                  if ($level != null && !empty($level)) {
+                    for ($i=0; $i < sizeof($level); $i++) { 
+                ?>
+                  <tr>
+                    <td class="text-right"><?php echo $level[$i]->label; ?></td>
+                    <td class="text-right">
+                      <input name="note_levelw" type="number" class="form-control">
+                    </td>
+                    <td class="text-right">
+                      <input name="note_levelm"  type="number" class="form-control">
+                    </td>
+                  </tr>
+                <?php    
+                    }
+                  }
+                ?>
               </table>
               <hr>
               <div class="row">
-                <div class="col-md-3">
-                  <label for="poste_rh">Poste</label>
-                  <select id="poste_rh" class="form-control">
-                    <option>Cadre</option>
-                    <option>Ouvrier</option>
-                  </select>
-                </div>
-                <div class="col-md-3">
-                  <label for="nbr_femme_rh">Nbr Femme</label>
-                  <input id="nbr_femme_rh" type="number" class="form-control">
-                </div>
-                <div class="col-md-3">
-                  <label for="nbr_homme_rh">Nbr Homme</label>
-                  <input id="nbr_homme_rh" type="number" class="form-control">
-                </div>
-                <div class="col-md-3">
-                  <br>
-                  <button class="btn btn-primary">Ajouter</button>
+                <div class="offset-lg-8 offset-md-8 col-md-3">
+                  <button class="btn btn-primary" 
+                      onclick="updateAssoc3('ap', 'level', 'note_levelm', 'note_levelw')">
+                    Enregistrer
+                  </button>
                 </div>
               </div>
             </div>
@@ -553,24 +605,29 @@
                   <th class="text-right">Nom</th>
                   <th class="text-right">Note</th>
                 </tr>
-                <tr>
-                  <td class="text-right">Résultats</td>
-                  <td class="text-right">56</td>
-                </tr>
+
+                <?php 
+                  if ($pag != null && !empty($pag)) {
+                    for ($i=0; $i < sizeof($pag); $i++) { 
+                ?>
+                  <tr>
+                    <td class="text-right"><?php echo $pag[$i]->label; ?></td>
+                    <td class="text-right">
+                      <input name="note_pag" type="number" class="form-control">
+                    </td>
+                  </tr>
+                <?php    
+                    }
+                  }
+                ?>
               </table>
               <hr>
               <div class="row">
-                <div class="col-md-4">
-                  <label for="nom_pag">Nom</label>
-                  <input id="nom_pag" type="text" class="form-control">
-                </div>
-                <div class="col-md-4">
-                  <label for="note_pag">Note</label>
-                  <input id="note_pag" type="number" class="form-control">
-                </div>
-                <div class="col-md-4">
-                  <br>
-                  <button class="btn btn-primary">Ajouter</button>
+                <div class="offset-md-8 col-md-3">
+                  <button class="btn btn-primary" 
+                      onclick="updateAssoc3('ap', 'pag', 'note_pag', 'note_pag')">
+                    Enregistrer
+                  </button>
                 </div>
               </div>
             </div>
@@ -644,7 +701,7 @@
               </div>
               <div class="col-md-3">
                 <br>
-                <button class="btn btn-primary">Ajouter</button>
+                <button class="btn btn-primary" onclick="saveRealisation()">Ajouter</button>
               </div>
             </div>
           </div>

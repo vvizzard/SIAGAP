@@ -118,6 +118,7 @@ CREATE TABLE IF NOT EXISTS association_ap_problem(
 
 CREATE TABLE IF NOT EXISTS pression_cause(
     id INT AUTO_INCREMENT,
+	id_ap INT,
 	pression_id INT,
 	subsistance_id INT,
 	problem_id INT,
@@ -198,21 +199,21 @@ CREATE TABLE IF NOT EXISTS association_activity_danger(
 /* INTRANT */
 CREATE TABLE IF NOT EXISTS intrant(
     id INT AUTO_INCREMENT,
+	label VARCHAR(100),
+	comment VARCHAR(255),
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS association_ap_intrant(
+    id INT AUTO_INCREMENT,
 	ap_id INT,
+	intrant_id INT,
 	creation_date DATE,
 	comment VARCHAR(255),
 	PRIMARY KEY (id),
 	CONSTRAINT FK_ap_id_intrant FOREIGN KEY (ap_id)
-    REFERENCES ap(id)
-) ENGINE=InnoDB;
-
-CREATE TABLE IF NOT EXISTS detail_intrant(
-    id INT AUTO_INCREMENT,
-	intrant_id INT,
-	label VARCHAR(100),
-	comment VARCHAR(255),
-	PRIMARY KEY (id),
-	CONSTRAINT FK_intrant_id_detail_intrant FOREIGN KEY (intrant_id)
+    REFERENCES ap(id),
+	CONSTRAINT FK_ap_id_intrant_id FOREIGN KEY (intrant_id)
     REFERENCES intrant(id)
 ) ENGINE=InnoDB;
 
@@ -224,31 +225,55 @@ CREATE TABLE IF NOT EXISTS level(
 	PRIMARY KEY (id)
 ) ENGINE=InnoDB;
 
-CREATE TABLE IF NOT EXISTS repartition_level(
+/*CREATE TABLE IF NOT EXISTS repartition_level(
     id INT AUTO_INCREMENT,
+	ap_id INT,
 	level_id INT,
 	nbr_man INT,
 	nbr_women INT,
 	comment VARCHAR(255),
 	PRIMARY KEY (id),
 	CONSTRAINT FK_level_id_repartition_level FOREIGN KEY (level_id)
-    REFERENCES level(id)
-) ENGINE=InnoDB;
+    REFERENCES level(id),
+	CONSTRAINT FK_ap_id_repartition_level FOREIGN KEY (ap_id)
+    REFERENCES ap(id)
+) ENGINE=InnoDB;*/
 
 CREATE TABLE IF NOT EXISTS association_ap_level(
     id INT AUTO_INCREMENT,
 	ap_id INT,
 	level_id INT,
+	nbr_man INT,
+	nbr_women INT,
 	comment VARCHAR(255),
 	PRIMARY KEY (id),
 	CONSTRAINT FK_ap_id_association_ap_level FOREIGN KEY (ap_id)
     REFERENCES ap(id),
-	CONSTRAINT FK_level_id_association_ap_level FOREIGN KEY (level_id)
-    REFERENCES repartition_level(id)
+	CONSTRAINT FK_level_id_repartition_level FOREIGN KEY (level_id)
+    REFERENCES level(id)
 ) ENGINE=InnoDB;
 
 /* PAG */
 CREATE TABLE IF NOT EXISTS pag(
+    id INT AUTO_INCREMENT,
+	label VARCHAR(50),
+	comment VARCHAR(255),
+	PRIMARY KEY (id)
+) ENGINE=InnoDB;
+
+CREATE TABLE IF NOT EXISTS association_ap_pag(
+    id INT AUTO_INCREMENT,
+	ap_id INT,
+	pag_id INT,
+	comment VARCHAR(255),
+	PRIMARY KEY (id),
+	CONSTRAINT FK_ap_id_association_ap_pag FOREIGN KEY (ap_id)
+    REFERENCES ap(id),
+	CONSTRAINT FK_pag_id_repartition_pag FOREIGN KEY (pag_id)
+    REFERENCES pag(id)
+) ENGINE=InnoDB;
+
+/*CREATE TABLE IF NOT EXISTS pag(
     id INT AUTO_INCREMENT,
 	pag_date DATE,
 	ap_id INT, 
@@ -267,7 +292,8 @@ CREATE TABLE IF NOT EXISTS detail_pag(
 	PRIMARY KEY (id),
 	CONSTRAINT FK_pag_id_detail_pag FOREIGN KEY (pag_id)
     REFERENCES pag(id)
-) ENGINE=InnoDB;
+) ENGINE=InnoDB;*/
+
 
 /* REALISATION */
 CREATE TABLE IF NOT EXISTS realisation(
