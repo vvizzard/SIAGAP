@@ -1,8 +1,8 @@
 <?php  if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class AssociationApRealisation_model extends CI_Model
+class Realisation_model extends CI_Model
 {
-	protected $table = 'association_ap_realisation';
+	protected $table = 'realisation';
 
 	public function add($apId, $date, $niveau, $comment = "") {
 		return $this->db->set('ap_id', $apId)
@@ -72,5 +72,5 @@ class AssociationApRealisation_model extends CI_Model
 	}
 }
 
-/* End of file AssociationApRealisation_model.php */
-/* Location: ./application/models/AssociationApRealisation_model.php */
+/* End of file Realisation_model.php */
+/* Location: ./application/models/Realisation_model.php */

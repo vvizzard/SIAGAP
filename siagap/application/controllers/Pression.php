@@ -6,6 +6,7 @@ class Pression extends CI_Controller
 		parent::__construct();
 		
 		$this->load->model('pression_model', 'pm');
+		$this->load->model('associationApPression_model', 'aapm');
 	}
 	
 	public function index() {
@@ -31,6 +32,13 @@ class Pression extends CI_Controller
 	}
 
 	public function all() {	
-		echo json_encode($this->pm->find());
+		echo json_encode($this->pm->find(30));
 	}
+
+	public function getByApId($id) {
+		echo json_encode($this->aapm->findGeneric(
+				array('association_ap_pression.ap_id' => $id), true, "pression"));
+	}
+
+
 }

@@ -1,9 +1,8 @@
 
 <div class="d-flex align-items-stretch">
   <!-- Sidebar Navigation-->
-  <nav id="sidebar">
+  <nav id="sidebar" style="position: absolute; top: 60px;">
     <br>
-    <span class="heading">SUPER ADMINISTRATEUR</span>
     <ul class="list-unstyled">
       <li class="">
         <a href="#ap-dropdown" aria-expanded="false" data-toggle="collapse"> 
@@ -15,7 +14,7 @@
           <?php } ?>
         </ul>
       </li>
-      <li class="">
+      <!-- <li class="">
         <a href="#"> 
           <i class="icon-windows"></i>Catégories 
         </a>
@@ -59,6 +58,6 @@
           <li><a href="#">Page</a></li>
           <li><a href="#">Page</a></li>
         </ul>
-      </li>
+      </li> -->
     </ul>
   </nav>

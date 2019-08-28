@@ -52,6 +52,12 @@ class AssociationApCible extends CI_Controller
 		echo json_encode($this->rm->findGeneric(array('ap_id' => (int)$idAp)));
 	}
 
+	public function getbyap($id) {
+		// $table = array();
+		// $table[] = 'cible';
+		echo json_encode($this->rm->findGeneric(array('association_ap_cible.ap_id' => (int)$id), true, 'cible'));
+	}
+
 	// public function all() {	
 	// 	echo json_encode($this->rm->find());
 	// }

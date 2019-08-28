@@ -60,8 +60,13 @@ class AssociationApCible_model extends CI_Model
 	}
 
 	public function findGeneric($where = array(), $join = false, $join_table = null) {
-		$this->db->select('*')
-				->from($this->table);
+		if ($join && $join_table!=null) {
+			$this->db->select($this->table.'.*, '.$join_table.'.label, '.$join_table.'.link_photo as link, '.$join_table.'.id as '.$join_table.'_id')
+					->from($this->table);
+		} else {
+			$this->db->select('*')
+					->from($this->table);
+		}
 		if ($join && $join_table!=null) {
 			$this->db->join($join_table,$join_table.'.id='.$this->table.'.'.$join_table.'_id');
 		}

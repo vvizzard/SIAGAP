@@ -31,6 +31,6 @@ class Subsistance extends CI_Controller
 	}
 
 	public function all() {	
-		echo json_encode($this->sm->find());
+		echo json_encode($this->sm->find(30));
 	}
 }

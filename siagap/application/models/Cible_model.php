@@ -4,7 +4,7 @@ class Cible_model extends CI_Model
 {
 	protected $table = 'cible';
 
-	public function add($label, $linkPhoto = null, $comment)
+	public function add($label, $linkPhoto = null, $idCategory,$comment)
 	{
 		if (sizeof($this->findGeneric(array('label' => $label )))>0) {
 			return false;
@@ -13,14 +13,15 @@ class Cible_model extends CI_Model
 			$this->db->set('link_photo', $linkPhoto);
 		}
 		return $this->db->set('label', $label)
+			        ->set('category_id', $idCategory)
 			        ->set('comment', $comment)
 				    ->insert($this->table);
 	}
 	
-	public function edit($id, $label = null, $linkPhoto = null, $comment = null)
+	public function edit($id, $label = null, $linkPhoto = null, $idCategory = null, $comment = null)
 	{
 		//	Il n'y a rien à éditer
-		if($label == null AND $comment == null AND $linkPhoto == null)
+		if($label == null AND $comment == null AND $linkPhoto == null AND $idCategory == null)
 		{
 			return false;
 		}
@@ -33,6 +34,10 @@ class Cible_model extends CI_Model
 		if($comment != null)
 		{
 			$this->db->set('comment', $comment);
+		}
+		if($idCategory != null)
+		{
+			$this->db->set('category_id', $comment);
 		}
 		if($linkPhoto != null)
 		{

@@ -60,7 +60,7 @@ class AssociationApIntrant_model extends CI_Model
 	}
 
 	public function findGeneric($where = array(), $join = false, $join_table = null) {
-		$this->db->select('*')
+		$this->db->select('*, association_ap_intrant.comment as note')
 				->from($this->table);
 		if ($join && $join_table!=null) {
 			$this->db->join($join_table,$join_table.'.id='.$this->table.'.'.$join_table.'_id');

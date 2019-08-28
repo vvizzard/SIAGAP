@@ -31,6 +31,6 @@ class Problem extends CI_Controller
 	}
 
 	public function all() {	
-		echo json_encode($this->pm->find());
+		echo json_encode($this->pm->find(30));
 	}
 }

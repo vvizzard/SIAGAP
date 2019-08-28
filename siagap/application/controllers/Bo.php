@@ -1,16 +1,22 @@
 <?php
-
-class Bo extends CI_Controller
+require_once(APPPATH."controllers/Authentication.php");
+class Bo extends Authentication
 {
 	public function __construct()
 	{
 		parent::__construct();
+		// User must be logged to use Bo
+		if(!parent::checkAuthentication()) {
+			parent::login();
+		}
 		
-		$this->load->helper('url');
+		$this->load->helper('form', 'url');
 		$this->load->model('ap_model', 'am');
 		$this->load->model('category_model', 'cat');
+		$this->load->model('gestionnaire_model', 'gm');
 		$this->load->model('region_model', 'rm');
 		$this->load->model('intrant_model', 'im');
+		$this->load->model('accessibilite_model', 'accs');
 		$this->load->model('level_model', 'lm');
 		$this->load->model('pag_model', 'pm');
 		$this->load->model('associationApSubsistance_model', 'aasm');
@@ -19,24 +25,46 @@ class Bo extends CI_Controller
 		$this->load->model('associationApCible_model', 'aacm');
 		$this->load->model('associationApLevel_model', 'aalm');
 		$this->load->model('pressionCause_model', 'pcm');
+		$this->load->model('CCHT_model', 'ccht');
+		$this->load->model('CCHP_model', 'cchp');
+		$this->load->model('CCPT_model', 'ccpt');
+		$this->load->model('CCPP_model', 'ccpp');
+		$this->load->model('statApCible_model', 'sac');
+		$this->load->model('statApMenace_model', 'sam');
 	}
 	
 	public function index() {
-		$this->home();
-	}
-	
-	public function home()
-	{
-		echo 'Hello World!';
+		parent::login();
 	}
 	
 	public function ap($id = '') {
+		// Check Authorization level
+		if(!parent::checkAppartenance($id)) {
+				parent::login();
+		}
+
+		// Load header of the view
 		$this->load->view('inc/bo_top_head');
 		$this->load->view('inc/bo_header');
 
 		// Left side 
-		$data_left = array();
-		$data_left['ap'] = $this->am->findAll();
+		$data_left = array(); 
+
+		$list_ap = array(); 
+		$list_ap['ap'] = $this->am->findAll();
+
+		if ($this->session->userdata('lvl')<100) {
+			foreach ($list_ap['ap'] as $ap_temp) {
+				if ($ap_temp->id == $id) {
+					$temp = array();
+					$temp[] = $ap_temp;
+					$data_left['ap'] = $temp;
+					break;
+				}
+			}
+		} else {
+			$data_left['ap'] = $list_ap['ap'];
+		}
 		$this->load->view('inc/bo_left', $data_left);
 
 		// Body
@@ -50,16 +78,18 @@ class Bo extends CI_Controller
 			// get the data of AP from the list used in earlier
 			// so find the index of the appropriate data
 			$index = -1;
-			for ($i=0; $i < sizeof($data_left['ap']); $i++) { 
-				if (intval($id) == intval($data_left['ap'][$i]->id)) {
+			for ($i=0; $i < sizeof($list_ap['ap']); $i++) { 
+				if (intval($id) == intval($list_ap['ap'][$i]->id)) {
 					$index = $i;
 					break;
 				}
 			}
 			if ($index >= 0) {
-				$data_body['profil_ap'] = $data_left['ap'][$index];
+				$data_body['profil_ap'] = $list_ap['ap'][$index];
 				$data_body['category'] = $this->cat->findAll();
+				$data_body['gestionnaire'] = $this->gm->findAll();
 				$data_body['intrant'] = $this->im->findAll();
+				$data_body['accessibilite'] = $this->accs->findAll();
 				$data_body['level'] = $this->lm->findAll();
 				$data_body['pag'] = $this->pm->findAll();
 
@@ -91,6 +121,29 @@ class Bo extends CI_Controller
 			$this->load->view('inc/bo_footer');
 			$this->load->view('inc/bo_top_foot_edit');
 		}
+	}
+
+	public function cc($id = '') {
+		$this->load->view('inc/bo_top_head');
+		$this->load->view('inc/bo_header');
+
+		// Left side 
+		$list_ap = array();
+		$list_ap['ap'] = $this->am->findAll();
+		// $this->load->view('inc/bo_left', $list_ap);
+
+		// Body
+			$data_body = array();
+			$data_body['id_ap'] = $id;
+			$data_body['ht'] = $this->ccht->findAll();
+			$data_body['hp'] = $this->cchp->findAll();
+			$data_body['pt'] = $this->ccpt->findAll();
+			$data_body['pp'] = $this->ccpp->findAll();
+			
+			$this->load->view('bo_cc', $data_body);
+			$this->load->view('inc/bo_footer');
+			$this->load->view('inc/bo_top_foot_edit');
+		
 	}
 
 }

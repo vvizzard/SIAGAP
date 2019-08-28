@@ -21,6 +21,10 @@
             <label for="name_ap">Nom : </label>
             <input id="name_ap" type="text" class="form-control" title="Nom de l'AP" 
                 placeholder="Taper ici le nom de l'AP">
+            <label for="creation_ap">Création : </label>
+            <input id="creation_ap" type="number" class="form-control" 
+                title="Année de création de l'AP" 
+                placeholder="Taper ici l'année de création de l'AP">
             <label for="categorie_ap">Catégorie : </label>
             <select id="categorie_ap" class="form-control" 
                 title="Choisir le catégorie de l'AP">
@@ -31,21 +35,25 @@
             <label for="gestionnaire_ap">Gestionnaire : </label>
             <select id="gestionnaire_ap" class="form-control" title="Gestionnaire de l'ap" 
                 placeholder="Taper ici le nom du gestionnaire de l'AP">
-              <option class="form-control">Catégorie I</option>
-              <option class="form-control">Catégorie II</option>
-              <option class="form-control" onclick="alert(click);">
-                <a href="#">Nouvelle catégorie</a>
-              </option>
             </select>
+            <label for="other_ap">Autre structure de gouvernance : </label>
+            <input id="other_ap" type="text" class="form-control" 
+                title="Autre structure de gouvernance de l'AP" 
+                placeholder="Taper ici la liste des autres structures de gouvernance séparée par des virgules">
             <!--<input id="gestionnaire_ap" type="text" class="form-control">-->
-            <label for="creation_ap">Création : </label>
-            <input id="creation_ap" type="number" class="form-control" 
-                title="Année de création de l'AP" 
-                placeholder="Taper ici l'année de création de l'AP">
+            <label for="nbr_voi">Nombre de VOI : </label>
+            <input id="nbr_voi" type="number" class="form-control" 
+                title="Nombre de VOI de l'AP" 
+                placeholder="Taper ici le nombre de VOI">
+            <!--<input id="gestionnaire_ap" type="text" class="form-control">-->
             <label for="superficie_ap">Superficie (Ha) : </label>
             <input id="superficie_ap" type="number" class="form-control" 
                 title="Superifice de l'AP" 
                 placeholder="Taper ici la superficie de l'AP">
+            <label for="area_voi">Surface de VOI : </label>
+            <input id="area_voi" type="number" class="form-control" 
+                title="Surface de VOI de l'AP" 
+                placeholder="Taper ici la surface de VOI">
             <label for="contact_ap">Contact : </label>
             <textarea id="contact_ap" class="form-control" title="Comment contacter l'AP" 
                 placeholder="Taper ici l'email, le numéro de téléphone, ou autre information permettant de contacter l'AP">
@@ -63,6 +71,10 @@
                 placeholder="Taper ici l'objectif de l'ap"></textarea>
             <!-- <input id="objectif_ap" type="text" class="form-control" title="L'objectif de l'ap" 
               placeholder="Taper ici l'objectif de l'ap"> -->
+            <label for="message">Message du chef de site : </label>
+            <input id="message" type="text" class="form-control" 
+                title="Message du chef de site" 
+                placeholder="Taper ici le message du chef de site">
             <label for="pic_ap">Photo : </label>
             <input id="pic_ap" type="file" class="form-control" 
                 title="Importer ici la photo de l'ap"><br>
@@ -79,10 +91,12 @@
               <label for="layer_ap">GeoJson de la limite de l'aire protégée</label>
               <textarea id="layer_ap" class="form-control"></textarea>
             </div><br>
-            <div style="/*height: 40vh*/;margin-left: unset;margin-right: unset;" 
+            <div style="position:unset;top: unset;left: unset;
+                    right: unset;bottom: unset;height: 60vh;
+                    margin-left: unset;margin-right: unset;" 
                 id="map-placement" 
                 class="bar-chart block no-margin-bottom">
-            </div>    
+            </div>   
           </div>
         </div>
       </div>
@@ -130,7 +144,7 @@
 
   <br>
 
-  <section class="no-padding-bottom">
+  <!-- <section class="no-padding-bottom">
     <div class="container-fluid">
       <div class="row">
         <div class="col-lg-4 col-md-4">
@@ -599,5 +613,5 @@
         </div>
       </div>
     </div>
-  </section>
+  </section> -->
   <br>      

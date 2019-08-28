@@ -105,6 +105,216 @@ CREATE TABLE `association_ap_cible` (
 
 -- --------------------------------------------------------
 
+CREATE TABLE `stat_ap_cible` (
+  `id` int NOT NULL primary key auto_increment,
+  `association_ap_cible_id` int(11) DEFAULT NULL,
+  `value` int(11) DEFAULT NULL,
+  `year` varchar(4) DEFAULT NULL,
+  `fiabilite` int(1) DEFAULT NULL,
+  `comment` varchar(255) DEFAULT NULL,
+  FOREIGN KEY (association_ap_cible_id) REFERENCES association_ap_cible(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `stat_ap_menace` (
+  `id` int NOT NULL primary key auto_increment, 
+  `association_ap_pression_id` int(11) DEFAULT NULL,
+  `value` int(11) DEFAULT NULL,
+  `year` varchar(4) DEFAULT NULL,
+  `fiabilite` int(1) DEFAULT NULL,
+  `comment` varchar(255) DEFAULT NULL,
+  FOREIGN KEY (association_ap_pression_id) REFERENCES association_ap_pression(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `cc_historique_temperature` (
+  `id` int NOT NULL primary key auto_increment, 
+  `ap_id` int(11) DEFAULT NULL,
+  `ap_label` varchar(30) DEFAULT NULL,
+  `january` float DEFAULT NULL,
+  `february` float DEFAULT NULL,
+  `march` float DEFAULT NULL,
+  `april` float DEFAULT NULL,
+  `may` float DEFAULT NULL,
+  `june` float DEFAULT NULL,
+  `july` float DEFAULT NULL,
+  `august` float DEFAULT NULL,
+  `septembre` float DEFAULT NULL,
+  `october` float DEFAULT NULL,
+  `november` float DEFAULT NULL,
+  `december` float DEFAULT NULL,
+  FOREIGN KEY (ap_id) REFERENCES ap(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `cc_projection_temperature` (
+  `id` int NOT NULL primary key auto_increment, 
+  `ap_id` int(11) DEFAULT NULL,
+  `ap_label` varchar(30) DEFAULT NULL,
+  `january` float DEFAULT NULL,
+  `february` float DEFAULT NULL,
+  `march` float DEFAULT NULL,
+  `april` float DEFAULT NULL,
+  `may` float DEFAULT NULL,
+  `june` float DEFAULT NULL,
+  `july` float DEFAULT NULL,
+  `august` float DEFAULT NULL,
+  `septembre` float DEFAULT NULL,
+  `october` float DEFAULT NULL,
+  `november` float DEFAULT NULL,
+  `december` float DEFAULT NULL,
+  FOREIGN KEY (ap_id) REFERENCES ap(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `cc_historique_precipitation` (
+  `id` int NOT NULL primary key auto_increment, 
+  `ap_id` int(11) DEFAULT NULL,
+  `ap_label` varchar(30) DEFAULT NULL,
+  `january` float DEFAULT NULL,
+  `february` float DEFAULT NULL,
+  `march` float DEFAULT NULL,
+  `april` float DEFAULT NULL,
+  `may` float DEFAULT NULL,
+  `june` float DEFAULT NULL,
+  `july` float DEFAULT NULL,
+  `august` float DEFAULT NULL,
+  `septembre` float DEFAULT NULL,
+  `october` float DEFAULT NULL,
+  `november` float DEFAULT NULL,
+  `december` float DEFAULT NULL,
+  FOREIGN KEY (ap_id) REFERENCES ap(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `cc_projection_precipitation` (
+  `id` int NOT NULL primary key auto_increment, 
+  `ap_id` int(11) DEFAULT NULL,
+  `ap_label` varchar(30) DEFAULT NULL,
+  `january` float DEFAULT NULL,
+  `february` float DEFAULT NULL,
+  `march` float DEFAULT NULL,
+  `april` float DEFAULT NULL,
+  `may` float DEFAULT NULL,
+  `june` float DEFAULT NULL,
+  `july` float DEFAULT NULL,
+  `august` float DEFAULT NULL,
+  `septembre` float DEFAULT NULL,
+  `october` float DEFAULT NULL,
+  `november` float DEFAULT NULL,
+  `december` float DEFAULT NULL,
+  FOREIGN KEY (ap_id) REFERENCES ap(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `accessibilite` (
+  `id` int(11) NOT NULL primary key auto_increment,
+  `label` varchar(255) DEFAULT NULL,
+  `comment` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `association_ap_accessibilite` (
+  `id` int(11) NOT NULL primary key auto_increment,
+  `ap_id` int(11) DEFAULT NULL,
+  `accessibilite_id` int(11) DEFAULT NULL,
+  `note` int(1) DEFAULT NULL,
+  `comment` varchar(255) DEFAULT NULL,
+  FOREIGN KEY (ap_id) REFERENCES ap(id),
+  FOREIGN KEY (accessibilite_id) REFERENCES accessibilite(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE `photos` (
+  `id` int(11) NOT NULL primary key auto_increment,
+  `path` varchar(255) DEFAULT NULL,
+  `comment` varchar(255) DEFAULT NULL,
+  `ap_id` int DEFAULT NULL,
+  `cible_id` int DEFAULT NULL,
+  `date` date,
+  FOREIGN KEY (ap_id) REFERENCES ap(id),
+  FOREIGN KEY (cible_id) REFERENCES cible(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `ci_sessions` (
+	`id` varchar(40) NOT NULL,
+	`ip_address` varchar(45) NOT NULL,
+	`timestamp` int(10) unsigned DEFAULT 0 NOT NULL,
+	`data` blob NOT NULL,
+	PRIMARY KEY (id),
+	KEY `ci_sessions_timestamp` (`timestamp`)
+);
+
+CREATE TABLE IF NOT EXISTS `utilisateur` (
+	`id` int NOT NULL PRIMARY KEY auto_increment,
+	`nom` varchar(100) NOT NULL,
+	`email` varchar(100) NOT NULL,
+	`password` varchar(255) NOT NULL,
+	`ap_id` int DEFAULT NULL,
+	`lvl_id` int DEFAULT NULL,
+	FOREIGN KEY (ap_id) REFERENCES ap(id),
+	FOREIGN KEY (lvl_id) REFERENCES lvl_user(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `lvl_user` (
+	`id` int NOT NULL PRIMARY KEY auto_increment,
+	`label` varchar(100) NOT NULL,
+	`lvl` varchar(100) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `link_ext` (
+	`id` int NOT NULL PRIMARY KEY auto_increment,
+	`label` varchar(255) NOT NULL,
+	`link` varchar(255) NOT NULL,
+	`ap_id` int NOT NULL,
+	`comment` varchar(255),
+	FOREIGN KEY (ap_id) REFERENCES ap(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+CREATE TABLE IF NOT EXISTS `pag_d` (
+	`id` int NOT NULL PRIMARY KEY auto_increment,
+	`date` date,
+	`path` varchar(255) NOT NULL,
+	`ap_id` int NOT NULL,
+	`comment` varchar(255),
+	FOREIGN KEY (ap_id) REFERENCES ap(id)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE ap
+	ADD COLUMN nom_complet varchar(255),
+	ADD COLUMN gestion_interne varchar(255),
+	ADD COLUMN protection varchar(255),
+	ADD COLUMN relation varchar(255),
+	ADD COLUMN tourisme varchar(255),
+	ADD COLUMN suivie varchar(255),
+	ADD COLUMN impact varchar(255);
+	
+ALTER TABLE ap
+	ADD COLUMN subsistance varchar(2048),
+	ADD COLUMN pression varchar(2048);
+	
+ALTER TABLE ap
+	ADD COLUMN probleme varchar(2048);
+	
+ALTER TABLE ap
+	ADD COLUMN comm_temperature varchar(2048),
+	ADD COLUMN comm_adaptation_cc varchar(2048),
+	ADD COLUMN comm_tendance_cible varchar(2048),
+	ADD COLUMN comm_tendance_menace varchar(2048),
+	ADD COLUMN comm_precipitation varchar(2048);
+	
+CREATE TABLE IF NOT EXISTS `category_cible` (
+	`id` int NOT NULL PRIMARY KEY auto_increment,
+	`label` varchar(255) NOT NULL,
+	`comment` varchar(255)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ALTER TABLE cible 
+	ADD COLUMN category_id INTEGER,
+	ADD FOREIGN KEY (category_id) REFERENCES category_cible(id);
+	
+INSERT INTO category_cible (label) VALUES
+	('Primates'),
+	('Carnivores'),
+	('Oiseaux'),
+	('Amphibiens et reptiles'),
+	('Poissons/requins/raies'),
+	('Plantes et essences forestières'),
+	('Forêts et mangroves'),
+	('Lac et marais'),
+	('Récifs coralliens et herbiers marins');	
 --
 -- Structure de la table `association_ap_gestionnaire`
 --

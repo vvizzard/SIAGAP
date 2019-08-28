@@ -61,6 +61,10 @@ class AssociationApIntrant extends CI_Controller
 		echo json_encode($this->rm->findGeneric(array('ap_id' => (int)$idAp)));
 	}
 
+	public function getbyap($id) {
+		echo json_encode($this->rm->findGeneric(array('association_ap_intrant.ap_id' => $id), true, 'intrant'));
+	}
+
 	// public function all() {	
 	// 	echo json_encode($this->rm->find());
 	// }

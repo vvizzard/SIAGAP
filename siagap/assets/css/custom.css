@@ -2,10 +2,24 @@
 	background-color: black!important;
 }
 
+nav#sidebar li li a {
+  margin-left: -21px;
+}
+
+.custom-control-label {
+  padding-top: 3px;
+}
+
+.special-h7 {
+  text-decoration: underline;
+  margin-left: 20px;
+}
+
 .page-content {
 	background-color: white;
 	min-height:unset; 
-	height:94vh;
+  margin-left: 280px;
+  /*height:94vh;*/
 }
 
 .page-header {
@@ -13,16 +27,64 @@
 }
 
 #map-placement {
-	height: 88vh;
+	/*height: 88vh;
 	margin-left: -30px;
-    margin-right: -30px;
+  margin-right: -30px;*/
+  position: fixed;
+  /*right: 0px;*/ right: 0px;
+  left: 280px;
+  /*top: 75px;*/
+  top: 60px;
+  bottom: 70px;
+}
+
+.right-h4 {
+  color: #414141;
+}
+
+.right-placement {
+  position: fixed;
+  top: 60px;
+  /*top: 75px;*/
+  bottom: 30px;
+  right: 0;
+  width: 40%;
+  overflow-y: auto;
 }
 
 .ap-detail {
-	height: 88vh;
-	background-color: white;
+	/*height: 88vh;*/
+	background-color: #c3d7a47a; /*white;*/
 	overflow-y: auto;
 	overflow-x: hidden;
+  min-height: 78vh;
+}
+
+body {
+  font-size: 11px;
+}
+
+body h4 {
+  font-size: 12px;
+}
+
+nav#r_sidebar li a {
+  padding-top: 7px!important;
+  padding-bottom: 7px!important;
+}
+
+.titre_table {
+  padding: 18px 20px!important;
+}
+
+.extlink {
+  padding: unset!important; 
+  display: unset!important; 
+  font-weight: unset!important; 
+}
+
+.td-no-border {
+  border-color: white!important;
 }
 
 .tooltip.in {
@@ -34,18 +96,18 @@
 }
 
 .nav-link.active {
-  color: #2d3035!important;
-  background-color: #dee2e6!important;
+  color: white!important;
+  background-color: #367869!important;
   border-color: #dee2e6!important;
   border-bottom: 1px solid #b7b7b7!important;
 }
 
 .nav-tabs {
-    border-bottom: 1px solid #b7b7b7;
+  border-bottom: 1px solid #cfdfdb;
 }
 
 .nav-link {
-	color:#8a8d93!important;
+	color:#414141!important;
 }
 
 .righ_side_tabpane {
@@ -58,9 +120,10 @@
 }
 
 .righ_side_dropdown {
-	background-color: #dee2e669;
-	border-bottom: 1px solid #dee2e6;
-	margin-top: 1px;
+  /*#dee2e669*/
+  background-color: white; 
+  border-bottom: 1px solid #dee2e6;
+  margin-top: 1px;
 }
 
 .r_table {
@@ -84,7 +147,90 @@
   overflow: auto;
 }
 
-/* Right sidebar */
+nav#sidebar li a {
+  padding: 15px 20px;
+  display: block;
+  font-weight: 400;
+}
+
+body {
+  line-height: 1;
+}
+
+nav#sidebar {
+  position: fixed;
+  z-index: 999;
+  bottom: 0px;
+  top: 70px;
+  /*top: 75px;*/
+  overflow-y: auto;
+}
+
+.footer {
+  position: fixed;
+}
+
+.description-siagap {
+  font-size: 13px;
+  width: 35%;
+  background-color: #cbdac9e3;
+  position: fixed;
+  z-index: 0;
+  top: 60px;
+  /*top: 75px;*/
+  right: 0px;
+  bottom: 70px;
+}
+
+.unused-td {
+  color: lightgrey;
+}
+
+.table-acc {
+  font-size: 9px;
+  margin-bottom: 20px;
+}
+
+.table-acc td {
+  border-color: #d9dae3!important;
+}
+
+/*#first-part-description {
+  background-color: #e0dfbe7a;
+}*/
+
+/*#third-part-description {*/
+  /*background-color: #a7ba95c2;*/
+  /*background-color: #e0dfbe7a;*/
+/*}*/
+
+.description-content {
+  text-align: justify;
+  color: #34373d;
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+/*.footer {
+  position: fixed;
+  bottom: 0px;
+  width: 100%;
+}
+
+#sidebar {
+  position: fixed;
+  top: 38px;
+  bottom: 38px;
+  z-index: 999;
+  overflow-y: scroll;
+  }*/
+
+  .titre_table {
+    color: black;
+    font-weight: 600;
+  }
+
+  /* Right sidebar */
 /*
 * ==========================================================
 *     SIDEBAR
@@ -117,7 +263,7 @@ nav#r_sidebar a[data-toggle="collapse"]::after {
 }
 
 nav#r_sidebar a[aria-expanded="true"] {
-  background: #dee2e6;
+  background: #3678693d;
 }
 
 nav#r_sidebar a[aria-expanded="true"]::after {
@@ -182,11 +328,11 @@ nav#r_sidebar li {
 nav#r_sidebar li a {
   padding: 18px 20px;
   display: block;
-  font-weight: 400;
+  font-weight: 600;
 }
 
 nav#r_sidebar li a:hover {
-  background: #dee2e6;
+  background: #cfdfdb;
 }
 
 nav#r_sidebar li a:hover i {
@@ -370,7 +516,7 @@ nav#r_sidebar.shrinked a[aria-expanded="true"]::after {
 /* Scrollbar */
 /* width */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 11px;
 }
 
 /* Track */
@@ -378,15 +524,15 @@ nav#r_sidebar.shrinked a[aria-expanded="true"]::after {
   box-shadow: inset 0 0 5px grey; 
   border-radius: 10px;
 }
- 
+
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: darkgray; 
+  background: lightgray; 
   border-radius: 10px;
 }
 
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: lightgray; 
+  background: darkgray; 
 }
 

@@ -65,6 +65,15 @@ class Gestionnaire_model extends CI_Model
 				->get()
 				->result();
 	}
+
+	public function findAll()
+	{
+		return $this->db->select('*')
+				->from($this->table)
+				->order_by('label', 'asc')
+				->get()
+				->result();
+	}
 }
 
 

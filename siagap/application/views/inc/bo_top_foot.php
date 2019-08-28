@@ -178,13 +178,12 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
     $('#categorie_ap').html(options);
     $.ajax({
       method: "GET",
-      url: "http://localhost:8029/Developpement/SIAGAP/siagap/gestionnaire/autocomplete",
-      data: { q: "" },
+      url: "http://localhost:8029/Developpement/SIAGAP/siagap/gestionnaire/all",
       dataType: "json"
     }).done(function( gest ) {
       var options = "";
       for (var i = gest.length - 1; i >= 0; i--) {
-        options += "<option>"+ gest[i] + "</option>";
+        options += "<option value=\"" + gest[i].id + "\">"+ gest[i].label + "</option>";
       }
       $('#gestionnaire_ap').html(options);
     });
@@ -416,6 +415,11 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
         vision: $('#vision_ap').val(),
         missiom: $('#mission_ap').val(),
         objectif: $('#objectif_ap').val(),
+        gestionnaire_id: $('#gestionnaire_ap').val(),
+        other_gov: $('#other_ap').val(),
+        nbr_voi: $('#nbr_voi').val(),
+        area_voi: $('#area_voi').val(),
+        message: $('#message').val(),
       },
       dataType: "json",
       success: function( response ) {
@@ -427,6 +431,7 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
           $('#toast-success').toast('show');
           $('#id_ap').val(response);
           console.log(response);
+          $(location).attr('href','http://localhost:8029/Developpement/SIAGAP/siagap/bo/ap/' + response);
         }
       },
       error: function( response, status ) {
