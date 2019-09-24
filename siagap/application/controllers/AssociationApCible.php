@@ -46,6 +46,23 @@ class AssociationApCible extends CI_Controller
 		echo json_encode($status);
 	}
 
+	public function add() {
+		$idAp = $this->input->post('id_ap');
+		$idItem = $this->input->post('id_item');
+
+		// Add all items
+		$status = true;
+		if (!$idItem) {
+			$status = false;
+		} else {
+			if(!$this->rm->add($idAp, $idItem)) {
+				$status = false;
+			}
+		}
+		
+		echo json_encode($status);
+	}
+
 	public function get() {
 		$idAp = null;
 		$idAp = $this->input->get('idAp');

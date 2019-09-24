@@ -7,8 +7,20 @@
 	<meta name="description" content="Système d'Information et d'Aide à la Gestion des Aires Protégées Madagascar">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="robots" content="all,follow">
+	<meta name="google-site-verification" content="7xEDWj0NOCy50lB15hF4_Jpb2RmQkyhqIDTNdJ975MA" />
+	<!-- Global site tag (gtag.js) - Google Analytics -->
+	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-148348775-1"></script>
+	<script>
+	  window.dataLayer = window.dataLayer || [];
+	  function gtag(){dataLayer.push(arguments);}
+	  gtag('js', new Date());
+
+	  gtag('config', 'UA-148348775-1');
+	</script>
+
 	<!-- Bootstrap CSS-->
-	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/bootstrap/css/bootstrap.min.css">
+	<!-- <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/bootstrap/css/bootstrap.min.css"> -->
+	<link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 	<!-- Font Awesome CSS-->
 	<link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/font-awesome/css/font-awesome.min.css">
 	<!-- Custom Font Icons CSS-->
@@ -49,7 +61,7 @@
       			</div>
       			<div class="container-fluid d-flex align-items-center justify-content-between">
       				<div class="navbar-header">
-      					<!-- Navbar Header--><a href="index.html" class="navbar-brand">
+      					<!-- Navbar Header--><a href="http://www.siagap.mg" class="navbar-brand">
       						<div class="brand-text brand-big visible text-uppercase"><strong class="text-primary">SIA</strong><strong>GAP</strong><span style="font-size:10px;">|Système d'Information et d'Aide à la Gestion des Aires Protégées Madagascar</span></div>
       						<div class="brand-text brand-sm"><strong class="text-primary">D</strong><strong>A</strong></div></a>
       						<!-- Sidebar Toggle Btn-->
@@ -84,7 +96,7 @@
           <li><a href="charts.html"> <i class="fa fa-bar-chart"></i>Gestionnaires </a></li>
           <li><a href="forms.html"> <i class="icon-padnote"></i>Forms </a></li>-->
           <li class=""><a href="#ap-dropdown" aria-expanded="true" data-toggle="collapse" style="color:white;"> <i class="icon-windows"></i>Aires protégées </a>
-          	<ul id="ap-dropdown" class=" list-unstyled ">
+          	<ul id="ap-dropdown" class=" list-unstyled collapse show">
           		<?php for ($i=0; $i < sizeof($aps); $i++) { ?>
           			<li>
           				<a>
@@ -109,8 +121,9 @@
         			<li>
         				<a>
         					<div class="custom-control custom-checkbox mr-sm-2">
+        						<!-- onclick="showByCat(<?php echo $categorys[$i]->id ?>)" -->
         						<input type="checkbox" 
-        						onclick="showByCat(<?php echo $categorys[$i]->id ?>)"
+        						onclick="showGrouped('ap_category', <?php echo $categorys[$i]->id ?>, 'cat', null)"
         						class="custom-control-input" 
         						id="customControlAutosizing_cat<?php echo $categorys[$i]->id; ?>">
         						<label class="custom-control-label" 
@@ -130,7 +143,7 @@
       				<a>
       					<div class="custom-control custom-checkbox mr-sm-2">
       						<input type="checkbox" class="custom-control-input" 
-      						onclick="showByGest(<?php echo $gestionnaires[$i]->id ?>)"
+      						onclick="showGrouped('ap_gestionnaire', <?php echo $gestionnaires[$i]->id ?>, 'gest', null)"
       						id="customControlAutosizing_gest<?php echo $gestionnaires[$i]->id; ?>">
       						<label class="custom-control-label" 
       						for="customControlAutosizing_gest<?php echo $gestionnaires[$i]->id; ?>">
@@ -142,16 +155,17 @@
       	<?php } ?>
       </ul>
     </li>
-    <!-- <li class=""><a href="#subsistances-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Subsistances </a>
+    <li class=""><a href="#subsistances-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Subsistances </a>
     	<ul id="subsistances-dropdown" class="collapse list-unstyled ">
     		<?php for ($i=0; $i < sizeof($subsistances); $i++) { ?>
     			<li>
     				<a>
     					<div class="custom-control custom-checkbox mr-sm-2">
     						<input type="checkbox" class="custom-control-input" 
-    						id="customControlAutosizing_<?php echo $subsistances[$i]->label.'_'.$subsistances[$i]->id; ?>">
+    						onclick="showGrouped('ap_subsistance', <?php echo $subsistances[$i]->id ?>, 'subs', '#795548')"
+    						id="customControlAutosizing_subs<?php echo $subsistances[$i]->id; ?>">
     						<label class="custom-control-label" 
-    						for="customControlAutosizing_<?php echo $subsistances[$i]->label.'_'.$subsistances[$i]->id; ?>">
+    						for="customControlAutosizing_subs<?php echo $subsistances[$i]->id; ?>">
     						<?php echo $subsistances[$i]->label; ?>
     					</label>
     				</div>
@@ -167,9 +181,10 @@
   				<a>
   					<div class="custom-control custom-checkbox mr-sm-2">
   						<input type="checkbox" class="custom-control-input" 
-  						id="customControlAutosizing_<?php echo $pressions[$i]->label.'_'.$pressions[$i]->id; ?>">
+  						onclick="showGrouped('ap_pression', <?php echo $pressions[$i]->id ?>, 'press', '#696060')"
+  						id="customControlAutosizing_press<?php echo $pressions[$i]->id; ?>">
   						<label class="custom-control-label" 
-  						for="customControlAutosizing_<?php echo $pressions[$i]->label.'_'.$pressions[$i]->id; ?>">
+  						for="customControlAutosizing_press<?php echo $pressions[$i]->id; ?>">
   						<?php echo $pressions[$i]->label; ?>
   					</label>
   				</div>
@@ -178,7 +193,7 @@
   	<?php } ?>
   </ul>
 </li>
-<li class=""><a href="#cibles-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Cibles </a>
+<!-- <li class=""><a href="#cibles-dropdown" aria-expanded="false" data-toggle="collapse"> <i class="icon-windows"></i>Cibles </a>
 	<ul id="cibles-dropdown" class="collapse list-unstyled ">
 		<?php for ($i=0; $i < sizeof($cibles); $i++) { ?>
 			<li>
@@ -222,7 +237,7 @@
 		<div class="container-fluid">
 			<div class="row">
 				<div class="">
-					<div id="map-placement" class="bar-chart block no-margin-bottom">
+					<div id="map-placement" class="bar-chart block no-margin-bottom" style="right: 35%;">
 					</div>
 				</div>
 
@@ -540,7 +555,7 @@
 							<div id="pt">
 								<!-- <canvas ></canvas> -->
 							</div>
-							<span class="source">source: K. Coldrey and J. Turpie, Climate Change Vulnerability and Adaptation Assessment for Madagascar’s Terrestrial Protected Areas, 2019</span>
+							
 							<div>
 								<textarea class="form-control bw" id="temperature_ap" disabled></textarea>
 							</div>
@@ -555,7 +570,7 @@
 							<div id="pp">
 								<!-- <canvas ></canvas> -->
 							</div>
-							<span class="source">source: K. Coldrey and J. Turpie, Climate Change Vulnerability and Adaptation Assessment for Madagascar’s Terrestrial Protected Areas, 2019</span>
+							
 							<div>
 								<textarea class="form-control bw" id="precipitation_ap" disabled></textarea>
 							</div>
@@ -666,7 +681,7 @@
 			<!-- Please do not remove the backlink to us unless you support us at https://bootstrapious.com/donate. It is part of the license conditions. Thank you for understanding :)-->
 			
 			<p class="no-margin-bottom"><img src="<?php echo base_url(); ?>assets/img/Logo_GIZ.png" style="height: 30px; float: left;">
-				<img src="<?php echo base_url(); ?>assets/img/WCS_logo.png" style="height: 30px; float: left; margin-left: 5px;">2019 &copy; SIAGAP. Design by <a href="https://bootstrapious.com/p/bootstrap-4-dark-admin">Bootstrapious</a>.</p>
+				<img src="<?php echo base_url(); ?>assets/img/WCS_logo.png" style="height: 30px; float: left; margin-left: 5px;">2019 &copy; SIAGAP. Design by <a href="https://bootstrapious.com/p/bootstrap-4-dark-admin">Bootstrapious</a>. <a href="https://icons8.com/icon/433/sheep">icons by Icons8</a></p>
 			</div>
 		</div>
 	</footer>
@@ -701,7 +716,8 @@
 <!-- JavaScript files-->
 <script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/popper.js/umd/popper.min.js"> </script>
-<script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!-- <script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.min.js"></script> -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 <script src="<?php echo base_url(); ?>assets/vendor/jquery.cookie/jquery.cookie.js"> </script>
 <!-- <script src="<?php echo base_url(); ?>assets/vendor/chart.js/Chart.min.js"></script> -->
 <script src="<?php echo base_url(); ?>assets/vendor/jquery-validation/jquery.validate.min.js"></script>
@@ -729,7 +745,12 @@
 
 	<!-- map controller -->
 	<script>
+		var listeCouleur = []; //Where to put all used color
+		var nextColor1 = 0; // Value to get random color
+		var nextColor2 = 0; // Value to get random color
+
 		var listMap = [];
+
 		function showLayer(apId, label) {
 			var ck = $('#customControlAutosizing_' + label + '_' + apId).is(":checked");
 			console.log('customControlAutosizing_' + label + '_' + apId);
@@ -752,6 +773,8 @@
 						}).bindTooltip(label).openTooltip();
 						assetLayerGroup.addLayer(polygon_2);
 						listMap[apId] = polygon_2;
+						// map.fitBounds(polygon_2.getBounds());
+						map.fitBounds(assetLayerGroup.getBounds());
 					},
 					error: function( response, status ) {
 						console.log("Status de l'erreur: " + status);
@@ -762,65 +785,90 @@
 			}
 		} 
 
-		function showByCat(catId) {
-			var ck = $('#customControlAutosizing_cat' + catId).is(":checked");
-			console.log('customControlAutosizing_cat' + catId);
+		// function showByCat(catId) {
+		// 	var ck = $('#customControlAutosizing_cat' + catId).is(":checked");
+		// 	console.log('customControlAutosizing_cat' + catId);
+		// 	console.log(ck);
+		// 	// If ck is not checked, we remove the group 
+		// 	if (!ck) {
+		// 		// First we clear the layers and then we remove the FeatureGroup
+		// 		groupOfAssetLayerGroup.get('cat_' + catId.toString()).clearLayers();
+		// 		map.removeLayer(groupOfAssetLayerGroup.get(catId.toString()));
+		// 	} else {
+		// 		$.ajax({
+		// 			method: "GET",
+		// 			url: "<?php echo base_url(); ?>layer/ap_category/" + catId,
+		// 			dataType: "json",
+		// 			success: function( response ) {
+		// 				console.log(response);
+		// 				// We create a FeatureGroup to put all the Layer that we may get
+		// 				var assetLayerGroupForGroup = new L.featureGroup();
+		// 				// We add the FeatureGroup to the map first so we can just push layer on the layer group and the map show it
+		// 				assetLayerGroupForGroup.addTo(map);
+		// 				// The color of the layer (random)
+		// 				var couleur = getNextColor();
+		// 				for(var i = 0; i < response.length; i++) {
+		// 					// Create the Layer, a polygone
+		// 					var polygon_2 = createPolygone(response[i].geojson, response[i].metadata.ap_id, response[i].metadata.name, couleur);
+		// 					// Add the layer to the FeatureGroup to show it
+		// 					assetLayerGroupForGroup.addLayer(polygon_2);
+		// 				}
+		// 				// Add the layerGroup to the Map object so we can get it using the key
+		// 				groupOfAssetLayerGroup.set('cat_' + catId.toString(), assetLayerGroupForGroup);
+		// 				// Fit the map to the layers
+		// 				map.fitBounds(assetLayerGroupForGroup.getBounds());
+		// 			},
+		// 			error: function( response, status ) {
+		// 				console.log("Status de l'erreur: " + status);
+		// 			}
+		// 		}).done(function( gest ) {
+
+		// 		});
+		// 	}
+		// }
+
+		function showGrouped(link_function_part, subsId, prefix, color) {
+			var ck = $('#customControlAutosizing_' + prefix + subsId).is(":checked");
+			console.log('customControlAutosizing_' + prefix + subsId);
 			console.log(ck);
-			// If ck is not checked, we remove the group 
 			if (!ck) {
-				// First we clear the layers and then we remove the LayerGroup
-				groupOfAssetLayerGroup.get('cat_' + catId.toString()).clearLayers();
-				map.removeLayer(groupOfAssetLayerGroup.get(catId.toString()));
-			} else {
-				$.ajax({
-					method: "GET",
-					url: "<?php echo base_url(); ?>layer/ap_category/" + catId,
-					dataType: "json",
-					success: function( response ) {
-						console.log(response);
-						// We create a LayerGroup to put all the Layer that we may get
-						var assetLayerGroupForGroup = new L.LayerGroup();
-						// We add the LayerGroup to the map first so we can just push layer on the layer group and the map show it
-						assetLayerGroupForGroup.addTo(map);
-						for(var i = 0; i < response.length; i++) {
-							// Create the Layer, a polygone
-							var polygon_2 = createPolygone(response[i].geojson, response[i].metadata.ap_id, response[i].metadata.name);
-							// Add the layer to the LayerGroup to show it
-							assetLayerGroupForGroup.addLayer(polygon_2);
-						}
-						// Add the layerGroup to the Map object so we can get it using the key
-						groupOfAssetLayerGroup.set('cat_' + catId.toString(), assetLayerGroupForGroup);
-					},
-					error: function( response, status ) {
-						console.log("Status de l'erreur: " + status);
+				groupOfAssetLayerGroup.get(prefix + '_' + subsId.toString()).clearLayers();
+				// map.removeLayer(groupOfAssetLayerGroup.get(subsId.toString()));
+				
+				if(markers.get(prefix + '_' + subsId.toString())){
+					for(var i = 0; i < markers.get(prefix + '_' + subsId.toString()).length; i++) {
+						map.removeLayer(markers.get(prefix + '_' + subsId.toString())[i])
 					}
-				}).done(function( gest ) {
-
-				});
-			}
-		}
-
-		function showByGest(gestionnaireId) {
-			var ck = $('#customControlAutosizing_gest' + gestionnaireId).is(":checked");
-			console.log('customControlAutosizing_gest' + gestionnaireId);
-			console.log(ck);
-			if (!ck) {
-				groupOfAssetLayerGroup.get('gest_' + gestionnaireId.toString()).clearLayers();
-				map.removeLayer(groupOfAssetLayerGroup.get(gestionnaireId.toString()));
+				}
 			} else {
 				$.ajax({
 					method: "GET",
-					url: "<?php echo base_url(); ?>layer/ap_gestionnaire/" + gestionnaireId,
+					url: "<?php echo base_url(); ?>layer/" + link_function_part + "/" + subsId,
 					dataType: "json",
 					success: function( response ) {
 						console.log(response);
-						var assetLayerGroupForGroup = new L.LayerGroup();
+						var assetLayerGroupForGroup = new L.FeatureGroup();
 						assetLayerGroupForGroup.addTo(map);
+						var couleur;
+						if (color) {
+							couleur = color;
+						} else {
+							couleur = getNextColor();
+						}
+						var listMarkers = [];
 						for(var i = 0; i < response.length; i++) {
-							var polygon_2 = createPolygone(response[i].geojson, response[i].metadata.ap_id, response[i].metadata.name);
+							var polygon_2 = null;
+							if(response[i].metadata.icon) {
+								var polygon_2 = createPolygone(response[i].geojson, response[i].metadata.ap_id, response[i].metadata.name, couleur, "<?php echo base_url(); ?>assets/upload/img/icons/" + response[i].metadata.icon, listMarkers);
+							} else {
+								var polygon_2 = createPolygone(response[i].geojson, response[i].metadata.ap_id, response[i].metadata.name, couleur, null,null);
+							}
+							
 							assetLayerGroupForGroup.addLayer(polygon_2);
 						}
-						groupOfAssetLayerGroup.set('gest_' + gestionnaireId.toString(), assetLayerGroupForGroup);
+						groupOfAssetLayerGroup.set(prefix + '_' + subsId.toString(), assetLayerGroupForGroup);
+						map.fitBounds(assetLayerGroupForGroup.getBounds());
+						markers.set(prefix + '_' + subsId.toString(), listMarkers);
 					},
 					error: function( response, status ) {
 						console.log("Status de l'erreur: " + status);
@@ -853,16 +901,60 @@
 		    return (c);
 		}
 
+		function getRandomArbitrary(min, max) {
+		    return Math.random() * (max - min) + min;
+		}
+
+		function getNextColor() {
+			var valiny = rainbow(1 + nextColor1, 1 + nextColor2);
+			if (nextColor2 > 60) {
+				nextColor1=getRandomArbitrary(1,nextColor2/3);
+				nextColor2=getRandomArbitrary(nextColor2/3, nextColor2/2);
+			} else {
+				nextColor1+=getRandomArbitrary(1,5);
+				nextColor2+=getRandomArbitrary(1,10);
+			}
+			if (listeCouleur.includes(valiny)) {
+				getNextColor();
+			} else {
+				listeCouleur.push(valiny);
+				return valiny;
+			}
+		}
+
+		
+
 		// Function to create the polygone2
-		function createPolygone(ap_layer, ap_id, ap_name) {
+		function createPolygone(ap_layer, ap_id, ap_name, couleur, urlIcon, listMarkers) {
 			return L.geoJSON(ap_layer, {
 				onEachFeature: function (feature, layer){
 					layer.on('click', function (e) {
 						showDetail(ap_id, this.getBounds());
 					});
-					// layer.setStyle({fillColor :'#4caf50', color: '#4caf50'});
-					var couleur = rainbow(2, 4);
 					layer.setStyle({fillColor :couleur, color: couleur});
+					if(urlIcon) {
+						var greenIcon = L.icon({
+							iconUrl: urlIcon,
+							// shadowUrl: 'leaf-shadow.png',
+
+							iconSize:     [25, 25], // size of the icon
+							// shadowSize:   [50, 64], // size of the shadow
+							iconAnchor:   [12.5, 12.5], // point of the icon which will correspond to marker's location
+							// shadowAnchor: [4, 62],  // the same for the shadow
+							popupAnchor:  [25, 25] // point from which the popup should open relative to the iconAnchor
+						});
+						var mk = L.marker(layer.getBounds().getCenter(), {icon: greenIcon});
+						mk.bindTooltip(ap_name).openTooltip();
+						// mk.bindPopup(ap_name);
+		        // mk.on('mouseover', function (e) {
+		        //     this.openPopup();
+		        // });
+		        // mk.on('mouseout', function (e) {
+		        //     this.closePopup();
+		        // });
+						mk.addTo(map);
+						listMarkers.push(mk);
+					}
 				}
 			}).bindTooltip(ap_name).openTooltip();
 		}

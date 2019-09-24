@@ -21,9 +21,9 @@ class Authentication extends CI_Controller
     $valiny = $this->user->authenticate($username, $password);
     if($valiny != false) {
     	$this->session->set_userdata('user', $valiny);
-    	$level = $this->getLevel($valiny->id);
-    	if ($level!=null && $level->lvl > 0) {
-    		$this->session->set_userdata('lvl', $level);
+    	$level = $this->getLevel($valiny->lvl_id);
+    	if ($level!=null && $level[0]->lvl > 0) {
+    		$this->session->set_userdata('lvl', $level[0]->lvl);
     	} else {
         $this->session->set_userdata('lvl', 1);
       }
@@ -65,7 +65,7 @@ class Authentication extends CI_Controller
 
   // get the level of an account
   function getLevel($id) {
-  	$valiny = $this->lvlum->findById($id);
+  	return $this->lvlum->findById($id);
   }
 
   public function logout() {
@@ -90,6 +90,16 @@ class Authentication extends CI_Controller
     $this->load->view('inc/bo_top_head');
     $this->load->view('inc/bo_header');
     $this->load->view('inscription', $data_body);
+    $this->load->view('inc/bo_footer');
+    // $this->load->view('inc/bo_top_foot_edit');
+  }
+
+  public function loginAdmin() {
+    $data_body = array();
+    $data_body['ap'] = $this->apm->findAll();
+    $this->load->view('inc/bo_top_head');
+    $this->load->view('inc/bo_header');
+    $this->load->view('loginAdmin', $data_body);
     $this->load->view('inc/bo_footer');
     // $this->load->view('inc/bo_top_foot_edit');
   }

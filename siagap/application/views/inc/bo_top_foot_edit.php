@@ -1,3 +1,33 @@
+<!-- Modal confimation delete -->
+<div class="modal fade" id="modal-delete-confirmation" tabindex="-1" role="dialog" 
+aria-labelledby="" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="title-modal-add-basic">Confirmation de suppression</h5>
+      <button type="button" class="close" data-dismiss="modal" 
+      aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <p>Cet action est irréversible, voulez-vous vraiment supprimer cette élément?</p>
+    <input type="hidden" id="link-of-delete">
+    <input type="hidden" id="id-to-delete">
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal">
+      Annuler
+    </button>
+    <button type="button" class="btn btn-danger" onclick="del()">
+      Supprimer
+    </button>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
 <!-- Modal add -->
 <div class="modal fade" id="modal-add-basic" tabindex="-1" role="dialog" 
 aria-labelledby="" aria-hidden="true">
@@ -77,15 +107,16 @@ aria-labelledby="" aria-hidden="true">
     <div class="modal-header">
       <h5 class="modal-title" id="title-modal-add-basic">Nouveau</h5>
       <button type="button" class="close" data-dismiss="modal" 
-      aria-label="Close">
+      aria-label="Close" onclick="cleanCMM()">
       <span aria-hidden="true">&times;</span>
     </button>
   </div>
   <div class="modal-body">
-    <div class="row" id="">
+    <input type="hidden" id="id_cible_to_modify" value="-999">
+    <!-- <div class="row" id=""> -->
         <label class="col-form-label">Catégorie</label>
         <select class="form-control category-cible" id="n_cat_cible"></select>
-      </div>
+    <!-- </div> -->
     <div class="form-group">
       <label for="new-label" class="col-form-label">Nom:</label>
       <input type="text" class="form-control add-basic-field" id="labelc" 
@@ -93,9 +124,9 @@ aria-labelledby="" aria-hidden="true">
     </div>
     <div class="form-group">
       <label for="new-label" class="col-form-label">Image:</label>
-      <input type="file" class="form-control add-basic-field" id="photoc" 
-      autofocus="true">
+      <input type="file" class="form-control add-basic-field" id="photoc">
     </div>
+    <div id="modify_cible_img"></div>
     <div class="form-group">
       <label for="comment-text" class="col-form-label">Commentaire:</label>
       <textarea class="form-control add-basic-field" 
@@ -104,11 +135,15 @@ aria-labelledby="" aria-hidden="true">
   <input type="hidden" id="model-to-add">
 </div>
 <div class="modal-footer">
-  <button type="button" class="btn btn-secondary" data-dismiss="modal">
+  <button type="button" class="btn btn-secondary" data-dismiss="modal"
+      onclick="cleanCMM()">
     Annuler
   </button>
-  <button type="button" class="btn btn-primary" onclick="addNewC()">
+  <button type="button" class="btn btn-primary" onclick="addNewC(null)">
     Enregistrer
+  </button>
+  <button type="button" id="save_add_cible" class="btn btn-success" onclick="addNewC(1)">
+    Enregistrer et ajouter
   </button>
 </div>
 </div>
@@ -162,7 +197,7 @@ aria-labelledby="" aria-hidden="true">
   </div>
 </div>
 
-<!-- Modal modification -->
+<!-- Modal modification des cibles -->
 <div class="modal fade" id="modal-modify-c" tabindex="-1" role="dialog" 
 aria-labelledby="" aria-hidden="true">
 <div class="modal-dialog" role="document">
@@ -176,11 +211,12 @@ aria-labelledby="" aria-hidden="true">
       </button>
     </div>
     <div class="modal-body">
-      <div class="row" id="">
+      <!-- <div class="row" id=""> -->
         <select class="form-control category-cible" onchange="showCible()" id="category-cible"></select>
-      </div>
-      <ul class="list-unstyled" id="ck-target2">
-      </ul>
+      <!-- </div> -->
+      <!-- <ul class="list-unstyled" id="ck-target2">
+      </ul> -->
+      <table class="table" id="ck-target2"></table>
       <input type="hidden" id="model-to-add">
     </div>
     <input type="hidden" id="modif_modal_model1" value="">
@@ -189,12 +225,16 @@ aria-labelledby="" aria-hidden="true">
       <button type="button" class="btn btn-secondary" data-dismiss="modal">
         Annuler
       </button>
-      <button type="button" class="btn btn-primary" 
-      onclick="updateAssocCible()">
-      Enregistrer
-    </button>
+      <button type="button" class="btn btn-primary"
+          onclick="hideAndShow('modal-modify-c', 'modal-add-c')">
+        Ajouter un nouveau
+      </button>
+      <button type="button" class="btn btn-success" 
+        onclick="updateAssocCible()">
+        Enregistrer
+      </button>
+    </div>
   </div>
-</div>
 </div>
 </div>
 
@@ -224,7 +264,8 @@ aria-labelledby="" aria-hidden="true">
 
 <!-- Toast error and success -->
 <div class="toast" id="toast-error" role="alert" aria-live="assertive" 
-aria-atomic="true" style="background-color: #bb414d; color: white;">
+aria-atomic="true" style="background-color: #bb414d; color: white;"
+data-delay="5000">
 <div class="toast-header">
   <strong class="mr-auto">Erreur!</strong>
   <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" 
@@ -324,6 +365,21 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
     }
     showCC();
   });
+
+  // Hide and show modal
+  function hideAndShow(modal2Hide, modal2Show) {
+    // $('#' + modal2Show).modal('toggle');
+    // $('#' + modal2Hide).modal('toggle');
+    $('#'+modal2Hide).modal('hide');
+    $('#'+modal2Hide).on('hidden.bs.modal', function () {
+      // Load up a new modal...
+      $('#'+modal2Show).modal('show')
+    })
+    $('#'+modal2Show).on('hidden.bs.modal', function () {
+      // Load up a new modal...
+      $('#'+modal2Hide).off('hidden.bs.modal');
+    })
+  } 
 
 
   // Previsualisation 
@@ -520,12 +576,18 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
   }
 
   // Add new cibles
-  function addNewC() {
+  function addNewC(ajouter) {
     var fd = new FormData();    
-      fd.append('photo', $('#photoc').prop('files')[0] );
-      fd.append('label', $('#labelc').val());
-      fd.append('categoryId', $('#n_cat_cible').val());
-      fd.append('comment', $('#commentc').val());
+    fd.append('photo', $('#photoc').prop('files')[0] );
+    fd.append('label', $('#labelc').val());
+    fd.append('categoryId', $('#n_cat_cible').val());
+    fd.append('comment', $('#commentc').val());
+    if (parseInt($('#id_cible_to_modify').val())>0) {
+      fd.append('id', $('#id_cible_to_modify').val());
+    }
+    if (ajouter == 1) {
+      fd.append('ajouter', 1);
+    }
     $.ajax({
       url: '<?php echo base_url(); ?>cible/set',
       data: fd,
@@ -536,9 +598,43 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
         if (response) {
           $('#labelc').val('');
           $('#commentc').val('');
-          $('#modal-add-c').modal('toggle');
-          $('#alert-success-message').text('L\'Ajout de l\'élément a été un succes');
-          $('#toast-success').toast('show');
+          $('#alert-success-message').text('L\'Ajout du nouveau cible a été un succes');
+          console.log(response);
+          console.log(parseInt(response.replace(/\"/gi,'')));
+          if (parseInt(response.replace(/\"/gi,'')) > 0) {
+            if ($('#id_ap').val() < 0) {
+              $('#modal-error-message').text('Veuiller enregistrer d\'abord le profil de l\'ap');
+              $('#modal-add-c').modal('toggle');
+              $('#modal-error').modal('toggle');
+            } else {
+              $.ajax({
+                method: "POST",
+                url: "<?php echo base_url(); ?>associationApCible/add",
+                data: { id_ap: $('#id_ap').val(), id_item: parseInt(response.replace(/\"/gi,''))},
+                dataType: "json",
+                success: function( response2 ) {
+                  if (response2) {
+                    $('#modal-add-c').modal('toggle');
+                    $('#alert-success-message').text('L\'Ajout de l\'élément a été un succes');
+                    $('#toast-success').toast('show');
+                    cleanCMM();
+                  } else {
+                    $('#alert-error-message').text('Échec de l\'ajout de l\'élément');
+                    $('#toast-error').toast('show');
+                    console.log('response: ' + response2);
+                  }
+                },
+                error: function( response2, status ) {
+                  console.log("Status de l'erreur: " + status);
+                }
+              });
+            }
+          } else {
+            $('#modal-add-c').modal('toggle');
+            $('#alert-success-message').text('L\'Ajout de l\'élément a été un succes');
+            $('#toast-success').toast('show');
+            cleanCMM();
+          }
         } else {
           $('#alert-error-message').text('Échec de l\'ajout de l\'élément');
           $('#toast-error').toast('show');
@@ -552,6 +648,42 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
 
     });
   }
+
+  // // save new cibles and add to current ap
+  // function addNewCibleAndAddToCurrentAp() {
+  //   var fd = new FormData();    
+  //     fd.append('photo', $('#photoc').prop('files')[0] );
+  //     fd.append('label', $('#labelc').val());
+  //     fd.append('categoryId', $('#n_cat_cible').val());
+  //     fd.append('comment', $('#commentc').val());
+  //   $.ajax({
+  //     url: '<?php echo base_url(); ?>cible/set',
+  //     data: fd,
+  //     processData: false,
+  //     contentType: false,
+  //     type: 'POST',
+  //     success: function( response ) {
+  //       if (response) {
+  //         $('#labelc').val('');
+  //         $('#commentc').val('');
+
+
+  //         $('#modal-add-c').modal('toggle');
+  //         $('#alert-success-message').text('L\'Ajout de l\'élément a été un succes');
+  //         $('#toast-success').toast('show');
+  //       } else {
+  //         $('#alert-error-message').text('Échec de l\'ajout de l\'élément');
+  //         $('#toast-error').toast('show');
+  //         console.log('response: ' + response);
+  //       }
+  //     },
+  //     error: function( response, status ) {
+  //       console.log("Status de l'erreur: " + status);
+  //     }
+  //   }).done(function( gest ) {
+
+  //   });
+  // }
 
   function openNewModal(model) {
     $('#model-to-add').val(model);
@@ -715,8 +847,39 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
     }
   }
 
+  // clean cible modification modal
+  function cleanCMM() {
+    $('#id_cible_to_modify').val('-999');
+    $('#labelc').val('');
+    $('#commentc').val('');
+    $('#modify_cible_img').html('');
+    $('#save_add_cible').show();
+  }
+
+  // prepare cible for modificarion
+  function prepareCible(idCible) {
+    $.ajax({
+      method: "GET",
+      url: "<?php echo base_url(); ?>" + "Cible/id/"+idCible,
+      dataType: "json",
+      success: function( response ) {
+        $('#save_add_cible').hide();
+        rep = response[0];
+        $('#id_cible_to_modify').val(rep.id);
+        $('#labelc').val(rep.label);
+        $('#commentc').val(rep.comment);
+        $('#modify_cible_img').html('<img src="<?php echo base_url(); ?>'+rep.link_photo+'" style="max-height: 50xp; max-width: 50px;">');
+        getCategoryCible(rep.category_id);
+        hideAndShow('modal-modify-c','modal-add-c');
+      },
+      error: function( response, status ) {
+        console.log("Status de l'erreur: " + status);
+      }
+    });
+  }
+
   // get categoryCible 
-  function getCategoryCible() {
+  function getCategoryCible(idCategorie) {
     if ($('#id_ap').val() < 0) {
       $('#modal-error-message').text('Veuiller enregistrer d\'abord le profil de l\'ap');
       $('#modal-modify-basic').modal('toggle');
@@ -729,7 +892,11 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
         success: function( rep ) {
           var options = '';
           for(var i = 0; i < rep.length; i++) {
-            options += '<option value="'+rep[i].id+'" class="option-to-remove form-control">';
+            if (idCategorie && idCategorie == rep[i].id) {
+              options += '<option value="'+rep[i].id+'" class="option-to-remove form-control" selected>';
+            } else {
+              options += '<option value="'+rep[i].id+'" class="option-to-remove form-control">';
+            }
             options += rep[i].label;
             options += '</option>';
           }
@@ -777,7 +944,9 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
                 }
 
                 var temp = '';
-                temp += '<li class="removable '+response[i].category_id+'_to_show hidable_cible" style="display:none;">';
+                // temp += '<li class="removable '+response[i].category_id+'_to_show hidable_cible" style="display:none;">';
+                temp += '<tr class="removable '+response[i].category_id+'_to_show hidable_cible" style="display:none;">';
+                temp += '<td>';
                 temp += '<div class="col-auto my-1">';
                 temp += '<div class="custom-control custom-checkbox mr-sm-2">';
                 temp += '<input type="checkbox" class="custom-control-input" name="sb-ck2" id="' 
@@ -786,13 +955,24 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
                 temp += '<label id="label_' + response[i].id + '_cible" class="custom-control-label" for="' + response[i].id + '_cible">' + response[i].label + '</label>';
                 temp += '</div>';
                 temp += '</div>';
-                temp += '</li>';
+                temp += '</td>';
+                temp += '<td>';
+                if (response[i].user_id == <?php echo $user->id ?>) {
+                  temp += '<a class="btn" title="Modifier" onclick="prepareCible('+response[i].id+')">';
+                  temp += '<i class="fa fa-edit" aria-hidden="true"></i></a>';
+                  temp += '<a class="btn" title="Supprimer" onclick="deleteCible('+response[i].id+')">';
+                  temp += '<i class="fa fa-trash" aria-hidden="true"></i></a>';
+                }
+                temp += '</td>';
+                temp += '</tr>';
+                // temp += '</li>';
                 options.push(temp);
               }
               for (var i = 0; i < options.length; i++) {
                 ulOption += options[i];
               }
               $('#ck-target2').append(ulOption);
+              showCible();
             }
           });
         },
@@ -809,6 +989,12 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
     $('.hidable_cible').hide();
     console.log($('#category-cible').val()+'_to_show');
     $('.'+$('#category-cible').val()+'_to_show').show();
+  }
+
+  function deleteCible(idCible) {
+    hideAndShow('modal-modify-c','modal-delete-confirmation');
+    $('#link-of-delete').val('Cible/delete');
+    $('#id-to-delete').val(idCible);
   }
 
   function checkIfIncludes(json1, json2) {
@@ -1569,6 +1755,9 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
         },
         dataType: "json",
         success: function( response ) {
+          if(response==null) {
+            return null;
+          }
           var table = '';
           for(var i = 0; i < response.length; i++) {
             table += '<tr class="removable-tdc">';
@@ -1609,6 +1798,9 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
         },
         dataType: "json",
         success: function( response ) {
+          if(response==null) {
+            return null;
+          }
           var table = '';
           for(var i = 0; i < response.length; i++) {
             table += '<tr class="removable-tdm">';
@@ -1835,6 +2027,37 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
       }
     }).done(function( gest ) {
       
+    });
+  }
+</script>
+
+<!-- Generic delete -->
+<script type="text/javascript">
+  function del() {
+    $.ajax({
+      method: "POST",
+      url: "<?php echo base_url(); ?>"+ $('#link-of-delete').val() +"/" + $('#id-to-delete').val(),
+      dataType: "json",
+      success: function( response ) {
+        if (response) {
+          $('#modal-delete-confirmation').modal('toggle');
+          $('#alert-success-message').text('La suppression de l\'élément a été un succes');
+          $('#toast-success').toast('show');
+        } else {
+          $('#modal-delete-confirmation').modal('toggle');
+          $('#alert-error-message').text('La suppression de l\'élément a été un échec, il se peut que la ressource ait déjà été utilisé');
+          $('#toast-error').toast('show');
+          console.log('response: ' + response);
+        }
+      },
+      error: function( response, status ) {
+        $('#modal-delete-confirmation').modal('toggle');
+        $('#alert-error-message').text('La suppression de l\'élément a été un échec, il se peut que la ressource ait déjà été utilisé');
+        $('#toast-error').toast('show');
+        console.log("Status de l'erreur: " + status);
+      }
+    }).done(function( gest ) {
+
     });
   }
 </script>

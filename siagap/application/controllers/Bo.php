@@ -7,7 +7,8 @@ class Bo extends Authentication
 		parent::__construct();
 		// User must be logged to use Bo
 		if(!parent::checkAuthentication()) {
-			parent::login();
+			// parent::login();
+			redirect('Authentication/login/');
 		}
 		
 		$this->load->helper('form', 'url');
@@ -40,7 +41,8 @@ class Bo extends Authentication
 	public function ap($id = '') {
 		// Check Authorization level
 		if(!parent::checkAppartenance($id)) {
-				parent::login();
+				// parent::login();
+			redirect('Authentication/login/');
 		}
 
 		// Load header of the view
@@ -75,6 +77,7 @@ class Bo extends Authentication
 		} else if (intval($id)>0) {
 			$data_body = array();
 			$data_body['id_ap'] = $id;
+			$data_body['user'] = $this->session->userdata('user');
 			// get the data of AP from the list used in earlier
 			// so find the index of the appropriate data
 			$index = -1;
@@ -119,7 +122,9 @@ class Bo extends Authentication
 
 			$this->load->view('bo_ap_edit', $data_body);
 			$this->load->view('inc/bo_footer');
-			$this->load->view('inc/bo_top_foot_edit');
+			$footerData = array();
+			$footerData['user'] = $this->session->userdata('user');
+			$this->load->view('inc/bo_top_foot_edit', $footerData);
 		}
 	}
 

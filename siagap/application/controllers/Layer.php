@@ -46,30 +46,6 @@ class Layer extends CI_Controller
         echo 'Please choose a file';
     }
   }
-
-
-	// public function do_upload() {
-	// 	$apId = $this->input->get('apId');
-
-	// 	$config['upload_path'] = '../assets/upload/geojson';
-	// 	$config['file_name'] = 'geojson_'.$apId.'_'.time().'.geojson';
-
-	// 	$this->load->library('upload', $config);
-
-	// 	if ( ! $this->upload->do_upload('geojson')) {
-	// 		echo json_encode(array('fileUploadFalse' => false));
-	// 	}
-	// 	else {
-	// 		$data = array('upload_data' => $this->upload->data());
-	// 		$file= $data['upload_data']['upload_path']
-	// 				.$data['upload_data']['file_name'];
-	// 		if ($this->cat->add($apId, $file)) {
-	// 			echo json_encode(true);
-	// 		} else {
-	// 			echo json_encode(false);
-	// 		}
-	// 	}
-	// }
 	
 	public function index() {
 		$this->home();
@@ -102,7 +78,7 @@ class Layer extends CI_Controller
 	}
 
 	public function ap_category($idCat) {
-		$valiny = $this->cat->findByCategory(array('ap.category_id' => $idCat));
+		$valiny = $this->cat->findByCategory(array('ap.category_id' => $idCat, 'activate' => 1));
 		$valiny_farany = array();
 		for ($i=0; $i < sizeof($valiny); $i++) { 
 			$geojson = file_get_contents('assets/upload/geojson/'.$valiny[$i]->geojson, FILE_USE_INCLUDE_PATH);
@@ -115,7 +91,33 @@ class Layer extends CI_Controller
 	}
 
 	public function ap_gestionnaire($idGestionnaire) {
-		$valiny = $this->cat->findByGestionnaire(array('ap.gestionnaire_id' => $idGestionnaire));
+		$valiny = $this->cat->findByGestionnaire(array('ap.gestionnaire_id' => $idGestionnaire, 'activate' => 1));
+		$valiny_farany = array();
+		for ($i=0; $i < sizeof($valiny); $i++) {
+			$geojson = file_get_contents('assets/upload/geojson/'.$valiny[$i]->geojson, FILE_USE_INCLUDE_PATH);
+			$json = json_decode($geojson, true);
+
+			$arrayName = array('metadata' => $valiny[$i], 'geojson' => $json);
+			$valiny_farany[] = $arrayName;
+		}
+		echo json_encode($valiny_farany);
+	}
+
+	public function ap_subsistance($idSubsistance) {
+		$valiny = $this->cat->findBySubsistance(array('association_ap_subsistance.subsistance_id' => $idSubsistance, 'activate' => 1));
+		$valiny_farany = array();
+		for ($i=0; $i < sizeof($valiny); $i++) {
+			$geojson = file_get_contents('assets/upload/geojson/'.$valiny[$i]->geojson, FILE_USE_INCLUDE_PATH);
+			$json = json_decode($geojson, true);
+
+			$arrayName = array('metadata' => $valiny[$i], 'geojson' => $json);
+			$valiny_farany[] = $arrayName;
+		}
+		echo json_encode($valiny_farany);
+	}
+
+	public function ap_pression($idPression) {
+		$valiny = $this->cat->findByPression(array('association_ap_pression.pression_id' => $idPression, 'activate' => 1));
 		$valiny_farany = array();
 		for ($i=0; $i < sizeof($valiny); $i++) {
 			$geojson = file_get_contents('assets/upload/geojson/'.$valiny[$i]->geojson, FILE_USE_INCLUDE_PATH);

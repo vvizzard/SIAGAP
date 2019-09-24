@@ -4,7 +4,7 @@ class Cible_model extends CI_Model
 {
 	protected $table = 'cible';
 
-	public function add($label, $linkPhoto = null, $idCategory,$comment)
+	public function add($label, $linkPhoto = null, $idCategory,$comment,$userId)
 	{
 		if (sizeof($this->findGeneric(array('label' => $label )))>0) {
 			return false;
@@ -15,6 +15,7 @@ class Cible_model extends CI_Model
 		return $this->db->set('label', $label)
 			        ->set('category_id', $idCategory)
 			        ->set('comment', $comment)
+			        ->set('user_id', $userId)
 				    ->insert($this->table);
 	}
 	
@@ -37,7 +38,7 @@ class Cible_model extends CI_Model
 		}
 		if($idCategory != null)
 		{
-			$this->db->set('category_id', $comment);
+			$this->db->set('category_id', $idCategory);
 		}
 		if($linkPhoto != null)
 		{
@@ -97,6 +98,14 @@ class Cible_model extends CI_Model
 				->limit($nb, $debut)
 				->order_by('id', 'desc')
 				->where('LOWER(label) like LOWER("%'.$label.'%")')
+				->get()
+				->result();
+	}
+
+	public function findById($id) {
+		return $this->db->select('*')
+				->from($this->table)
+				->where(array('id' => $id))
 				->get()
 				->result();
 	}

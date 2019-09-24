@@ -1,6 +1,6 @@
 <?php
-
-class Cible extends CI_Controller
+require_once(APPPATH."controllers/Authentication.php");
+class Cible extends Authentication
 {
 	public function __construct() {
 		parent::__construct();
@@ -39,6 +39,10 @@ class Cible extends CI_Controller
 	// }
 
 	function set() {
+		if(!parent::checkAuthentication()) {
+			redirect('Authentication/login/');
+		}
+		$userId = $this->session->userdata('user')->id;
     //upload file
     $config['upload_path'] = FCPATH . 'assets' . DIRECTORY_SEPARATOR . 'upload' . DIRECTORY_SEPARATOR 
     		. 'img'. DIRECTORY_SEPARATOR;
@@ -63,12 +67,23 @@ class Cible extends CI_Controller
 						$link = str_replace(str_replace('\\', '/', FCPATH), '', $data['upload_data']['full_path']);
 						$categoryId = $this->input->post('categoryId');
 						$comment = $this->input->post('comment');
-          	$temp = $this->cm->add($label, $link, $categoryId, $comment);
+						$idCib = $this->input->post('id');
+						if ($idCib != null && $idCib > 0) {
+							$temp = $this->cm->edit($idCib, $label, $link, $categoryId, $comment);
+						} else {
+							$temp = $this->cm->add($label, $link, $categoryId, $comment, $userId);
+						}
           	// $temp = $this->cm->add(str_replace(str_replace('\\', '/', FCPATH), '', $data['upload_data']['full_path']), 'miradia', $apId);
 						if ($temp != true) {
 							echo json_encode(array('result' => false, 'error' => $temp));
 						} else {
-							echo json_encode(true);
+							if($this->input->post('ajouter')==1) {
+								$val = $this->cm->findGeneric(array('label' => $label, 'link_photo' => $link,
+									'category_id' => $categoryId))[0]->id;	
+								echo json_encode($val);
+							} else {
+								echo json_encode(true);
+							}
 						}
           }
         }
@@ -78,13 +93,37 @@ class Cible extends CI_Controller
 			// $link = str_replace(str_replace('\\', '/', FCPATH), '', $data['upload_data']['full_path']);
 			$categoryId = $this->input->post('categoryId');
 			$comment = $this->input->post('comment');
-    	$temp = $this->cm->add($label, '', $categoryId, $comment);
+			$idCib = $this->input->post('id');
+			if ($idCib != null && $idCib > 0) {
+    		$temp = $this->cm->edit($idCib, $label, '', $categoryId, $comment);
+    	} else {
+    		$temp = $this->cm->add($label, '', $categoryId, $comment, $userId);
+    	}
     	if ($temp != true) {
 				echo json_encode(array('result' => false, 'error' => $temp));
 			} else {
-				echo json_encode(true);
+				if($this->input->post('ajouter')==1) {
+					$val = $this->cm->findGeneric(array('label' => $label,
+						'category_id' => $categoryId))[0]->id;	
+					echo json_encode($val);
+				} else {
+					echo json_encode(true);
+				}
 			}
     }
+  }
+
+  public function delete($id) {
+  	if(!parent::checkAuthentication()) {
+			redirect('Authentication/login/');
+		}
+		if ($this->session->userdata('lvl')<100) {
+			if ($this->cm->findGeneric(array('id' => $id))[0]->user_id == $this->session->userdata('user')->id) {
+				echo json_encode($this->cm->delete($id));
+			}
+		} else {
+			echo json_encode($this->cm->delete($id));
+		}
   }
 
 	public function all() {	
@@ -94,5 +133,9 @@ class Cible extends CI_Controller
 	public function getByCategory() {
 		$categoryId = $this->input->get('category_id');
 		echo json_encode($this->cm->findGeneric(array('category_id' => $categoryId)));	
+	}
+
+	public function id($id) {
+		echo json_encode($this->cm->findById($id));
 	}
 }

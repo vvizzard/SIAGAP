@@ -273,7 +273,7 @@
           <div class="row">
             <div class="col-lg-12 col-md-12">
               <div class="bar-chart block no-margin-bottom">
-                <label>Problème : </label>
+                <label>Problèmes : </label>
                 <!-- <ul id="li-problem">
                   <?php 
                     if ($problem_ap != null && !empty($problem_ap)) {
@@ -299,7 +299,7 @@
           <div class="row">
             <div class="col-lg-12 col-md-12">
               <div class="bar-chart block no-margin-bottom">
-                <label>soloina pressions et menaces pesant sur l’AP : </label>
+                <label>Pressions et menaces pesant sur l’AP : </label>
                 <ul id="li-pression">
                   <?php 
                     if ($pression_ap != null && !empty($pression_ap)) {
@@ -508,7 +508,7 @@
               Modifier
             </button>
             <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
-                data-target="#modal-add-c" onclick="getCategoryCible()">
+                data-target="#modal-add-c" onclick="getCategoryCible(null)">
               Nouveau
             </button>
           </div>
@@ -948,7 +948,7 @@
           </div>
         </div>
         <br>
-        <div class="row">
+        <!-- <div class="row">
           <div class="col-lg-12 col-md-12">
             <div class="bar-chart block no-margin-bottom">
               <table class="table">
@@ -983,7 +983,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
     </section>
 
     <br>

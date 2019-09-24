@@ -446,7 +446,7 @@ function intrantTable(id_class, apId, idModif) {
 	var baseUrl = getUrl .protocol + "//" + getUrl.host + "/" + getUrl.pathname.split('/')[1];
 	$.ajax({
 		method: "GET",
-		url: baseUrl + "/SIAGAP/siagap/AssociationApAccessibilite/get/?id_ap=" + apId,
+		url: "http://www.siagap.mg/AssociationApAccessibilite/get/?id_ap=" + apId,
 		dataType: "json"
 	}).done(function( response ) {
 		var tableacc = '';

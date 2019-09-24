@@ -1,5 +1,5 @@
 var mapOptions = {
-   center: [-16.91368, 51.64613],
+   center: [-16.91368, 47.64613],
    zoom: 5.5,
    trackResize : true
 }
@@ -10,7 +10,10 @@ var map = new L.map('map-placement', mapOptions);
 // map.addLayer(layer);
 
 // AssetLayGroup allow us to put list of Layer, so we can remove a layer by removing it from this
-var assetLayerGroup = new L.LayerGroup();
+var assetLayerGroup = new L.FeatureGroup();
+
+// Array of marker so to make possible to remove them
+var markers = new Map();
 
 // This AssetLayGroup is specially for grouped AP like for Categorie, Gestionnaire, ...
 // var assetLayerGroupForGroup = new L.LayerGroup();
