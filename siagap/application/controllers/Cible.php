@@ -69,7 +69,10 @@ class Cible extends Authentication
 						$comment = $this->input->post('comment');
 						$idCib = $this->input->post('id');
 						if ($idCib != null && $idCib > 0) {
-							$temp = $this->cm->edit($idCib, $label, $link, $categoryId, $comment);
+							$oldTemp = $this->cm->findGeneric(array('id' => $idCib))[0];
+							if ($this->session->userdata('lvl')>10 || $userId == $oldTemp->user_id) {
+								$temp = $this->cm->edit($idCib, $label, $link, $categoryId, $comment);
+							}
 						} else {
 							$temp = $this->cm->add($label, $link, $categoryId, $comment, $userId);
 						}
@@ -95,7 +98,10 @@ class Cible extends Authentication
 			$comment = $this->input->post('comment');
 			$idCib = $this->input->post('id');
 			if ($idCib != null && $idCib > 0) {
-    		$temp = $this->cm->edit($idCib, $label, '', $categoryId, $comment);
+				$oldTemp = $this->cm->findGeneric(array('id' => $idCib))[0];
+				if ($this->session->userdata('lvl')>10 || $userId == $oldTemp->user_id) {
+    			$temp = $this->cm->edit($idCib, $label, '', $categoryId, $comment);
+    		}
     	} else {
     		$temp = $this->cm->add($label, '', $categoryId, $comment, $userId);
     	}

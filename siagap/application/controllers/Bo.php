@@ -25,6 +25,7 @@ class Bo extends Authentication
 		$this->load->model('associationApProblem_model', 'aapbm');
 		$this->load->model('associationApCible_model', 'aacm');
 		$this->load->model('associationApLevel_model', 'aalm');
+		$this->load->model('associationApRegion_model', 'aarm');
 		$this->load->model('pressionCause_model', 'pcm');
 		$this->load->model('CCHT_model', 'ccht');
 		$this->load->model('CCHP_model', 'cchp');
@@ -32,6 +33,8 @@ class Bo extends Authentication
 		$this->load->model('CCPP_model', 'ccpp');
 		$this->load->model('statApCible_model', 'sac');
 		$this->load->model('statApMenace_model', 'sam');
+		$this->load->model('unite_model', 'um');
+		$this->load->model('rpag_model', 'rpm');
 	}
 	
 	public function index() {
@@ -78,6 +81,7 @@ class Bo extends Authentication
 			$data_body = array();
 			$data_body['id_ap'] = $id;
 			$data_body['user'] = $this->session->userdata('user');
+			$data_body['user_lvl'] = $this->session->userdata('lvl');
 			// get the data of AP from the list used in earlier
 			// so find the index of the appropriate data
 			$index = -1;
@@ -95,6 +99,8 @@ class Bo extends Authentication
 				$data_body['accessibilite'] = $this->accs->findAll();
 				$data_body['level'] = $this->lm->findAll();
 				$data_body['pag'] = $this->pm->findAll();
+				$data_body['unite'] = $this->um->findAll();
+				$data_body['pags'] = $this->rpm->findGeneric(array('ap_id' => $id));
 
 				if ($data_body['profil_ap']->region_id != null 
 						&& $data_body['profil_ap']->region_id > 0) {
@@ -110,6 +116,16 @@ class Bo extends Authentication
 						array('association_ap_problem.ap_id' => $id), true, "problem");
 				$data_body['cible_ap'] = $this->aacm->findGeneric(
 						array('association_ap_cible.ap_id' => $id), true, "cible");
+				$region_temp = $this->aarm->findGeneric(
+						array('association_ap_region.ap_id' => $id), true, 'region');
+				$valiny = '';
+				if (sizeof($region_temp)>0) {
+					$valiny = $region_temp[0]->label;
+					for ($i=1; $i < sizeof($region_temp); $i++) { 
+						$valiny = $valiny . ', ' . $region_temp[$i]->label;
+					}	
+				}
+				$data_body['regions'] = $valiny;
 				$array_rel_1 = array();
 				$array_rel_1[] = "subsistance";
 				$array_rel_1[] = "problem";

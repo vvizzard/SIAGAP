@@ -6,6 +6,7 @@
 	<title>SIAGAP</title>
 	<meta name="description" content="Système d'Information et d'Aide à la Gestion des Aires Protégées Madagascar">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+
 	<meta name="robots" content="all,follow">
 	<meta name="google-site-verification" content="7xEDWj0NOCy50lB15hF4_Jpb2RmQkyhqIDTNdJ975MA" />
 	<!-- Global site tag (gtag.js) - Google Analytics -->
@@ -444,7 +445,7 @@
 							</ul>
 						</li>
 
-						<li class="righ_side_dropdown"><a href="#cible-dropdown" aria-expanded="false" data-toggle="collapse"> Cible </a>
+						<li class="righ_side_dropdown"><a href="#cible-dropdown" aria-expanded="false" data-toggle="collapse"> Cibles </a>
 							<ul id="cible-dropdown" class="collapse list-unstyled ">
 								<div class="row" id="cible_place">
 								<!-- <div class="col-md-4"><img  style="max-height: 120px; max-width: 120px;" src="http://www.siagapmada.com/content/uploads/2018/07/aquarium-1.jpg" class="resized"><h4>Récifs coralliens</h4></div>
@@ -463,7 +464,7 @@
 					<li class="righ_side_dropdown"><a href="#intrants-dropdown" aria-expanded="false" data-toggle="collapse"> Intrants </a>
 						<ul id="intrants-dropdown" class="collapse list-unstyled ">
 							<div>
-								<h7 class="special-h7" >Ressource logistique</h7>
+								<h7 class="special-h7" >Ressources logistiques</h7>
 								<div style="float: right;" class="special-h7" class="checkbox">
 									<div class="custom-control custom-switch">
 										<input type="checkbox" class="custom-control-input" disabled id="customSwitch1">
@@ -483,7 +484,7 @@
 								</div>
 							</div>
 							<div>
-								<h7 class="special-h7" >Ressource humaine</h7>
+								<h7 class="special-h7" >Ressources humaines</h7>
 								<div id="chartjs-bar">
 									<canvas id="MyBarCanvas"></canvas>
 								</div>
@@ -520,7 +521,19 @@
 					</li>
 					<li class="righ_side_dropdown"><a href="#resultat-dropdown" aria-expanded="false" data-toggle="collapse"> Résultats </a>
 						<ul id="resultat-dropdown" class="collapse list-unstyled ">
-							<img src="<?php echo base_url(); ?>assets/img/Result.png" style="width: 100%;">
+							<span id="lastUpdate_rpag" style="float: right;margin-right: 10px;margin-top: 5px;">Dernière modification : </span>
+							<!-- <img src="<?php echo base_url(); ?>assets/img/Result.png" style="width: 100%;"> -->
+							<div id="chartjs-rpag">
+								<canvas id="rpag"></canvas>
+							</div>
+							<br>
+							<label style="margin-left: 20px; font-weight: 600;">Niveau d'atteinte globale :</label>
+							<div class="progress" style="margin-left: 20px; margin-right: 20px;">
+							  <div id="rpag-progressbar" class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="25" 
+							  		aria-valuemin="0" aria-valuemax="100">Undefined</div>
+							</div>
+							<br>
+							<textarea class="sp_ta" style="margin-left: 20px; padding-right: 48px;" id="r-rpag_comment" disabled></textarea>
 						</ul>
 					</li>
 					<li class="righ_side_dropdown"><a href="#impact-dropdown" aria-expanded="false" data-toggle="collapse"> Impact </a>
@@ -551,7 +564,7 @@
 									font-size: 9px;
 								}
 							</style>
-							<span class="source">source: K. Coldrey and J. Turpie, Climate Change Vulnerability and Adaptation Assessment for Madagascar’s Terrestrial Protected Areas, 2019</span>
+							<span class="source">source: K. Coldrey and J. Turpie, 2019, Climate Change Vulnerability and Adaptation Assessment for Madagascar’s Terrestrial Protected Areas</span>
 							<div id="pt">
 								<!-- <canvas ></canvas> -->
 							</div>
@@ -564,7 +577,7 @@
 					<li class="righ_side_dropdown"><a href="#resultat-dropdownp" aria-expanded="false" data-toggle="collapse"> Précipitation </a>
 						<ul id="resultat-dropdownp" class="collapse list-unstyled ">
 							<div id="hp">
-								<span class="source">source: K. Coldrey and J. Turpie, Climate Change Vulnerability and Adaptation Assessment for Madagascar’s Terrestrial Protected Areas, 2019</span>
+								<span class="source">source: K. Coldrey and J. Turpie, 2019, Climate Change Vulnerability and Adaptation Assessment for Madagascar’s Terrestrial Protected Areas</span>
 								<!-- <canvas ></canvas> -->
 							</div>
 							<div id="pp">
@@ -827,6 +840,10 @@
 		// 	}
 		// }
 
+		// Global variable for the place of markers
+		var global_marker_reference  = 0;
+		var global_marker_reference_pas = 0.005;
+
 		function showGrouped(link_function_part, subsId, prefix, color) {
 			var ck = $('#customControlAutosizing_' + prefix + subsId).is(":checked");
 			console.log('customControlAutosizing_' + prefix + subsId);
@@ -838,6 +855,10 @@
 				if(markers.get(prefix + '_' + subsId.toString())){
 					for(var i = 0; i < markers.get(prefix + '_' + subsId.toString()).length; i++) {
 						map.removeLayer(markers.get(prefix + '_' + subsId.toString())[i])
+					}
+					// Increment the GMR
+					if(global_marker_reference >= 0) {
+						global_marker_reference -= global_marker_reference_pas;
 					}
 				}
 			} else {
@@ -869,6 +890,8 @@
 						groupOfAssetLayerGroup.set(prefix + '_' + subsId.toString(), assetLayerGroupForGroup);
 						map.fitBounds(assetLayerGroupForGroup.getBounds());
 						markers.set(prefix + '_' + subsId.toString(), listMarkers);
+						// Increment the GMR
+						global_marker_reference += global_marker_reference_pas;
 					},
 					error: function( response, status ) {
 						console.log("Status de l'erreur: " + status);
@@ -923,7 +946,7 @@
 		}
 
 		
-
+		
 		// Function to create the polygone2
 		function createPolygone(ap_layer, ap_id, ap_name, couleur, urlIcon, listMarkers) {
 			return L.geoJSON(ap_layer, {
@@ -943,12 +966,16 @@
 							// shadowAnchor: [4, 62],  // the same for the shadow
 							popupAnchor:  [25, 25] // point from which the popup should open relative to the iconAnchor
 						});
-						var mk = L.marker(layer.getBounds().getCenter(), {icon: greenIcon});
+						var gbtest = layer.getBounds().getCenter();
+						// 
+						gbtest.lat = gbtest.lat + global_marker_reference;
+						// 
+						var mk = L.marker(gbtest, {icon: greenIcon});
 						mk.bindTooltip(ap_name).openTooltip();
 						// mk.bindPopup(ap_name);
-		        // mk.on('mouseover', function (e) {
-		        //     this.openPopup();
-		        // });
+		        mk.on('click', function (e) {
+		            showDetail(ap_id, layer.getBounds());
+		        });
 		        // mk.on('mouseout', function (e) {
 		        //     this.closePopup();
 		        // });
@@ -964,11 +991,21 @@
 			$.ajax({
 				method: "GET",
 				url: "<?php echo base_url(); ?>ap/detail/" + apId,
-				dataType: "json"
+				dataType: "json",
+				success: function( res ) {
+					$.ajax({
+						method: "GET",
+						url: "<?php echo base_url(); ?>associationApRegion/getString?idAp=" + apId,
+						dataType: "json",
+						success: function( rs ) {
+							$('#r-region').html(rs);
+						}
+					});
+				}
 			}).done(function( response ) {
 				var gest = response[0];
 				console.log(response);
-				$('#r-cnom').html(gest.nom_complet);
+				if(gest.nom_complet) $('#r-cnom').html(gest.nom_complet);
 				$('#r-superficie').html(gest.area);
 				$('#name-ap').html(gest.name);
 				$('#r-superficie_voi').html(gest.area_voi);
@@ -996,7 +1033,7 @@
 				$('#r-but').css('overflow-x', 'hidden');
 
 	      $('#r-autre_gouvernance').html(gest.other_gov);
-	      $('#r-region').html(gest.region_label);
+	      // $('#r-region').html(gest.region_label);
 
 	      $('#r-vision').html(gest.vision);
 	      $('#r-vision').height(getTextareaSizing(gest.vision, $('#r-vision').width()));
@@ -1096,6 +1133,41 @@
 			showMiradia(apId);
 			loadLinkExt(apId);
 			loadPagD(apId);
+			getResultats(apId);
+		}
+
+		function getResultats(apId) {
+			$.ajax({
+				method: "GET",
+				url: "<?php echo base_url(); ?>Rpag/getFullById/" + apId,
+				dataType: "json",
+				success: function( response ) {
+					var labels = [];
+					var datas = [];
+					var pas = 0;
+					var noteglobal = 0;
+					var lastUpdate = new Date(0);
+					response.realisations.forEach(function(items) {
+						if(lastUpdate < new Date(items.date_ajout)) {
+							lastUpdate = new Date(items.date_ajout);
+						}
+						labels.push(items.date_realisation);
+						datas.push(items.global_level);
+						noteglobal += parseInt(items.global_level);
+						if (parseInt(items.global_level)>0) {
+							pas++;
+						}
+					});
+					var ng = noteglobal/pas;
+					$('#lastUpdate_rpag').text('Dernière modification ' + lastUpdate.toLocaleDateString('fr-FR'));
+					$('#rpag-progressbar').text(ng + '%');
+					$("#rpag-progressbar").attr("aria-valuenow",ng);
+					$("#rpag-progressbar").css("width",ng+'%');
+					drawResultats(labels, datas);
+					$('#r-rpag_comment').val(response.comment);
+				}
+			}).done(function( response ) {
+			});
 		}
 
 		function showMiradia(apId) {

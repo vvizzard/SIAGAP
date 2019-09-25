@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html>
   <head> 
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>SIAGAP</title>
     <meta name="description" content="Système d'Information et d'Aide à la Gestion des Aires Protégées Madagascar">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    
     <meta name="robots" content="all,follow">
-	<meta name="google-site-verification" content="7xEDWj0NOCy50lB15hF4_Jpb2RmQkyhqIDTNdJ975MA" />
-	<!-- Global site tag (gtag.js) - Google Analytics -->
-	<script async src="https://www.googletagmanager.com/gtag/js?id=UA-148348775-1"></script>
-	<script>
-	  window.dataLayer = window.dataLayer || [];
-	  function gtag(){dataLayer.push(arguments);}
-	  gtag('js', new Date());
+    <meta name="google-site-verification" content="7xEDWj0NOCy50lB15hF4_Jpb2RmQkyhqIDTNdJ975MA" />
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-148348775-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
 
-	  gtag('config', 'UA-148348775-1');
-	</script>
+      gtag('config', 'UA-148348775-1');
+    </script>
+    
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="<?php echo base_url(); ?>assets/vendor/bootstrap/css/bootstrap.min.css">
     <!-- Font Awesome CSS-->

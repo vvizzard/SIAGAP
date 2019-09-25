@@ -36,6 +36,6 @@ class Region extends CI_Controller
 	}
 
 	public function all() {	
-		echo json_encode($this->rm->find());
+		echo json_encode($this->rm->findAll());
 	}
 }

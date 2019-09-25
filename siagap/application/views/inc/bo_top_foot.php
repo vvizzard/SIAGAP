@@ -168,7 +168,7 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
   // Prepare Select
   $.ajax({
     method: "GET",
-    url: "<?php echo base_url(); ?>category/all",
+    url: "http://localhost:8029/Developpement/SIAGAP/siagap/category/all",
     dataType: "json"
   }).done(function( cat ) {
     var options = "";
@@ -178,7 +178,7 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
     $('#categorie_ap').html(options);
     $.ajax({
       method: "GET",
-      url: "<?php echo base_url(); ?>gestionnaire/all",
+      url: "http://localhost:8029/Developpement/SIAGAP/siagap/gestionnaire/all",
       dataType: "json"
     }).done(function( gest ) {
       var options = "";
@@ -192,7 +192,7 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
   // Select with autocomplete
   $('#region_ap').selectpicker().ajaxSelectPicker({
     ajax: {
-      url: '<?php echo base_url(); ?>region/autocomplete',
+      url: 'http://localhost:8029/Developpement/SIAGAP/siagap/region/autocomplete',
       type: 'GET',
       dataType: 'json',
       data: {
@@ -220,7 +220,7 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
   function addNew() {
     $.ajax({
       method: "POST",
-      url: "<?php echo base_url(); ?>"+ $('#model-to-add').val() +"/set",
+      url: "http://localhost:8029/Developpement/SIAGAP/siagap/"+ $('#model-to-add').val() +"/set",
       data: { label: $('#new-label').val(), comment: $('#comment-text').val() },
       dataType: "json",
       success: function( response ) {
@@ -273,12 +273,12 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
     } else {
       $.ajax({
         method: "GET",
-        url: "<?php echo base_url(); ?>" + model2 + "/all",
+        url: "http://localhost:8029/Developpement/SIAGAP/siagap/" + model2 + "/all",
         dataType: "json",
         success: function( response ) {
           $.ajax({
             method: "GET",
-            url: "<?php echo base_url(); ?>association" + model1 + model2 + "/get",
+            url: "http://localhost:8029/Developpement/SIAGAP/siagap/association" + model1 + model2 + "/get",
             data : {
               idAp: $('#id_ap').val()
             },
@@ -364,7 +364,7 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
       }
       $.ajax({
         method: "POST",
-        url: "<?php echo base_url(); ?>association" + model1 + model2 + "/set",
+        url: "http://localhost:8029/Developpement/SIAGAP/siagap/association" + model1 + model2 + "/set",
         data: { 
           id_ap: $('#id_ap').val(), 
           ids_item: checkedInline
@@ -405,7 +405,7 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
   function saveAP() {
     $.ajax({
       method: "POST",
-      url: "<?php echo base_url(); ?>ap/set",
+      url: "http://localhost:8029/Developpement/SIAGAP/siagap/ap/set",
       data: { 
         nom: $('#name_ap').val(), 
         categorie_id: $('#categorie_ap').val(),
@@ -431,7 +431,7 @@ aria-atomic="true" style="background-color: #115220e0; color: white;">
           $('#toast-success').toast('show');
           $('#id_ap').val(response);
           console.log(response);
-          $(location).attr('href','<?php echo base_url(); ?>bo/ap/' + response);
+          $(location).attr('href','http://localhost:8029/Developpement/SIAGAP/siagap/bo/ap/' + response);
         }
       },
       error: function( response, status ) {

@@ -4,7 +4,7 @@ class StatApCible_model extends CI_Model
 {
 	protected $table = 'stat_ap_cible';
 
-	public function add($aapcId, $value, $year, $fiabilite, $comment = "") {
+	public function add($aapcId, $value, $year, $fiabilite, $unite, $comment = "") {
 		if (sizeof($this->findGeneric(array('association_ap_cible_id' => $aapcId, 'year' => $year )))>0) {
 			return false;
 		}
@@ -12,15 +12,16 @@ class StatApCible_model extends CI_Model
 			        ->set('value', $value)
 			        ->set('year', $year)
 			        ->set('fiabilite', $fiabilite)
+			        ->set('unite_id', $unite)
 			        ->set('comment', $comment)
 				    ->insert($this->table);
 	}
 	
 	public function edit($id, $aapcId = null, $value = null, $year = null, 
-			$fiabilite = null, $comment = null) {
+			$fiabilite = null, $unite = null, $comment = null) {
 		//	Il n'y a rien à éditer
 		if($aapcId == null AND $value == null AND $year == null AND 
-				$fiabilite == null AND $comment == null) {
+				$fiabilite == null AND $unite == null AND $comment == null) {
 			return false;
 		}
 		
@@ -36,6 +37,9 @@ class StatApCible_model extends CI_Model
 		}
 		if($fiabilite != null) {
 			$this->db->set('fiabilite', $fiabilite);
+		}
+		if($unite != null) {
+			$this->db->set('unite_id', $unite);
 		}
 		if($comment != null) {
 			$this->db->set('comment', $comment);

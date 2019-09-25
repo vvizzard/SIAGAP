@@ -23,11 +23,12 @@ class StatApMenace extends CI_Controller
 		$value = $this->input->post('value');
 		$year = $this->input->post('year');
 		$fiabilite = $this->input->post('fiabilite');
+		$unite = $this->input->post('unite');
 		$comment = $this->input->post('comment');
 
 		$idAac = $this->aapc->findGeneric(array('ap_id' => $idAp, 'pression_id' => $idMenace ))[0]->id;
 		// echo json_encode($idAac);
-		echo json_encode($this->rm->add($idAac, $value, $year, $fiabilite, $comment));
+		echo json_encode($this->rm->add($idAac, $value, $year, $fiabilite, $unite, $comment));
 	}
 
 	public function get() {
@@ -40,7 +41,7 @@ class StatApMenace extends CI_Controller
 		$valiny = array();
 
 		for ($i=0; $i < sizeof($pressions); $i++) { 
-			$historique = $this->rm->findGeneric(array('association_ap_pression_id' => $pressions[$i]->id));
+			$historique = $this->rm->findGeneric(array('association_ap_pression_id' => $pressions[$i]->id), true, 'unite');
 			$arrayName = array('pression' => $pressions[$i], 'historique' => $historique);
 			$valiny[] = $arrayName;
 		}
@@ -59,7 +60,7 @@ class StatApMenace extends CI_Controller
 		$cibles = $this->aapc->findGeneric(array('association_ap_pression.ap_id' => (int)$idAp), true, 'pression');
 		for ($i=0; $i < sizeof($cibles); $i++) { 
 			if ($cibles[$i]->pression_id == $idCible) {
-				$valiny = $this->rm->findGeneric(array('association_ap_pression_id' => $cibles[$i]->id));
+				$valiny = $this->rm->findGeneric(array('association_ap_pression_id' => $cibles[$i]->id), true, 'unite');
 				break;
 			}
 		}		

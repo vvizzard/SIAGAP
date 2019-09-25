@@ -28,6 +28,73 @@ aria-labelledby="" aria-hidden="true">
 </div>
 </div>
 
+<!-- Modal modification region -->
+<div class="modal fade" id="modal-modify-region" tabindex="-1" role="dialog" 
+aria-labelledby="" aria-hidden="true">
+<div class="modal-dialog modal-lg" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="title-modal-add-basic">
+        Régions
+      </h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+        <table class="table table-borderless" id="region_list">
+        </table>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        Annuler
+      </button>
+      <button type="button" class="btn btn-primary" 
+      onclick="updateAssocRegion()">
+      Enregistrer
+    </button>
+  </div>
+</div>
+</div>
+</div>
+
+<!-- Modal modification rpag -->
+<div class="modal fade" id="modal-modify-rpag" tabindex="-1" role="dialog" 
+aria-labelledby="" aria-hidden="true">
+<div class="modal-dialog" role="document">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="title-modal-add-basic">
+        Ajout et modification de PAG
+      </h5>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="">
+        <label for="rpag_debut">Début du PAG</label>
+        <input type="number" id="rpag_debut" class="form-control">
+        <br>
+        <label for="rpag_duree">Durée en année du PAG</label>
+        <input type="number" id="rpag_duree" value="5" disabled class="form-control">
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">
+        Annuler
+      </button>
+      <button type="button" class="btn btn-primary" id="enr_modif_pags" 
+      onclick="">
+      Enregistrer
+    </button>
+  </div>
+</div>
+</div>
+</div>
+
 <!-- Modal add -->
 <div class="modal fade" id="modal-add-basic" tabindex="-1" role="dialog" 
 aria-labelledby="" aria-hidden="true">
@@ -127,11 +194,12 @@ aria-labelledby="" aria-hidden="true">
       <input type="file" class="form-control add-basic-field" id="photoc">
     </div>
     <div id="modify_cible_img"></div>
-    <div class="form-group">
+    <!-- <div class="form-group">
       <label for="comment-text" class="col-form-label">Commentaire:</label>
       <textarea class="form-control add-basic-field" 
       id="commentc"></textarea>
-  </div>
+  </div> -->
+  <input type="hidden" id="commentc" value="">
   <input type="hidden" id="model-to-add">
 </div>
 <div class="modal-footer">
@@ -326,15 +394,15 @@ src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstra
 </script>
 <script src="<?php echo base_url(); ?>assets/js/front.js"></script>
 
-<link rel="stylesheet" 
+<!-- <link rel="stylesheet" 
 href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js">
-</script>
+</script> -->
 
-<link rel="stylesheet" 
+<!-- <link rel="stylesheet" 
 href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
 <script src="<?php echo base_url(); ?>assets/js/ajax-bootstrap-select.min.js">
-</script>
+</script> -->
 
 <script src="<?php echo base_url(); ?>assets/js/diagram-controller.js"></script>
 
@@ -521,31 +589,287 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
   // Fin previsualisation 
 
   // Select with autocomplete
-  $('#region_ap').selectpicker().ajaxSelectPicker({
-    ajax: {
-      url: '<?php echo base_url(); ?>region/autocomplete',
-      type: 'GET',
-      dataType: 'json',
-      data: {
-        q: '{{{q}}}'
-      }
-    },
-    preprocessData: function (data) {
-      var i, l = data.length, array = [];
-      if (l) {
-        for (i = 0; i < l; i++) {
-          array.push($.extend(true, data[i], {
-            text : data[i].label,
-            value: data[i].id,
-            data : {
-              subtext: data[i].text
+  // $('#region_ap').selectpicker().ajaxSelectPicker({
+  //   ajax: {
+  //     url: '<?php echo base_url(); ?>region/autocomplete',
+  //     type: 'GET',
+  //     dataType: 'json',
+  //     data: {
+  //       q: '{{{q}}}'
+  //     }
+  //   },
+  //   preprocessData: function (data) {
+  //     var i, l = data.length, array = [];
+  //     if (l) {
+  //       for (i = 0; i < l; i++) {
+  //         array.push($.extend(true, data[i], {
+  //           text : data[i].label,
+  //           value: data[i].id,
+  //           data : {
+  //             subtext: data[i].text
+  //           }
+  //         }));
+  //       }
+  //     }
+  //     return array;
+  //   }
+  // });
+
+  // Get list realisation of rpag
+  function getRealisationsOfRpag() {
+    $.ajax({
+      method: "GET",
+      url: "<?php echo base_url(); ?>Rpag/getFull/" + $('#rpag_ap').val(),
+      dataType: "json",
+      success: function( reponse ) {
+        if(reponse.length > 0) {
+          var response = reponse[0];
+          $('#rpag_comment').val(response.comment);
+          $('#current_rpag_duree').val(response.duree);
+          $('#current_rpag_debut').val(response.debut);
+          // Make the table
+          var tableRow = '';
+          for (var i = 0; i < parseInt(response.duree); i++) {
+            tableRow += '<tr class="removable-rpag">';
+            tableRow += '<td class="text-right align-middle">';
+            tableRow += parseInt(response.debut) + i;
+            tableRow += '</td>';
+            tableRow += '<td class="three-digit-limit">';
+            var value = '';
+            var date_modif = '';
+            for(var j = 0; j < response.realisations.length; j++) {
+              if (parseInt(response.debut) + i == parseInt(response.realisations[j].date_realisation)) {
+                value = response.realisations[j].global_level;
+                date_modif = new Date(response.realisations[j].date_ajout);
+                break;
+              }
             }
-          }));
-        }
+            tableRow += '<input type="number" step="0.01" name="current_rpag" class="form-control current_rpag text-right" value="'+value+'">';
+            tableRow += '</td>';
+            tableRow += '<td class="text-right align-middle">';
+            tableRow += date_modif.toLocaleDateString('fr-FR');
+            tableRow += '</td>';
+            tableRow += '</tr>';
+          }
+          console.log(tableRow);
+          $('.removable-rpag').remove();
+          $('#rpag_table tr:last').after(tableRow);
+        } 
+      },
+      error: function( response, status ) {
+        console.log("Status de l'erreur: " + status);
+        $('#alert-error-message').text('Échec de l\'ajout de l\'élément');
+        $('#toast-error').toast('show');
       }
-      return array;
+    }).done(function( gest ) {
+
+    });
+  }
+
+  // Prepare modal modif pags
+  function prepareModalNewPags() {
+    // Clean
+    $('#rpag_duree').val('5');
+    $('#rpag_debut').val(''); 
+    // button add
+    $('#enr_modif_pags').off('click');
+    $('#enr_modif_pags').on('click', function() {
+      saveRpag();
+    });
+  }
+
+  // Add new rpag
+  function saveRpag() {
+    if ($('#id_ap').val() < 0) {
+      $('#modal-error-message').text('Veuiller enregistrer d\'abord le profil de l\'ap');
+      $('#modal-modify-basic').modal('toggle');
+      $('#modal-error').modal('toggle');
+    } else {
+      $.ajax({
+        method: "POST",
+        url: "<?php echo base_url(); ?>rpag/set",
+        data: { 
+          apId: $('#id_ap').val(), 
+          duree: $('#rpag_duree').val(), 
+          debut: $('#rpag_debut').val(), 
+          comment: $('#rpag_comment').val() 
+        },
+        dataType: "json",
+        success: function( response ) {
+          if (response) {
+            $('#modal-modify-rpag').modal('toggle');
+            $('#alert-success-message').text('L\'Ajout de l\'élément a été un succes');
+            $('#toast-success').toast('show');
+            $("#rpag_ap option:selected").prop('selected' , false);
+            $('#rpag_ap').append('<option selected>'+$('#rpag_debut').val()+'</option>');
+
+            // Make the table
+            var tableRow = '';
+            for (var i = 0; i < $('#rpag_duree').val(); i++) {
+              tableRow += '<tr class="removable-rpag">';
+              tableRow += '<td class="text-right align-middle">';
+              tableRow += parseInt($('#rpag_debut').val()) + i;
+              tableRow += '</td>';
+              tableRow += '<td class="three-digit-limit">';
+              tableRow += '<input type="number" name="current_rpag" step="0.01" class="form-control current_rpag">';
+              tableRow += '</td>';
+              tableRow += '</tr>';
+            }
+            $('.removable-rpag').remove();
+            $('#rpag_table tr:last').after(tableRow);
+
+            // Clean
+            $('#rpag_duree').val('');
+            $('#rpag_debut').val(''); 
+
+          } else {
+            $('#alert-error-message').text('Échec de l\'ajout de l\'élément');
+            $('#toast-error').toast('show');
+            console.log('response: ' + response);
+          }
+        },
+        error: function( response, status ) {
+          console.log("Status de l'erreur: " + status);
+          $('#alert-error-message').text('Échec de l\'ajout de l\'élément');
+          $('#toast-error').toast('show');
+        }
+      }).done(function( gest ) {
+
+      });
     }
-  });
+  }
+
+  function modifyRpag() {
+    if ($('#id_ap').val() < 0) {
+      $('#modal-error-message').text('Veuiller enregistrer d\'abord le profil de l\'ap');
+      $('#modal-modify-basic').modal('toggle');
+      $('#modal-error').modal('toggle');
+    } else {
+      $.ajax({
+        method: "POST",
+        url: "<?php echo base_url(); ?>rpag/update/" + $('#rpag_ap').val(),
+        data: { 
+          apId: $('#id_ap').val(), 
+          duree: $('#rpag_duree').val(), 
+          debut: $('#rpag_debut').val(), 
+          comment: $('#rpag_comment').val() 
+        },
+        dataType: "json",
+        success: function( response ) {
+          if (response) {
+            $('#modal-modify-rpag').modal('toggle');
+            $('#alert-success-message').text('L\'Ajout de l\'élément a été un succes');
+            $('#toast-success').toast('show');
+
+            $('#rpag_ap option:selected').text($('#rpag_debut').val());
+            $('#current_rpag_debut').val($('#rpag_debut').val());
+            $('#current_rpag_duree').val($('#rpag_duree').val());
+            // Make the table
+            var tableRow = '';
+            for (var i = 0; i < $('#rpag_duree').val(); i++) {
+              tableRow += '<tr class="removable-rpag">';
+              tableRow += '<td class="text-right align-middle">';
+              tableRow += parseInt($('#rpag_debut').val()) + i;
+              tableRow += '</td>';
+              tableRow += '<td class="three-digit-limit">';
+              tableRow += '<input name="current_rpag" type="number" step="0.01" class="form-control current_rpag">';
+              tableRow += '</td>';
+              tableRow += '</tr>';
+            }
+            $('.removable-rpag').remove();
+            $('#rpag_table tr:last').after(tableRow);
+
+            // Clean
+            $('#rpag_duree').val('');
+            $('#rpag_debut').val(''); 
+          } else {
+            $('#alert-error-message').text('Échec de l\'ajout de l\'élément');
+            $('#toast-error').toast('show');
+            console.log('response: ' + response);
+          }
+        },
+        error: function( response, status ) {
+          console.log("Status de l'erreur: " + status);
+          $('#alert-error-message').text('Échec de l\'ajout de l\'élément');
+          $('#toast-error').toast('show');
+        }
+      }).done(function( gest ) {
+
+      });
+    }
+  }
+
+  // Modifiy realisation
+  function updateRealisation() {
+    if ($('#id_ap').val() < 0) {
+      $('#modal-error-message').text('Veuiller enregistrer d\'abord le profil de l\'ap');
+      $('#modal-modify-basic').modal('toggle');
+      $('#modal-error').modal('toggle');
+    } else {
+      var values = $("input[name='current_rpag']")
+          .map(function(){return $(this).val();}).get();
+      var items = '';
+      for(var i = 0; i < values.length; i++) {
+        items += values[i] + '-';
+      }
+      var debut = $('#current_rpag_debut').val();
+      var comment = $('#rpag_comment').val();
+
+      $.ajax({
+        method: "POST",
+        url: "<?php echo base_url(); ?>Realisation/set",
+        data: { 
+          rpag_id: $('#rpag_ap').val(), 
+          ids_item: items,
+          debut: debut
+        },
+        dataType: "json",
+        success: function( response ) {
+          if (!response) {
+            $('#alert-error-message').text('Échec des modifications des cibles de l\'ap');
+            $('#toast-error').toast('show');
+          } else {
+            $.ajax({
+              method: "POST",
+              url: "<?php echo base_url(); ?>Rpag/update/" + $('#rpag_ap').val(),
+              data: { 
+                comment: $('#rpag_comment').val(),
+              },
+              dataType: "json",
+              success: function( response ) {
+                if (!response) {
+                  $('#alert-error-message').text('Échec des modifications des cibles de l\'ap');
+                  $('#toast-error').toast('show');
+                } else {
+                  $('#alert-success-message').text('Les modifications sur l\'AP ont été enregistré');
+                  $('#toast-success').toast('show');
+                }
+              },
+              error: function( response, status ) {
+                console.log("Status de l'erreur: " + status);
+              }
+            });
+            
+          }
+        },
+        error: function( response, status ) {
+          console.log("Status de l'erreur: " + status);
+        }
+      }).done(function( gest ) {
+
+      });
+    }
+  }
+
+  // Prepare modal modif pags
+  function prepareModalModifPags() {
+    $('#enr_modif_pags').off('click');
+    $('#rpag_debut').val($('#current_rpag_debut').val());
+    $('#rpag_duree').val($('#current_rpag_duree').val());
+    $('#enr_modif_pags').on('click', function() {
+      modifyRpag();
+    });
+  }
 
   // Add new item : modal, ajax, ...
   function addNew() {
@@ -705,6 +1029,68 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
 
 <!-- Modification modal -->
 <script type="text/javascript">
+
+  // Popup for region
+  function getAllRegion() {
+    if ($('#id_ap').val() < 0) {
+      $('#modal-error-message').text('Veuiller enregistrer d\'abord le profil de l\'ap');
+      $('#modal-modify-basic').modal('toggle');
+      $('#modal-error').modal('toggle');
+    } else {
+      $.ajax({
+        method: "GET",
+        url: "<?php echo base_url(); ?>region/all",
+        dataType: "json",
+        success: function( response ) {
+          $.ajax({
+            method: "GET",
+            url: "<?php echo base_url(); ?>associationApRegion/get",
+            data : {
+              idAp: $('#id_ap').val()
+            },
+            dataType: "json",
+            success: function( rep ) {
+
+              $('.removable').remove();
+              var temp = '<tr class="removable">';
+              var pas3 = 0;
+              for (var i = response.length - 1; i >= 0; i--) {
+                var ck = '';
+                if (checkIfIncludes(rep, response[i])) {
+                  ck = 'checked';
+                }
+                pas3++;
+                temp += '<td>';
+                temp += '<div class="col-auto my-1">';
+                temp += '<div class="custom-control custom-checkbox mr-sm-2">';
+                temp += '<input type="checkbox" class="custom-control-input" name="sb-ckR" id="' 
+                + response[i].id + '_region" ' + ck + ' value="' 
+                + response[i].id + '">';
+                temp += '<label id="label_' + response[i].id + '_region" class="custom-control-label" for="' 
+                + response[i].id + '_region">' + response[i].label + '</label>';
+                temp += '</div>';
+                temp += '</div>';
+                temp += '</td>';
+                if (pas3 == 3) {
+                  temp += '</tr>';
+                  temp += '<tr class="removable">';
+                  pas3 = 0;
+                }
+              }
+              console.log('io test io');
+              console.log(temp);
+              $('#region_list').append(temp);
+            }
+          });
+        },
+        error: function( response, status ) {
+          console.log("Status de l'erreur: " + status);
+        }
+      }).done(function( gest ) {
+
+      });
+    }
+  }
 
   // Popup for subsistance et pression
   function getAllAM(model1, model2) {
@@ -957,7 +1343,7 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
                 temp += '</div>';
                 temp += '</td>';
                 temp += '<td>';
-                if (response[i].user_id == <?php echo $user->id ?>) {
+                if (response[i].user_id == <?php echo $user->id ?> || <?php echo $user_lvl ?> > 10) {
                   temp += '<a class="btn" title="Modifier" onclick="prepareCible('+response[i].id+')">';
                   temp += '<i class="fa fa-edit" aria-hidden="true"></i></a>';
                   temp += '<a class="btn" title="Supprimer" onclick="deleteCible('+response[i].id+')">';
@@ -1050,6 +1436,53 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
       // favorite.push($("label[for='" + ids[i] + '_' + model + "']").text());
     }
     return favorite;
+  }
+
+  // for region
+  function updateAssocRegion() {
+    if ($('#id_ap').val() < 0) {
+      $('#modal-error-message').text('Veuiller enregistrer d\'abord le profil de l\'ap');
+      $('#modal-modify-basic').modal('toggle');
+      $('#modal-error').modal('toggle');
+    } else {
+      var checked = getAllChecked('sb-ckR');
+      var checkedInline = '';
+      for (var i = 0; i < checked.length; i++) {
+        checkedInline += checked[i] + '-';
+      }
+      $.ajax({
+        method: "POST",
+        url: "<?php echo base_url(); ?>associationApRegion/set",
+        data: { 
+          id_ap: $('#id_ap').val(), 
+          ids_item: checkedInline
+        },
+        dataType: "json",
+        success: function( response ) {
+          if (!response) {
+            $('#alert-error-message').text('Échec des modifications des cibles de l\'ap');
+            $('#toast-error').toast('show');
+          } else {
+            $('#alert-success-message').text('Les modifications sur l\'AP ont été enregistré');
+            $('#toast-success').toast('show');
+            
+            console.log(response);
+            var listName = getNameAllChecked(checked, 'region');
+            var temp = listName[0];
+            for (var i = listName.length - 1; i >= 1; i--) {
+              temp += ', ' + listName[i];
+            }
+            $('#region_ap').val(temp);
+            $('#modal-modify-region').modal('toggle');
+          }
+        },
+        error: function( response, status ) {
+          console.log("Status de l'erreur: " + status);
+        }
+      }).done(function( gest ) {
+
+      });
+    }
   }
 
   function updateAssoc() {
@@ -1720,6 +2153,7 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
           value: $('#tdc_value').val(),
           year: $('#tdc_annee').val(),
           fiabilite: $('#tdc_fiabilite').val(),
+          unite: $('#tdc_unite').val(),
           comment: '',
         },
         dataType: "json",
@@ -1761,14 +2195,22 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
           var table = '';
           for(var i = 0; i < response.length; i++) {
             table += '<tr class="removable-tdc">';
-            table += '<td class="text-right">'+response[i].year+'</td>'
-            table += '<td class="text-right">'+response[i].value+'</td>'
-            table += '<td class="text-right">'+adaptFiabilite(response[i].fiabilite)+'</td>'
+            table += '<td class="text-right">'+response[i].year+'</td>';
+            table += '<td class="text-right">'+response[i].value+'</td>';
+            table += '<td class="text-right">'+response[i].label+'</td>';
+            table += '<td class="text-right">'+adaptFiabilite(response[i].fiabilite)+'</td>';
             // table += '<td class="text-right">'+response[i].comment+'</td>'
             table += '</tr>';
           }
           $('.removable-tdc').remove();
           $('#'+idTable+' tr:last').after(table);
+          if (response && response[0] && response[0].unite_id 
+              && response[0].unite_id > 0) {
+            $('#tdc_unite').prop('disabled', true);
+            $('#tdc_unite').val(response[0].unite_id);
+          } else {
+            $('#tdc_unite').prop('disabled', false);
+          }
         },
         error: function( response, status ) {
           console.log("Status de l'erreur: " + status);
@@ -1804,14 +2246,22 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
           var table = '';
           for(var i = 0; i < response.length; i++) {
             table += '<tr class="removable-tdm">';
-            table += '<td class="text-right">'+response[i].year+'</td>'
-            table += '<td class="text-right">'+response[i].value+'</td>'
-            table += '<td class="text-right">'+adaptFiabilite(response[i].fiabilite)+'</td>'
+            table += '<td class="text-right">'+response[i].year+'</td>';
+            table += '<td class="text-right">'+response[i].value+'</td>';
+            table += '<td class="text-right">'+response[i].label+'</td>';
+            table += '<td class="text-right">'+adaptFiabilite(response[i].fiabilite)+'</td>';
             // table += '<td class="text-right">'+response[i].comment+'</td>'
             table += '</tr>';
           }
           $('.removable-tdm').remove();
           $('#'+idTable+' tr:last').after(table);
+          if (response && response[0] && response[0].unite_id 
+              && response[0].unite_id > 0) {
+            $('#tdm_unite').prop('disabled', true);
+            $('#tdm_unite').val(response[0].unite_id);
+          } else {
+            $('#tdm_unite').prop('disabled', false);
+          }
         },
         error: function( response, status ) {
           console.log("Status de l'erreur: " + status);
@@ -1835,6 +2285,7 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
           id_pression: $('#tdm_m_id').val(),
           value: $('#tdm_value').val(),
           year: $('#tdm_annee').val(),
+          unite: $('#tdm_unite').val(),
           fiabilite: $('#tdm_fiabilite').val(),
           comment: '',
         },
@@ -1894,6 +2345,7 @@ href="<?php echo base_url(); ?>assets/css/ajax-bootstrap-select.min.css">
   $(function() {
     getTDC('tdc_c_id', 'table-tdc');
     getTDM('tdm_m_id', 'table-tdm');
+    getRealisationsOfRpag();
     
   });
 </script>

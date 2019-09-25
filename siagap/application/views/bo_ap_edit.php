@@ -181,7 +181,8 @@
           <div class="bar-chart block no-margin-bottom">
             <label for="region_ap">Region : </label>
             <div class="input-group mb-3">
-              <select id="region_ap" class=" form-control to_complete selectpicker" 
+              <input type="text" class="form-control" value="<?php echo($regions) ?>" disabled id="region_ap">
+              <!-- <select id="region_ap" class=" form-control to_complete selectpicker" 
                   data-live-search="true" aria-label="Region" 
                   aria-describedby="Region de l'AP">
                 <?php if ($profil_ap->region_id != null && $profil_ap->region_id > 0) { ?>
@@ -193,11 +194,11 @@
                     </option>
                   </optgroup>    
                 <?php } ?>
-              </select>
+              </select> -->
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="button" 
-                    data-toggle="modal" data-target="#modal-add-basic" 
-                    onclick="openNewModal('region')">
+                    data-toggle="modal" data-target="#modal-modify-region" 
+                    onclick="getAllRegion()">
                   Nouveau
                 </button>
               </div>
@@ -505,7 +506,7 @@
             <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
                 data-target="#modal-modify-c" 
                 onclick="getCiblesByCategory()">
-              Modifier
+              Sélectionner
             </button>
             <button class="btn btn-outline-secondary col-md-5" data-toggle="modal" 
                 data-target="#modal-add-c" onclick="getCategoryCible(null)">
@@ -1052,38 +1053,92 @@
       <div class="row collapse" id="resultats_collapse">
         <div class="col-lg-12 col-md-12">
           <div class="bar-chart block no-margin-bottom">
-            <table class="table">
-              <tr>
-                <th class="text-right">Date</th>
-                <th class="text-right">Niveau d'atteinte globale</th>
-                <th class="text-right">Commentaire</th>
-              </tr>
-              <tr>
-                <td class="text-right">21-10-2018</td>
-                <td class="text-right">56</td>
-                <td class="text-right">Mi-parcours</td>
-              </tr>
-            </table>
-            <hr>
-            <div class="row">
-              <div class="col-md-3">
-                <label for="date_realisation">Date</label>
-                <input id="date_realisation" type="date" class="form-control">
+            <label>Début du PAG:</label>
+            <div class="input-group mb-3">
+              <select id="rpag_ap" class=" form-control" aria-label="Resultats des PAGs" 
+                  aria-describedby="PAGs de l'AP" onchange="getRealisationsOfRpag()">
+                <?php for ($i=0; $i < sizeof($pags); $i++) { ?>
+                  <option value="<?php echo $pags[$i]->id; ?>"><?php echo $pags[$i]->debut; ?></option>
+                <?php } ?>
+              </select>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" 
+                    data-toggle="modal" data-target="#modal-modify-rpag"
+                    title="Modifier les informations du PAG" 
+                    onclick="prepareModalModifPags()">
+                  <i class="fa fa-edit" aria-hidden="true"></i>
+                </button>
               </div>
-              <div class="col-md-3">
-                <label for="note_realisation">Niveau d'atteinte globale</label>
-                <input id="note_realisation" type="number" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <label for="comm_realisation">Commentaire</label>
-                <input id="comm_realisation" type="text" class="form-control">
-              </div>
-              <div class="col-md-3">
-                <br>
-                <button class="btn btn-primary" onclick="saveRealisation()">Ajouter</button>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" 
+                    data-toggle="modal" data-target="#modal-modify-rpag" 
+                    title="Démarrer un nouveau PAG" 
+                    onclick="prepareModalNewPags()">
+                  <i class="fa fa-plus" aria-hidden="true"></i>
+                </button>
               </div>
             </div>
+            <input type="hidden" id="current_rpag_duree">
+            <input type="hidden" id="current_rpag_debut">
+            <br>
+            <style type="text/css">
+              .three-digit-limit {
+                width: 50%;
+              }
+              .current_rpag {
+                border: none;
+              }
+              .current_rpag:hover {
+                border: 1px solid #444951;
+              }
+              .current_rpag:focus {
+                border: 1px solid #444951;
+              }
+            </style>
+            <table class="table" id="rpag_table">
+              <tr>
+                <th class="text-right">Date</th>
+                <th class="text-right">Niveau d'atteinte</th>
+                <th class="text-right">Date de dernière modification</th>
+              </tr>
+            </table>
+            <br>
+            <textarea class="form-control" id="rpag_comment"></textarea>
+            <br>
+            <button class="btn btn-success" style="float: right;" onclick="updateRealisation()">Enregistrer</button>
+            <br>
+            <br>
+            <br>
           </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <br>
+
+  <section class="no-padding-bottom">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm-8" data-toggle="collapse" href="#impacte_collapse" 
+            role="button" aria-expanded="false" aria-controls="impacte_collapse">
+          <h4 style="float: left;">Impact</h4>
+          <a style="float: right;" class="btn"><small>afficher/masquer les détails</small></a>
+        </div>
+      </div><hr>
+      <div class="row collapse" id="impacte_collapse">
+        <div class="col-lg-12 col-md-12">
+          <label for="impacte_ap">Changements engendrés par l'existence de votre AP : </label>
+          <textarea id="impacte_ap" class="form-control"
+              title=""><?php echo($profil_ap->impact) ?></textarea>
+          <br>
+          <!-- <textarea placeholder="Veuillez ecrir ici tout éventuel commentaire" id="pag_d_comm" class="form-control"></textarea>
+          <br> -->
+          <button class="btn btn-success" 
+              title="Enregistrer la photo de l'ap" 
+              style="float: right;" onclick="saveImpacte()">
+            Enregistrer
+          </button>
         </div>
       </div>
     </div>
@@ -1144,7 +1199,7 @@
         <div class="row">
           <div class="col-lg-12 col-md-12">
             <div class="bar-chart block no-margin-bottom">
-              <label for="comm_temperature">Commentaire sur l'daptation au CC </label>
+              <label for="comm_temperature">Commentaire sur l'adaptation au CC </label>
               <textarea class="form-control" id="comm_adaptation_cc"><?php echo($profil_ap->comm_adaptation_cc) ?></textarea>
               <br>
               <button class="btn btn-success" style="float: right;"
@@ -1173,6 +1228,10 @@
           <div class="col-lg-6 col-md-6">
             <div class="bar-chart block no-margin-bottom">
               <h5>Tendance des cibles</h5>
+              <span>*Vous ne pouvez choisir qu'une seule unité par cible, l'unité choisie pour le premier enregistrement sera gardé pour tous les autres</span>
+              <br>
+              <br>
+              <br>
               <select onchange="getTDC('tdc_c_id', 'table-tdc')" class="form-control" id="tdc_c_id">
                 <?php 
                   if ($cible_ap != null && !empty($cible_ap)) {
@@ -1195,6 +1254,20 @@
               <label for="tdc_value">Valeur : </label>
               <input type="text" class="form-control" placeholder="Valeur" 
                   id="tdc_value">
+              <label for="tdc_unite">Unité : </label>
+              <select id="tdc_unite" class="form-control" placeholder="Unité de mesure">
+                <?php 
+                  if ($unite != null && !empty($unite)) {
+                    for ($i=0; $i < sizeof($unite); $i++) { 
+                ?>
+                <option value="<?php echo $unite[$i]->id; ?>">
+                  <?php echo $unite[$i]->label; ?>
+                </option>
+                <?php    
+                    }
+                  }
+                ?>
+              </select>
               <label for="tdc_fiabilite">Fiabilité : </label>
               <!-- <input type="text" class="form-control" placeholder="Fiabilité des methodes de mesures" 
                   id="tdc_fiabilite"> -->
@@ -1220,6 +1293,7 @@
                 <tr>
                   <th class="text-right">Année</th>
                   <th class="text-right">Valeur</th>
+                  <th class="text-right">Unité</th>
                   <th class="text-right">Fiabilité</th>
                   <!-- <th class="text-right">Commentaire</th> -->
                 </tr>
@@ -1250,6 +1324,10 @@
           <div class="col-lg-6 col-md-6">
             <div class="bar-chart block no-margin-bottom">
               <h5>Tendance des menaces</h5>
+              <span>*Vous ne pouvez choisir qu'une seule unité par cible, l'unité choisie pour le premier enregistrement sera gardé pour tous les autres</span>
+              <br>
+              <br>
+              <br>
               <select onchange="getTDM('tdm_m_id', 'table-tdm')" class="form-control" id="tdm_m_id">
                 <?php 
                   if ($pression_ap != null && !empty($pression_ap)) {
@@ -1270,6 +1348,20 @@
               <label for="tdm_value">Valeur : </label>
               <input type="text" class="form-control" placeholder="Valeur" 
                   id="tdm_value">
+              <label for="tdm_unite">Unité : </label>
+              <select id="tdm_unite" class="form-control" placeholder="Unité de mesure">
+                <?php 
+                  if ($unite != null && !empty($unite)) {
+                    for ($i=0; $i < sizeof($unite); $i++) { 
+                ?>
+                <option value="<?php echo $unite[$i]->id; ?>">
+                  <?php echo $unite[$i]->label; ?>
+                </option>
+                <?php    
+                    }
+                  }
+                ?>
+              </select>
               <label for="tdm_fiabilite">Fiabilité : </label>
               <select id="tdm_fiabilite" class="form-control" placeholder="Fiabilité des methodes de mesures">
                 <option value="2">Haute</option>
@@ -1295,6 +1387,7 @@
                 <tr>
                   <th class="text-right">Année</th>
                   <th class="text-right">Valeur</th>
+                  <th class="text-right">Unité</th>
                   <th class="text-right">Fiabilité</th>
                   <!-- <th class="text-right">Commentaire</th> -->
                 </tr>
@@ -1380,35 +1473,6 @@
               </tr>
             </table>
           </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <br>
-
-  <section class="no-padding-bottom">
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm-8" data-toggle="collapse" href="#impacte_collapse" 
-            role="button" aria-expanded="false" aria-controls="impacte_collapse">
-          <h4 style="float: left;">Impact</h4>
-          <a style="float: right;" class="btn"><small>afficher/masquer les détails</small></a>
-        </div>
-      </div><hr>
-      <div class="row collapse" id="impacte_collapse">
-        <div class="col-lg-12 col-md-12">
-          <label for="impacte_ap">Changements engendrés par l'existence de votre AP : </label>
-          <textarea id="impacte_ap" class="form-control"
-              title=""><?php echo($profil_ap->impact) ?></textarea>
-          <br>
-          <!-- <textarea placeholder="Veuillez ecrir ici tout éventuel commentaire" id="pag_d_comm" class="form-control"></textarea>
-          <br> -->
-          <button class="btn btn-success" 
-              title="Enregistrer la photo de l'ap" 
-              style="float: right;" onclick="saveImpacte()">
-            Enregistrer
-          </button>
         </div>
       </div>
     </div>
